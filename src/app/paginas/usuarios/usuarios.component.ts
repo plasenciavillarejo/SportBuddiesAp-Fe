@@ -3,11 +3,13 @@ import { UsuarioService } from '../../services/usuario.service';
 import { Usuario } from '../../models/usuario';
 import { catchError, throwError } from 'rxjs';
 import { format } from 'date-fns';
+import { NavbarComponent } from '../../components/navbar/navbar.component';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-usuarios',
   standalone: true,
-  imports: [],
+  imports: [RouterOutlet, NavbarComponent],
   templateUrl: './usuarios.component.html'
 })
 export class UsuariosComponent implements OnInit {
