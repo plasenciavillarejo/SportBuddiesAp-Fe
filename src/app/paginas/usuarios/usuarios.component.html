@@ -1,1 +1,37 @@
-<p>usuarios works!</p>
+<div>
+    <div>
+        <h2>Ejemplo Usuario</h2>
+    </div>
+    <div>
+        <ul>
+            <li>
+                IdUsuario: {{usuario.idUsuario}}
+            </li>
+            <li>
+                Nombre Usuario: {{usuario.nombre}}
+            </li>
+        </ul>
+    </div>
+
+    <div>
+        <h4>Tipo de Roles</h4>
+        <table>
+            <thead>
+                <tr>
+                    <th>IdRol</th>
+                    <th>Nombre Rol</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (rol of usuario.rol; track $index) {
+                    <tr>
+                        <td>{{rol.idRol}}</td>
+                        <td>{{rol.nombreRol}}</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+
+</div>
