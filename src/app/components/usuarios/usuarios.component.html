@@ -1,9 +1,5 @@
-<app-navbar/>
 <div class ="container my-4">
-    <h3>{{title}}</h3>
-    <!-- Esto sirve par que la redirección de la vista se haga dentro de la misma página -->
-    <router-outlet/>
-    
+    <h3>{{title}}</h3>   
     <label for="startDate">Start</label>
     <input id="startDate" class="form-control" type="date" (change)="handleFechaChange($event)" />
     
