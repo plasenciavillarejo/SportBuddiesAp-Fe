@@ -12,6 +12,7 @@ import { RouterOutlet } from '@angular/router';
   imports: [RouterOutlet, HeaderComponent],
   templateUrl: './usuarios.component.html'
 })
+
 export class UsuariosComponent implements OnInit {
 
   usuario: Usuario[] = [];
