@@ -5,7 +5,7 @@
     
     <div class="row">
         <div class="col my-4">
-            @if (usuario.length == 0) {
+            @if (reserva.length == 0) {
                 <div class="alert alert-info">Actualmente no se ha buscado ninguna fecha</div>
             } @else {
             
@@ -13,23 +13,23 @@
                 <table class="table table-hover table-striped">
                     <thead>
                         <tr>
-                            <th>Usuario Id</th>
-                            <th>Nombre</th>
-                            <th>Apellido Usuario</th>
-                            <th>Email Usuario</th>
+                            <th>Id Reserva</th>
+                            <th>Fecha Reserva</th>
+                            <th>Hora Inicio Reserva</th>
+                            <th>Fecha Fin Reserva</th>
                             <th>Roles</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @for (user of usuario; track $index) {
+                        @for (res of reserva; track $index) {
                             <tr>
-                                <td>{{user.idUsuario}}</td>
-                                <td>{{user.nombre}}</td>
-                                <td>{{user.apellido}}</td>
-                                <td>{{user.email}}</td>
+                                <td>{{res.idReserva}}</td>
+                                <td>{{res.fechaReserva}}</td>
+                                <td>{{res.horaInicioReserva}}</td>
+                                <td>{{res.horaFinReserva}}</td>
                                 <td>
-                                    @for (role of user.rol; track $index) {
-                                        {{role.nombreRol}} @if ($index < user.rol.length - 1) {,}
+                                    @for (role of res.rol; track $index) {
+                                        {{role.nombreRol}} @if ($index < res.rol.length - 1) {,}
                                     }
                                 </td>
                             </tr>
