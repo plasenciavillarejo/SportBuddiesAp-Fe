@@ -1,0 +1,51 @@
+<div class="container mt-5">
+    <h2 class="mb-4">Crear Actividad</h2>
+    
+    <form>
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <label for="fechaActividad" class="form-label">Fecha de la Actividad</label>
+          <input type="date" class="form-control" id="fechaActividad" required>
+        </div>
+
+        <div class="col-md-3">
+          <label for="horaInicioActividad" class="form-label">Hora de Inicio</label>
+          <input type="time" class="form-control" id="horaInicioActividad" required>
+        </div>
+
+        <div class="col-md-3">
+          <label for="horaFinActividad" class="form-label">Hora de Fin</label>
+          <input type="time" class="form-control" id="horaFinActividad" required>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="observaciones" class="form-label">Observaciones</label>
+        <textarea class="form-control" id="observaciones" rows="3"></textarea>
+      </div>
+      
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <label for="usuarioActividad" class="form-label">Seleccionar el Máximo de usuario requeridos</label>
+          <select class="form-select" id="usuarioActividad" required>
+            <option value="" disabled selected>Seleccione un usuario</option>
+            <option value="1">Usuario 1</option>
+            <option value="2">Usuario 2</option>
+            <option value="3">Usuario 3</option>
+          </select>
+        </div>
+
+        <div class="col-md-6">
+          <label for="deporte" class="form-label">Seleccionar Deporte</label>
+          <select class="form-select" id="deporte" required>
+            <option value="" disabled selected>Seleccione un deporte</option>
+            <option value="1">Fútbol</option>
+            <option value="2">Tenis</option>
+            <option value="3">Pádel</option>
+          </select>
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary">Crear Reserva</button>
+    </form>
+  </div>
