@@ -1,0 +1,11 @@
+@media (max-width: 767.98px) {
+    .custom-width-mobile {
+        width: auto !important;  /* Ajusta el ancho automático en dispositivos móviles */
+    }
+}
+
+@media (min-width: 768px) {
+    .custom-width-mobile {
+        width: 25% !important;  /* Ajusta el ancho al 25% en dispositivos grandes */
+    }
+}

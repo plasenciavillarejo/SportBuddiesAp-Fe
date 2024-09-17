@@ -4,7 +4,7 @@ export class Usuario {
     
     idUsuario!: number;
 
-    nombre!: string;
+    nombreUsuario!: string;
 
     apellido!: string;
 

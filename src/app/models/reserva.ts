@@ -1,4 +1,6 @@
+import { Deporte } from "./deporte";
 import { Rol } from "./rol";
+import { Usuario } from "./usuario";
 
 export class Reserva {
     
@@ -12,6 +14,7 @@ export class Reserva {
 
     observaciones!: String;
 
-    rol!: Rol[];
+    usuarioReserva!: Usuario;
 
+    deporteReserva!: Deporte;
 }

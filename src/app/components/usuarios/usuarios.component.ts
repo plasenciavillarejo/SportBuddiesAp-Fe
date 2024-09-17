@@ -11,7 +11,8 @@ import { Reserva } from '../../models/reserva';
   selector: 'app-usuarios',
   standalone: true,
   imports: [RouterOutlet, HeaderComponent],
-  templateUrl: './usuarios.component.html'
+  templateUrl: './usuarios.component.html',
+  styleUrl: './usuarios.component.css'
 })
 
 export class UsuariosComponent implements OnInit {

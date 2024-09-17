@@ -1,8 +1,12 @@
 <div class ="container my-4">
-    <h3>{{title}}</h3>   
-    <label for="startDate">Start</label>
-    <input id="startDate" class="form-control" type="date" (change)="handleFechaChange($event)" />
     
+    <h3>{{title}}</h3>   
+
+    <div class="custom-width-mobile">
+        <label for="startDate">Buscar Día Reserva</label>
+        <input id="startDate" class="form-control" type="date" (change)="handleFechaChange($event)" />
+    </div>
+
     <div class="row">
         <div class="col my-4">
             @if (reserva.length == 0) {
@@ -17,7 +21,9 @@
                             <th>Fecha Reserva</th>
                             <th>Hora Inicio Reserva</th>
                             <th>Fecha Fin Reserva</th>
-                            <th>Roles</th>
+                            <th>Observaciones</th>
+                            <th>Nombre Usuario Reserva</th>
+                            <th>Deporte Reservado</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -27,11 +33,9 @@
                                 <td>{{res.fechaReserva}}</td>
                                 <td>{{res.horaInicioReserva}}</td>
                                 <td>{{res.horaFinReserva}}</td>
-                                <td>
-                                    @for (role of res.rol; track $index) {
-                                        {{role.nombreRol}} @if ($index < res.rol.length - 1) {,}
-                                    }
-                                </td>
+                                <td>{{res.observaciones}}</td>
+                                <td>{{res.usuarioReserva.nombreUsuario}}</td>
+                                <td>{{res.deporteReserva.actividad}}</td>
                             </tr>
                         }
                     </tbody>
