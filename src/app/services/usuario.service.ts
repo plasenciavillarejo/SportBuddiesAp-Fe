@@ -9,40 +9,11 @@ import { Reserva } from '../models/reserva';
 })
 export class UsuarioService {
 
-  private urlEndpointPrueba = "http://localhost:8090/api/main/listarReserva?fechaReserva=2024-09-13&idUsuReserva=1"
+  private urlEndpointPrueba = "http://localhost:8090/api/main/listarReserva?fechaReserva=2024-09-13&idUsuReserva=3"
 
   private httpHeaders = new HttpHeaders({'Content-Type': 'application/json'});
 
   private reserva:  Reserva[] = [];
-
-  private usuario: Usuario[] = [
-    {
-      idUsuario: 1,    
-      nombre: 'Jose',
-      apellido: 'Plasencia',
-      email: 'le@gmail.com',
-      rol: [
-          {
-              idRol: 1,
-              nombreRol: 'ADMIN'
-          },
-      ]},
-      {
-        idUsuario: 2,    
-        nombre: 'Maria',
-        apellido: 'Plasencia',
-        email: 'le@gmail.com',
-        rol: [
-            {
-                idRol: 1,
-                nombreRol: 'ADMIN'
-            },
-            {
-                idRol: 2,
-                nombreRol: 'USER'
-            }   
-        ]}
-  ]
 
   constructor(private http: HttpClient) { }
 

@@ -49,7 +49,7 @@ export class UsuariosComponent implements OnInit {
           return throwError(() => error); // Lanza el error para que se propague
         })
       ).subscribe(res => {
-        this.reserva = res; 
+        this.reserva = res;        
       });
     }
   }
