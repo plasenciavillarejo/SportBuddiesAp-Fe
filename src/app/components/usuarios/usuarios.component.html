@@ -1,47 +1,81 @@
-<div class ="container my-4">
-    
-    <h3>{{title}}</h3>   
-
-    <div class="custom-width-mobile">
-        <label for="startDate">Buscar Día Reserva</label>
-        <input id="startDate" class="form-control" type="date" (change)="handleFechaChange($event)" />
-    </div>
-
-    <div class="row">
-        <div class="col my-4">
-            @if (reserva.length == 0) {
-                <div class="alert alert-info">Actualmente no se ha buscado ninguna fecha</div>
-            } @else {
-            
-             <div>
-                <table class="table table-hover table-striped">
-                    <thead>
-                        <tr>
-                            <th>Id Reserva</th>
-                            <th>Fecha Reserva</th>
-                            <th>Hora Inicio Reserva</th>
-                            <th>Fecha Fin Reserva</th>
-                            <th>Observaciones</th>
-                            <th>Nombre Usuario Reserva</th>
-                            <th>Deporte Reservado</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @for (res of reserva; track $index) {
-                            <tr>
-                                <td>{{res.idReserva}}</td>
-                                <td>{{res.fechaReserva}}</td>
-                                <td>{{res.horaInicioReserva}}</td>
-                                <td>{{res.horaFinReserva}}</td>
-                                <td>{{res.observaciones}}</td>
-                                <td>{{res.usuarioReserva.nombreUsuario}}</td>
-                                <td>{{res.deporteReserva.actividad}}</td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
-            }
+<h3>{{title}}</h3>
+<form class="form-control border-info" >
+    <div class="row mb-3">
+        <div class="col-md-3">
+            <!--<div class="custom-width-mobile"> -->
+                <label for="startDate" class="form-label">Buscar Día Reserva</label>
+                <input id="startDate" class="form-control" type="date" (change)="handleFechaChange($event)" />
+            <!--</div>-->
         </div>
-    </div>    
+
+        <div class="col-md-3">
+            <label for="actividad" class="form-label">Actividad</label>
+            <select class="form-select" id="actividad" required>
+                <option value="" disabled selected>Seleccione una Actividad</option>
+                <option value="1">Fútbol Sala</option>
+                <option value="2">Fútbol 11</option>
+                <option value="3">Fútbol 7</option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <label for="provincia" class="form-label">Provincia:</label>
+            <select class="form-select" id="provincia" required>
+                <option value="" disabled selected>Seleccione una Provincia</option>
+                <option value="1">Jaén</option>
+                <option value="2">Cordoba</option>
+                <option value="3">Murcia</option>
+            </select>
+        </div>
+
+        <div class="col-md-3">
+            <label for="municipio" class="form-label">Municipio:</label>
+            <select class="form-select" id="municipio" required>
+                <option value="" disabled selected>Seleccione un Municipio</option>
+                <option value="1">Bailén</option>
+                <option value="2">Linares</option>
+                <option value="3">Escañuela</option>
+            </select>
+        </div>
+
+    </div>
+</form>
+
+
+<div class="row">
+   <!-- <div class="container my-4">-->
+        @if (reserva.length == 0) {
+        <div class="container alert alert-info d-flex justify-content-center text-center w-auto p-2 mt-4">
+            <span>Actualmente no se realizado ninguna busqueda, para ello, rellene los campos de arriba</span>
+        </div>
+        } @else {
+        <div>
+            <table class="table table-hover table-striped">
+                <thead>
+                    <tr>
+                        <th>Id Reserva</th>
+                        <th>Fecha Reserva</th>
+                        <th>Hora Inicio Reserva</th>
+                        <th>Fecha Fin Reserva</th>
+                        <th>Observaciones</th>
+                        <th>Nombre Usuario Reserva</th>
+                        <th>Deporte Reservado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (res of reserva; track $index) {
+                    <tr>
+                        <td>{{res.idReserva}}</td>
+                        <td>{{res.fechaReserva}}</td>
+                        <td>{{res.horaInicioReserva}}</td>
+                        <td>{{res.horaFinReserva}}</td>
+                        <td>{{res.observaciones}}</td>
+                        <td>{{res.usuarioReserva.nombreUsuario}}</td>
+                        <td>{{res.deporteReserva.actividad}}</td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        }
+   <!--  </div>-->
 </div>

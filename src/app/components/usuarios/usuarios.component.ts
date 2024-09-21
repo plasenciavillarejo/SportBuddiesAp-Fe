@@ -22,7 +22,7 @@ export class UsuariosComponent implements OnInit {
 
   fechaSeleccionada: Date = new Date();
 
-  title: string = 'Fecha en la que desea consultar la busqueda';
+  title: string = 'Realizar Busqueda';
 
   constructor(private service: UsuarioService) {}
 
@@ -41,9 +41,9 @@ export class UsuariosComponent implements OnInit {
       this.reserva = [];
     } else {
       // libreria para formt npm install date-fns --save
-      const fechaFormateada = format(this.fechaSeleccionada, 'dd-MM-yyyy');
+      const fechaFormateada = format(this.fechaSeleccionada, 'yyyy-MM-dd');
       console.log('Buscando registros para la fecha', fechaFormateada);
-      this.service.getReservas().pipe(
+      this.service.getReservas(fechaFormateada).pipe(
         catchError(error => {
           console.error('Error al cargar usuarios:', error);
           // Puedes manejar el error de otras formas aquí, como mostrar un mensaje al usuario

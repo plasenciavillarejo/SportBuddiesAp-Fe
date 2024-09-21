@@ -9,7 +9,7 @@ import { Reserva } from '../models/reserva';
 })
 export class UsuarioService {
 
-  private urlEndpointPrueba = "http://localhost:8090/api/main/listarReserva?fechaReserva=2024-09-13&idUsuReserva=3"
+  private urlEndpointPrueba = "http://localhost:8090/api/main/reserva/listarReserva?fechaReserva="
 
   private httpHeaders = new HttpHeaders({'Content-Type': 'application/json'});
 
@@ -17,9 +17,9 @@ export class UsuarioService {
 
   constructor(private http: HttpClient) { }
 
-  getReservas(): Observable<Reserva[]> {
+  getReservas(fechaSeleccionada: string): Observable<Reserva[]> {
     // of convierte un arreglo en un flujo de stream() de tipo asíncrono
-    return this.http.get<Reserva[]>(this.urlEndpointPrueba).pipe(
+    return this.http.get<Reserva[]>(this.urlEndpointPrueba + fechaSeleccionada + '&idUsuReserva=3').pipe(
       map(data => data as Reserva[])
     );
     //return of(this.usuario);
