@@ -19,7 +19,7 @@ export class UsuarioService {
 
   getReservas(fechaSeleccionada: string): Observable<Reserva[]> {
     // of convierte un arreglo en un flujo de stream() de tipo asíncrono
-    return this.http.get<Reserva[]>(this.urlEndpointPrueba + fechaSeleccionada + '&idUsuReserva=3').pipe(
+    return this.http.get<Reserva[]>(this.urlEndpointPrueba + fechaSeleccionada).pipe(
       map(data => data as Reserva[])
     );
     //return of(this.usuario);
