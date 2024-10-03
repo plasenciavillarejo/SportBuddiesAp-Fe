@@ -8,25 +8,49 @@
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
       <a class="navbar-brand" href="#">Inicio</a>
 
-      <!-- Ms-auto: Alinea el contenido hacia la derecha -->
-      <a class="navbar-brand" aria-current="page" [routerLink]="['/login']">Login (Se debe borrar)</a>
-
       <a class="navbar-brand" aria-current="page" [routerLink]="['/nueva-actividad']">Nueva Actividad</a>
 
+    </div>
+  
+  <!-- d-block d-lg-inline: Esta clase hará que el botón se muestre como un bloque completo en pantallas pequeñas (d-block), lo que lo hará visible aunque el 
+   menú esté colapsado. En pantallas grandes (d-lg-inline), el botón se mostrará en línea dentro de la barra de navegación-->
+    <nav class="navbar navbar-expand-lg" style="background-color: #e3f2fd;">
+      <div class="container-fluid">
+        <div class="navbar-collapse justify-content-end" id="navbarNavDropdownLogin">
+          <span class="nav-item text-primary mx-3">
+            <!--<a class="navbar-link btn btn-outline-primary btn-lg d-block d-lg-inline" aria-current="page" [routerLink]="['/login']">Sign</a>-->
+            <a class="navbar-link btn btn-outline-primary btn-lg d-block d-lg-inline" aria-current="page" (click)="onLogin()">Sign</a>
+          </span>
+        </div>
+      </div>
+    </nav>
+    
+<!-- La alternativa sería crear dos bloqueas para manejear ambos casos
+    <div class="collapse navbar-collapse justify-content-end" id="navbarNavDropdownLogin">
+      <span class="nav-item text-primary mx-3">
+        <a class="navbar-link btn btn-outline-primary btn-lg" aria-current="page" [routerLink]="['/login']">Sign</a>
+      </span>
+    </div>
+    <!-- Mostrar el botón en pantallas pequeñas:  Ms-auto: Alinea el contenido hacia la derecha
+    <span class="nav-item text-primary ms-auto d-lg-none">
+      <a class="navbar-link btn btn-outline-primary btn-lg" aria-current="page" [routerLink]="['/login']">Sign</a>
+    </span>
+  -->
+    <!--
       <ul class="navbar-nav ms-auto">
         <li id="navbar-dropdown" class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Dropdown link
           </a>
-          <!-- DropDown alineado a la derecha al abrir queda cortado, solución: dropdown-menu-end -->
+           DropDown alineado a la derecha al abrir queda cortado, solución: dropdown-menu-end 
           <ul class="dropdown-menu dropdown-menu-end">
             <li><a class="dropdown-item" href="#">Action</a></li>
             <li><a class="dropdown-item" href="#">Another action</a></li>
             <li><a class="dropdown-item" href="#">Something else here</a></li>
           </ul>
         </li>
+      </ul>-->
 
-      </ul>
     </div>
-  </div>
+
 </nav>

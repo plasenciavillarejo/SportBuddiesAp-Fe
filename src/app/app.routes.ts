@@ -2,6 +2,8 @@ import { Routes } from '@angular/router';
 import { LoginComponent } from './components/login/login.component';
 import { UsuariosComponent } from './components/usuarios/usuarios.component';
 import { NuevaActividadComponent } from './components/nueva-actividad/nueva-actividad.component';
+import { authGuard } from './core/guard/auth.guard';
+import { AuthorizeComponent } from './components/authorize/authorize.component';
 
 export const routes: Routes = [
     /**Por defecto si el path es vació nos redigira a usuarios */
@@ -20,6 +22,11 @@ export const routes: Routes = [
     },
     {
         path: 'nueva-actividad',
-        component: NuevaActividadComponent
-    } 
+        component: NuevaActividadComponent,
+        canActivate: [authGuard]
+    },
+    {
+        path: 'authorize',
+        component: AuthorizeComponent,
+    }
 ];

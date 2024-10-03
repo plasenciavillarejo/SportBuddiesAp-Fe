@@ -12,4 +12,6 @@ export class Usuario {
 
     rol!: Rol[];
 
+    password!: string;
+    
 }
