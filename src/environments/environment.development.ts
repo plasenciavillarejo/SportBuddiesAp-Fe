@@ -3,7 +3,7 @@ export const environment = {
     authorize_uri: 'http://localhost:9000/oauth2/authorize?',
     client_id: 'client-angular',
     redirect_uri: 'http://localhost:4200/authorize',
-    scope: 'openid',
+    scope: 'openid profile',
     response_type: 'code',
     response_mode: 'form_post',
     code_challenge_method: 'S256',
