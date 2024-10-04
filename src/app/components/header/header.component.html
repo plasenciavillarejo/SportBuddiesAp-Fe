@@ -19,7 +19,11 @@
         <div class="navbar-collapse justify-content-end" id="navbarNavDropdownLogin">
           <span class="nav-item text-primary mx-3">
             <!--<a class="navbar-link btn btn-outline-primary btn-lg d-block d-lg-inline" aria-current="page" [routerLink]="['/login']">Sign</a>-->
-            <a class="navbar-link btn btn-outline-primary btn-lg d-block d-lg-inline" aria-current="page" (click)="onLogin()">Sign</a>
+            @if (!isAuthenticate) {
+              <a class="navbar-link btn btn-outline-primary btn-lg d-block d-lg-inline" aria-current="page" (click)="onLogin()">Sign</a>
+            } @else {
+              <a class="navbar-link btn btn-outline-primary btn-lg d-block d-lg-inline" aria-current="page" (click)="onLogout()">Logout</a>
+            }
           </span>
         </div>
       </div>

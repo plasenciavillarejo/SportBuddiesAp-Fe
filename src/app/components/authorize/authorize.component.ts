@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { TokenService } from '../../services/token.service';
 
@@ -15,7 +15,8 @@ export class AuthorizeComponent implements OnInit {
 
   constructor(private activatedRoute: ActivatedRoute,
     private authService: AuthService,
-    private tokenService: TokenService
+    private tokenService: TokenService,
+    private router: Router
   ){}
 
   ngOnInit(): void {
@@ -30,6 +31,8 @@ export class AuthorizeComponent implements OnInit {
       next: response => {
         console.log(response);
         this.tokenService.setToken(response.access_token, response.refresh_token);
+        // Una vez que obtenemos el token, nos redirige a la pagina inicial por defecto
+        this.router.navigate(['']);
       }, error: error => {
         console.log(error);
       }

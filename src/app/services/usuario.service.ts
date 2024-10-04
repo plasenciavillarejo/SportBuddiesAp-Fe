@@ -22,7 +22,6 @@ export class UsuarioService {
     return this.http.get<Reserva[]>(this.urlEndpointPrueba + fechaSeleccionada).pipe(
       map(data => data as Reserva[])
     );
-    //return of(this.usuario);
   }
 
  

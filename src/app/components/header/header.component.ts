@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { environment } from '../../../environments/environment';
-import { HttpParams } from '@angular/common/http';
-
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { TokenService } from '../../services/token.service';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-navbar',
@@ -14,6 +15,11 @@ import { HttpParams } from '@angular/common/http';
 export class HeaderComponent implements OnInit {
 
   authorize_uri = environment.authorize_uri;
+  logout_url = environment.logout_url;
+
+  isAuthenticate!: boolean;
+  isAdmin!: boolean;
+  isUser!: boolean;
 
   params: any = {
     client_id: environment.client_id,
@@ -25,9 +31,12 @@ export class HeaderComponent implements OnInit {
     code_challenge: environment.code_challenge,
   }
 
+  constructor(private tokenService: TokenService,
+    private http: HttpClient, private cookieService : CookieService
+  ) {}
 
   ngOnInit(): void {
-
+    
   }
 
   onLogin() {
@@ -37,5 +46,23 @@ export class HeaderComponent implements OnInit {
     location.href = codeUrl;
   }
 
+  onLogout():void {    
+    this.http.get('http://localhost:8090/cerrarSesion',{ withCredentials: true }).subscribe({
+      next: response => {
+        this.tokenService.clearToken();
+        console.log('Sesión cerrada con éxito');
+        location.href = 'http://localhost:4200'; // Redirigir al login o página principal
+      },
+      error: error => {
+        console.error('Error al cerrar sesión:', error);
+      }
+    });
+  }
+
+  getLogged():void {
+    this.isAuthenticate = this.tokenService.isAuthenticate();
+    this.isAdmin = this.tokenService.isRoleAdmin();
+    this.isUser = this.tokenService.isRoleUser();
+  }
 
 }

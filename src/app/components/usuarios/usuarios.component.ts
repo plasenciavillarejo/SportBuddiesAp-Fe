@@ -36,28 +36,7 @@ export class UsuariosComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    //this.service.getUsuario().subscribe(usu => this.usuario = usu);
-    this.handlerLogin();
-  }
 
-  // Suscripción al login
-  handlerLogin() {
-    this.servicioCompartido.loginhandlerEventEmitter.subscribe(({email, password}) => {
-      console.log(email + '' + password);
-      //this.authService.login();
-      this.authService.loginUser({email,password}).subscribe({
-        next: response => {
-          // Obtenemos el code para posteriormente enviarlo al login
-          const code = response.code;
-        },
-        error: error => {
-          if(error.status == 401) {
-            Swal.fire('Error al iniciar sesión', 'Usuario o Password invalidos', 'error');
-          }
-          throw error;
-        }
-      });
-    });
   }
 
   /**

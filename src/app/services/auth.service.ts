@@ -35,18 +35,4 @@ export class AuthService {
     return this.http.post<any>(this.token_url, body, httpOptions );
   }
 
-
-  loginUser({email, password}: any): Observable<any> {    
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/x-www-form-urlencoded'});
-
-    // Crear los datos en formato x-www-form-urlencoded
-    const body = new HttpParams()
-    .set('username', email)
-    .set('password', password);
-    
-    // Retornamos el observable que hace las llamadas iniciales y luego el login
-    return this.http.post<any>('', body.toString(), { headers });
-  }
-
 }

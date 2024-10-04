@@ -6,7 +6,6 @@ import { Usuario } from '../../models/usuario';
 import Swal from'sweetalert2';
 import { ServicioCompartidoService } from '../../services/servicio-compartido.service';
 import { HttpClient } from '@angular/common/http';
-import { forkJoin, map } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -25,18 +24,7 @@ export class LoginComponent {
   }
 
   ngOnInit(): void {
-    const code = window.location.search.substring(1).split('&')[0].split('=')[1];
-    if (code) {
-      console.log('Se ha obtenido el code');
-    }
-  }
 
-  login(): void {
-    // Redirige al servidor de autorización con los datos de inicio de sesión
-    // http://127.0.0.1:8090/oauth2/authorization/client-app
-    // http://127.0.0.1:9000/login
-
-    window.location.href = `http://127.0.0.1:8090/login/oauth2/code/cliente-app?redirect_uri=http://127.0.0.1:8090/oauth2/authorization/client-app`;
   }
 
   // Cuando enviemos el usuario que vamos hacer con el
