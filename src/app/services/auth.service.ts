@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { forkJoin, map, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 
 @Injectable({
@@ -13,13 +13,13 @@ export class AuthService {
   constructor(private http: HttpClient
   ) { }
 
-  getToken(code: string): Observable<any> {
+  getToken(code: string, code_verifier: string): Observable<any> {
     let body = new URLSearchParams();
     body.set('grant_type', environment.grant_type);
     body.set('client_id', environment.client_id);
     body.set('redirect_uri', environment.redirect_uri);
     body.set('scope', environment.scope);
-    body.set('code_verifier', environment.code_verifier);
+    body.set('code_verifier',code_verifier);
     body.set('code', code);
 
     const basic_auth = 'Basic '+ btoa('client-angular:12345')
