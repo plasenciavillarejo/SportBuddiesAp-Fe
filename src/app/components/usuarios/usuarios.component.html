@@ -12,18 +12,18 @@
             <label for="actividad" class="form-label">Actividad</label>
             <select class="form-select" id="actividad" required>
                 <option value="" disabled selected>Seleccione una Actividad</option>
-                <option value="1">Fútbol Sala</option>
-                <option value="2">Fútbol 11</option>
-                <option value="3">Fútbol 7</option>
+                @for (deporte of listaDeportes; track $index) {
+                   <option [value]="deporte.idDeporte" >{{deporte.actividad}}</option>
+                }
             </select>
         </div>
         <div class="col-md-3">
             <label for="provincia" class="form-label">Provincia:</label>
-            <select class="form-select" id="provincia" required>
+            <select class="form-select" id="provincia" required (change)="loadMunicipaliti($event)">
                 <option value="" disabled selected>Seleccione una Provincia</option>
-                <option value="1">Jaén</option>
-                <option value="2">Cordoba</option>
-                <option value="3">Murcia</option>
+                @for (provincia of listaProvincias; track $index) {
+                    <option [value]="provincia">{{provincia}}</option>
+                 }
             </select>
         </div>
 

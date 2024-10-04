@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Usuario } from '../models/usuario';
 import { map, Observable, of } from 'rxjs';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Reserva } from '../models/reserva';
+import { provincia } from '../models/provincia';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +17,9 @@ export class UsuarioService {
 
   private reserva:  Reserva[] = [];
 
+  url_combo = environment.hostname_port_local + '/api/main/reservaActividad/comboInicio';
+  url_municipios = environment.hostname_port_local + '/api/main/reservaActividad/listadoMunicipios';
+
   constructor(private http: HttpClient) { }
 
   getReservas(fechaSeleccionada: string): Observable<Reserva[]> {
@@ -24,7 +29,13 @@ export class UsuarioService {
     );
   }
 
- 
+  loadComboInit(): Observable<any>  {
+    return this.http.get<any>(this.url_combo);
+  }
 
-
+  loadMunic(municipio: string): Observable<any> {
+    const params = new HttpParams().set('municipio', municipio);
+    return this.http.get<any>(this.url_municipios, {params}
+    );
+  }
 }

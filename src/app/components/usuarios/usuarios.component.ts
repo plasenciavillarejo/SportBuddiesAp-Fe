@@ -8,8 +8,6 @@ import { RouterOutlet } from '@angular/router';
 import { Reserva } from '../../models/reserva';
 import { ServicioCompartidoService } from '../../services/servicio-compartido.service';
 import { AuthService } from '../../services/auth.service';
-import Swal from 'sweetalert2';
-import { OAuthModule, OAuthService } from 'angular-oauth2-oidc';
 
 @Component({
   selector: 'app-usuarios',
@@ -24,11 +22,15 @@ export class UsuariosComponent implements OnInit {
   usuario: Usuario[] = [];
   reserva: Reserva[] = [];
 
+  listaDeportes: any[] = [];
+  listaProvincias: string [] = [];
+  listaMunicipos: string [] = []
+
   fechaSeleccionada: Date = new Date();
 
   title: string = 'Realizar Busqueda';
 
-  constructor(private service: UsuarioService,
+  constructor(private usuarioService: UsuarioService,
     private servicioCompartido: ServicioCompartidoService,
     private authService : AuthService,
   ) {
@@ -36,7 +38,7 @@ export class UsuariosComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
+    this.loadComboInitial();
   }
 
   /**
@@ -52,7 +54,7 @@ export class UsuariosComponent implements OnInit {
       // libreria para formt npm install date-fns --save
       const fechaFormateada = format(this.fechaSeleccionada, 'yyyy-MM-dd');
       console.log('Buscando registros para la fecha', fechaFormateada);
-      this.service.getReservas(fechaFormateada).pipe(
+      this.usuarioService.getReservas(fechaFormateada).pipe(
         catchError(error => {
           console.error('Error al cargar usuarios:', error);
           // Puedes manejar el error de otras formas aquí, como mostrar un mensaje al usuario
@@ -62,6 +64,29 @@ export class UsuariosComponent implements OnInit {
         this.reserva = res;        
       });
     }
+  }
+
+  loadComboInitial(): void {
+    this.usuarioService.loadComboInit().subscribe( {
+      next: (response) => {
+        this.listaDeportes = response.listadoDeportes;
+        this.listaProvincias = response.listaProvincias;
+      }, error: (error) => {
+        console.log(error);
+      }
+    });
+  }
+
+  loadMunicipaliti(event: any): void {
+    const municipio: string = event.target.value.toString();
+    this.usuarioService.loadMunic(municipio).subscribe({
+      next: (response) => {
+        this.listaMunicipos = response;
+      }, error: (error) => {
+        console.log(error);
+      }
+    });
+
   }
 
 }

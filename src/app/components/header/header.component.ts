@@ -8,6 +8,7 @@ import * as CryptoJS from 'crypto-js';
 
 const CHARACTERS = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
 
+
 @Component({
   selector: 'app-navbar',
   standalone: true,
@@ -33,21 +34,25 @@ export class HeaderComponent implements OnInit {
     code_challenge_method: environment.code_challenge_method,
   }
 
+  url_logout = environment.hostname_port_local +'/cerrarSesion';
+
   constructor(private tokenService: TokenService,
     private http: HttpClient, private cookieService : CookieService
   ) {}
 
-  ngOnInit(): void {
-    
+  ngOnInit(): void { 
   }
 
+  /* Al utilizar la API Web Crypto al ser asíncrono tenemos que convertir el login de forma asíncrona, de lo contrario cuando se intente 
+    obtener el code_challenge saltará al login pero no tendremos el code_challange generado, por tanto al validarlo con el code_verifier,
+     ouath 2 nos dara invalid_grant */
   async onLogin() {
     // Generamos el token
     const code_verifier = this.generateCodeVerify();
     // Lo almacenamos en el locaStorage
     this.tokenService.setVerifier(code_verifier);
     // Agregamos en los parámetros el code_verifier que hemos generado anteriormente
-    this.generateCodeChallenge(code_verifier).then(code_challenge => {
+    this.generateCodeChallenge(code_verifier).then( code_challenge => {
       this.params.code_challenge = code_challenge;
       const httpParams = new HttpParams({ fromObject: this.params });
       const codeUrl = this.authorize_uri + httpParams.toString();
@@ -60,7 +65,7 @@ export class HeaderComponent implements OnInit {
   }
 
   onLogout():void {    
-    this.http.get('http://localhost:8090/cerrarSesion',{ withCredentials: true }).subscribe({
+    this.http.get(this.url_logout,{ withCredentials: true }).subscribe({
       next: response => {
         this.tokenService.clearToken();
         console.log('Sesión cerrada con éxito');

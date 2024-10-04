@@ -13,5 +13,6 @@ export const environment = {
     token_url: 'http://127.0.0.1:9000/oauth2/token',
     grant_type: 'authorization_code',
     logout_url: 'http://localhost:8090/logout',
-    secret_pkce: '12345'
+    secret_pkce: '12345',
+    hostname_port_local: 'http://localhost:8090'
 };
