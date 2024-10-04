@@ -8,8 +8,13 @@
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
       <a class="navbar-brand" href="#">Inicio</a>
 
+      @if (isAdmin) {
+        <a class="navbar-brand" aria-current="page" [routerLink]="['/nueva-actividad']">Soy Admin</a>
+      }
+      @if (isAuthenticate) {
+        <a class="navbar-brand" aria-current="page">Soy Usuario</a>
+      }
       <a class="navbar-brand" aria-current="page" [routerLink]="['/nueva-actividad']">Nueva Actividad</a>
-
     </div>
   
   <!-- d-block d-lg-inline: Esta clase hará que el botón se muestre como un bloque completo en pantallas pequeñas (d-block), lo que lo hará visible aunque el 
