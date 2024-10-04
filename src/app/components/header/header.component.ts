@@ -41,17 +41,22 @@ export class HeaderComponent implements OnInit {
     
   }
 
-  onLogin() {
+  async onLogin() {
     // Generamos el token
     const code_verifier = this.generateCodeVerify();
     // Lo almacenamos en el locaStorage
     this.tokenService.setVerifier(code_verifier);
     // Agregamos en los parámetros el code_verifier que hemos generado anteriormente
-    this.params.code_challenge = this.generateCodeChallange(code_verifier);
-    const httpParams = new HttpParams({fromObject: this.params});
-    const codeUrl = this.authorize_uri + httpParams.toString();
-    // Esto me va redirigirar a http://localhost:4200/authorize ya que está indicada la redirección en Oauth2
-    location.href = codeUrl;
+    this.generateCodeChallenge(code_verifier).then(code_challenge => {
+      this.params.code_challenge = code_challenge;
+      const httpParams = new HttpParams({ fromObject: this.params });
+      const codeUrl = this.authorize_uri + httpParams.toString();
+      
+      // Redirigir
+      location.href = codeUrl;
+    }).catch(error => {
+      console.error('Error generating code challenge', error);
+    });
   }
 
   onLogout():void {    
@@ -78,7 +83,7 @@ export class HeaderComponent implements OnInit {
     let resultCode = '';
     // Para generar el código debemos de crearnos una constante que contenga 44 carácteres.
     const tamanioConst = CHARACTERS.length;
-    for(let i=0; i < 43; i++) {
+    for(let i=0; i < 44; i++) {
       resultCode += CHARACTERS.charAt(Math.floor(Math.random() * tamanioConst));
     }
     return resultCode;
