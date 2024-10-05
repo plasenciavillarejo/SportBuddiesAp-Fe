@@ -12,8 +12,6 @@ import { FormularioActividadRequest } from '../models/formularioActividadRequest
 })
 export class UsuarioService {
 
-  private urlEndpointPrueba = "http://localhost:8090/api/main/reserva/listarReserva?fechaReserva="
-
   private httpHeaders = new HttpHeaders({'Content-Type': 'application/json'});
 
   private reserva:  Reserva[] = [];
@@ -23,13 +21,6 @@ export class UsuarioService {
   url_listado_reserva = environment.hostname_port_local + '/api/main/reservaActividad/listadoReserva';
 
   constructor(private http: HttpClient) { }
-
-  getReservas(fechaSeleccionada: string): Observable<Reserva[]> {
-    // of convierte un arreglo en un flujo de stream() de tipo asíncrono
-    return this.http.get<Reserva[]>(this.urlEndpointPrueba + fechaSeleccionada).pipe(
-      map(data => data as Reserva[])
-    );
-  }
 
   loadComboInit(): Observable<any>  {
     return this.http.get<any>(this.url_combo);
@@ -43,5 +34,7 @@ export class UsuarioService {
   loadReservationList(formularioActividad: FormularioActividadRequest) : Observable<any> {
     return this.http.post<any>(this.url_listado_reserva, formularioActividad);
   }
+
+
 
 }

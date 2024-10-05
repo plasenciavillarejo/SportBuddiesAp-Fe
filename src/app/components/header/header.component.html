@@ -27,6 +27,11 @@
             @if (!isAuthenticate) {
               <a class="navbar-link btn btn-outline-primary btn-lg d-block d-lg-inline" aria-current="page" (click)="onLogin()">Sign</a>
             } @else {
+              @if(isSesionInit) {
+                <div class="alert alert-success fade-out isFading" role="alert">
+                  'Bienvenido: {{obtainNameUser()}}''
+                </div>                
+              }
               <ul class="navbar-nav ms-auto">
                 <li id="navbar-dropdown" class="nav-item dropdown">
                   <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">

@@ -61,15 +61,6 @@ export class UsuariosComponent implements OnInit {
       // libreria para formt npm install date-fns --save
       const fechaFormateada = format(this.formularioActividadRequest.fechaReserva, 'yyyy-MM-dd');
       console.log('Buscando registros para la fecha', fechaFormateada);
-      this.usuarioService.getReservas(fechaFormateada).pipe(
-        catchError(error => {
-          console.error('Error al cargar usuarios:', error);
-          // Puedes manejar el error de otras formas aquí, como mostrar un mensaje al usuario
-          return throwError(() => error); // Lanza el error para que se propague
-        })
-      ).subscribe(res => {
-        this.reserva = res;
-      });
     }
   }
 

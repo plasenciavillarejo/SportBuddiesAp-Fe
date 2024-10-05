@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 import { HeaderComponent} from '../header/header.component';
 import { FormsModule } from '@angular/forms';
 import { Usuario } from '../../models/usuario';
 import Swal from'sweetalert2';
 import { ServicioCompartidoService } from '../../services/servicio-compartido.service';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
@@ -16,12 +16,11 @@ import { HttpClient } from '@angular/common/http';
 
 export class LoginComponent {
   
-  usuario!: Usuario;
+  usuario: Usuario = new Usuario();;
 
   constructor(private servicioCompartido: ServicioCompartidoService,
-    private http: HttpClient) {
-    this.usuario = new Usuario();
-  }
+    private http: HttpClient,
+    private router: Router) {}
 
   ngOnInit(): void {
 
@@ -36,6 +35,23 @@ export class LoginComponent {
         'error'
       )
     } else {
+      const body = new HttpParams()
+      .set('username', this.usuario.email)
+      .set('password', this.usuario.password);
+      
+      const headers = new HttpHeaders({
+        'Content-Type': 'application/x-www-form-urlencoded'
+      });
+
+      this.http.post('http://localhost:9000/login', body.toString(), { headers })
+        .subscribe({
+          next: (response) => {
+            console.log('Autenticación exitosa', response);
+          },
+          error: (error) => {
+            console.error('Error en la autenticación', error);
+          }
+        });
       this.servicioCompartido.loginhandlerEventEmitter.emit({
         email: this.usuario.email,
         password: this.usuario.password

@@ -5,6 +5,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { TokenService } from '../../services/token.service';
 import { CookieService } from 'ngx-cookie-service';
 import * as CryptoJS from 'crypto-js';
+import { ServicioCompartidoService } from '../../services/servicio-compartido.service';
 
 const CHARACTERS = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
 
@@ -18,12 +19,16 @@ const CHARACTERS = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567
 })
 export class HeaderComponent implements OnInit {
 
+  url_logout = environment.hostname_port_local +'/cerrarSesion';
+
   authorize_uri = environment.authorize_uri;
   logout_url = environment.logout_url;
 
   isAuthenticate!: boolean;
   isAdmin!: boolean;
   isUser!: boolean;
+
+  isSesionInit!: boolean;
 
   params: any = {
     client_id: environment.client_id,
@@ -34,14 +39,14 @@ export class HeaderComponent implements OnInit {
     code_challenge_method: environment.code_challenge_method,
   }
 
-  url_logout = environment.hostname_port_local +'/cerrarSesion';
-
   constructor(private tokenService: TokenService,
     private http: HttpClient,
-    private cookieService : CookieService
+    private cookieService : CookieService,
+    private servicioCompartido: ServicioCompartidoService
   ) {}
 
-  ngOnInit(): void { 
+  ngOnInit(): void {
+    this.initSesionEmit();
   }
 
   /* Al utilizar la API Web Crypto al ser asíncrono tenemos que convertir el login de forma asíncrona, de lo contrario cuando se intente 
@@ -129,6 +134,21 @@ export class HeaderComponent implements OnInit {
    */
   obtainNameUser(): string {
     return this.tokenService.obtainNameUser();
+  }
+
+  /**
+   * Función que se subcribe al servicio compartido para validar si el usuario ha iniciado sesion y pasados 2 segundos desaparecerá
+   * 
+   */
+  initSesionEmit() {
+    this.servicioCompartido.initSessionEventEmitter.subscribe((initSesion: boolean) => {
+      this.isSesionInit = initSesion;
+      if(this.isSesionInit) {
+        setTimeout( () => {
+          this.isSesionInit = false;
+        },2000);
+      }
+    })
   }
 
 }

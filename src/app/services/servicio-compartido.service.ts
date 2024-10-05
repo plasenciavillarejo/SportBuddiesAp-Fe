@@ -5,7 +5,11 @@ import { EventEmitter, Injectable } from '@angular/core';
 })
 export class ServicioCompartidoService {
 
+  // Inicio de los servicios compartidos, una vez que ceamos el emiter tenemos que irnos al componente donde queramos llamarlo
   private _loginhandlerEventEmitter = new EventEmitter();
+
+  // Este servicio se va a crear dentro de authorize.components.ts y lo va a consumir el header.component.ts
+  private _initSessionEventEmitter = new EventEmitter();
 
   constructor() { }
 
@@ -13,5 +17,8 @@ export class ServicioCompartidoService {
     return this._loginhandlerEventEmitter;
   }
 
+  get initSessionEventEmitter() {
+    return this._initSessionEventEmitter;
+  }
 
 }

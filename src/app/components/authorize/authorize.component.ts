@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { TokenService } from '../../services/token.service';
+import { ServicioCompartidoService } from '../../services/servicio-compartido.service';
 
 @Component({
   selector: 'app-authorize',
@@ -16,7 +17,8 @@ export class AuthorizeComponent implements OnInit {
   constructor(private activatedRoute: ActivatedRoute,
     private authService: AuthService,
     private tokenService: TokenService,
-    private router: Router
+    private router: Router,
+    private servicioCompartido: ServicioCompartidoService
   ){}
 
   ngOnInit(): void {
@@ -34,6 +36,8 @@ export class AuthorizeComponent implements OnInit {
       next: response => {
         console.log(response);
         this.tokenService.setToken(response.access_token, response.refresh_token);
+        // Agregamos al servicio compartido el valor true que posteriormente lo va a consumir el header.component.ts
+        this.servicioCompartido.initSessionEventEmitter.emit(true);
         // Una vez que obtenemos el token, nos redirige a la pagina inicial por defecto
         this.router.navigate(['']);
       }, error: error => {
