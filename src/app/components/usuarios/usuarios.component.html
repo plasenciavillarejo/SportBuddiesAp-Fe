@@ -1,76 +1,84 @@
 <h3>{{title}}</h3>
-<form class="form-control border-info" >
+<form class="form-control border-info" (ngSubmit)="consultarListadoRerservas()" >
     <div class="row mb-3">
         <div class="col-md-3">
             <!--<div class="custom-width-mobile"> -->
                 <label for="startDate" class="form-label">Buscar Día Reserva</label>
-                <input id="startDate" class="form-control" type="date" (change)="handleFechaChange($event)" />
+                <input id="startDate" name="fechaReserva" class="form-control" type="date"
+                [(ngModel)]="formularioActividadRequest.fechaReserva"/>
             <!--</div>-->
         </div>
 
         <div class="col-md-3">
             <label for="actividad" class="form-label">Actividad</label>
-            <select class="form-select" id="actividad" required>
+            <select class="form-select" id="actividad" required [(ngModel)]="formularioActividadRequest.actividad" name="actividad">
                 <option value="" disabled selected>Seleccione una Actividad</option>
                 @for (deporte of listaDeportes; track $index) {
-                   <option [value]="deporte.idDeporte" >{{deporte.actividad}}</option>
+                   <option [value]="deporte.actividad">
+                        {{deporte.actividad}}
+                    </option>
                 }
             </select>
         </div>
         <div class="col-md-3">
             <label for="provincia" class="form-label">Provincia:</label>
-            <select class="form-select" id="provincia" required (change)="loadMunicipaliti($event)">
+            <select class="form-select" id="provincia" required  [(ngModel)]="formularioActividadRequest.provincia" name="provincia"
+            (change)="loadMunicipaliti($event)">
                 <option value="" disabled selected>Seleccione una Provincia</option>
                 @for (provincia of listaProvincias; track $index) {
                     <option [value]="provincia">{{provincia}}</option>
-                 }
+                }
             </select>
         </div>
 
         <div class="col-md-3">
             <label for="municipio" class="form-label">Municipio:</label>
-            <select class="form-select" id="municipio" required>
+            <select class="form-select" id="municipio" required [(ngModel)]="formularioActividadRequest.municipio" name="municipio">
                 <option value="" disabled selected>Seleccione un Municipio</option>
-                <option value="1">Bailén</option>
-                <option value="2">Linares</option>
-                <option value="3">Escañuela</option>
+                @for (municipio of listaMunicipos; track $index) {
+                    <option [value]="municipio">{{municipio}}</option>
+                }
             </select>
         </div>
-
+        <div class="col-md-3">
+            <button type="submit" class="btn btn-primary"> Consultar </button>
+        </div>
     </div>
 </form>
 
 
 
    <!-- <div class="container my-4">-->
-        @if (reserva.length == 0) {
+        @if (formularioActividadResponse.length == 0 ) {
         <div class="container alert alert-info d-flex justify-content-center text-center w-auto p-2 mt-4">
             <span>Actualmente no se realizado ninguna busqueda, para ello, rellene los campos de arriba</span>
         </div>
         } @else {
-        <div class="form-control border-info mt-4">
+        <div class="form-control border-info mt-4 text-center">
             <table class=" table table-hover table-striped border-info mt-2">
                 <thead>
                     <tr>
-                        <th>Id Reserva</th>
                         <th>Fecha Reserva</th>
-                        <th>Hora Inicio Reserva</th>
-                        <th>Fecha Fin Reserva</th>
-                        <th>Observaciones</th>
-                        <th>Nombre Usuario Reserva</th>
-                        <th>Deporte Reservado</th>
+                        <th>Hora Reserva</th>
+                        <th>Requerimientos</th>
+                        <th>Maximo Jugadores Requeridos</th>
+                        <th>Urgencia Inscripción</th>
+                        <th>Abono Pista</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @for (res of reserva; track $index) {
+                    @for (formActi of formularioActividadResponse; track $index) {
                     <tr>
-                        <td>{{res.idReserva}}</td>
-                        <td>{{res.fechaReserva}}</td>
-                        <td>{{res.horaInicioReserva}}</td>
-                        <td>{{res.horaFinReserva}}</td>
-                        <td>{{res.observaciones}}</td>
-                        <td>{{res.usuarioReserva.nombreUsuario}}</td>
-                        <td>{{res.deporteReserva.actividad}}</td>
+                        <td>{{formActi.fechaReserva}}</td>
+                        <td>{{formActi.horaInicio}} - {{formActi.horaFin}}</td>
+                        <td>
+                            @for (requi of formActi.requerimientos; track $index) {
+                                {{requi}} <br>
+                            }
+                        </td>
+                        <td class="text-center">{{formActi.usuariosMaxRequeridos}}</td>
+                        <td>{{formActi.urgencia}}</td>
+                        <td>{{formActi.abonoPista}}</td>
                     </tr>
                     }
                 </tbody>

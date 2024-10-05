@@ -8,11 +8,16 @@ import { RouterOutlet } from '@angular/router';
 import { Reserva } from '../../models/reserva';
 import { ServicioCompartidoService } from '../../services/servicio-compartido.service';
 import { AuthService } from '../../services/auth.service';
+import { FormsModule } from '@angular/forms';
+import { FormularioActividadRequest } from '../../models/formularioActividadRequest';
+import { FormularioActividadResponse } from '../../models/FormularioActividadResponse';
+import Swal from 'sweetalert2';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-usuarios',
   standalone: true,
-  imports: [RouterOutlet, HeaderComponent],
+  imports: [RouterOutlet, HeaderComponent, FormsModule],
   templateUrl: './usuarios.component.html',
   styleUrl: './usuarios.component.css'
 })
@@ -23,16 +28,18 @@ export class UsuariosComponent implements OnInit {
   reserva: Reserva[] = [];
 
   listaDeportes: any[] = [];
-  listaProvincias: string [] = [];
-  listaMunicipos: string [] = []
+  listaProvincias: string[] = [];
+  listaMunicipos: string[] = []
 
-  fechaSeleccionada: Date = new Date();
+  formularioActividadRequest: FormularioActividadRequest = new FormularioActividadRequest();
+  formularioActividadResponse: FormularioActividadResponse[] = [];
 
   title: string = 'Realizar Busqueda';
 
   constructor(private usuarioService: UsuarioService,
     private servicioCompartido: ServicioCompartidoService,
-    private authService : AuthService,
+    private authService: AuthService,
+    private datePipe: DatePipe
   ) {
 
   }
@@ -46,13 +53,13 @@ export class UsuariosComponent implements OnInit {
    * @param event 
    */
   handleFechaChange(event: any) {
-    this.fechaSeleccionada = new Date(event.target.value);
-    if(isNaN(this.fechaSeleccionada.getTime())) {
+    this.formularioActividadRequest.fechaReserva = new Date(event.target.value);
+    if (isNaN(this.formularioActividadRequest.fechaReserva.getTime())) {
       // Entonces el usuario ha pulsado en el boton limpiar
       this.reserva = [];
     } else {
       // libreria para formt npm install date-fns --save
-      const fechaFormateada = format(this.fechaSeleccionada, 'yyyy-MM-dd');
+      const fechaFormateada = format(this.formularioActividadRequest.fechaReserva, 'yyyy-MM-dd');
       console.log('Buscando registros para la fecha', fechaFormateada);
       this.usuarioService.getReservas(fechaFormateada).pipe(
         catchError(error => {
@@ -61,13 +68,13 @@ export class UsuariosComponent implements OnInit {
           return throwError(() => error); // Lanza el error para que se propague
         })
       ).subscribe(res => {
-        this.reserva = res;        
+        this.reserva = res;
       });
     }
   }
 
   loadComboInitial(): void {
-    this.usuarioService.loadComboInit().subscribe( {
+    this.usuarioService.loadComboInit().subscribe({
       next: (response) => {
         this.listaDeportes = response.listadoDeportes;
         this.listaProvincias = response.listaProvincias;
@@ -87,6 +94,31 @@ export class UsuariosComponent implements OnInit {
       }
     });
 
+  }
+
+  consultarListadoRerservas(): void {
+    format(this.formularioActividadRequest.fechaReserva, 'yyyy-MM-dd');
+    console.log(this.formularioActividadRequest);
+    this.usuarioService.loadReservationList(this.formularioActividadRequest).subscribe({
+      next: (response) => {
+        if (response.length >=1 ) {
+          this.formularioActividadResponse = response;
+          this.formularioActividadResponse.forEach(res => {
+            res.horaInicio = res.horaInicio.split(':').slice(0,2).join(':');
+            res.horaFin = res.horaFin.split(':').slice(0,2).join(':');
+          });          
+        } else {
+          this.formularioActividadResponse = [];
+          Swal.fire(
+            'Resultado vacío',
+            'No existen datos para dichas características',
+            'info'
+          )
+        }
+      }, error: (error) => {
+        console.log(error);
+      }
+    })
   }
 
 }
