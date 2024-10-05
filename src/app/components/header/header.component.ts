@@ -37,7 +37,8 @@ export class HeaderComponent implements OnInit {
   url_logout = environment.hostname_port_local +'/cerrarSesion';
 
   constructor(private tokenService: TokenService,
-    private http: HttpClient, private cookieService : CookieService
+    private http: HttpClient,
+    private cookieService : CookieService
   ) {}
 
   ngOnInit(): void { 
@@ -120,6 +121,14 @@ export class HeaderComponent implements OnInit {
       .replace(/\+/g, '-') // Sustituir "+" por "-"
       .replace(/\//g, '_') // Sustituir "/" por "_"
       .replace(/=+$/, ''); // Eliminar "=" al final
+  }
+
+  /**
+   * Función encargada de retornar el nombrel de usuario logueado en la aplicación
+   * @returns 
+   */
+  obtainNameUser(): string {
+    return this.tokenService.obtainNameUser();
   }
 
 }

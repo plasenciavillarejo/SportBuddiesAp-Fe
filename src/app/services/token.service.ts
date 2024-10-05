@@ -76,7 +76,6 @@ export class TokenService {
     return values.roles || []; // Asegúrate de devolver un array vacío si no hay roles
   }
 
-
   setVerifier(code_verifier: string): void {
     // Debemos de cifrar el secret
     if(localStorage.getItem(CODE_VERIFIER)) {
@@ -96,5 +95,16 @@ export class TokenService {
     localStorage.removeItem(CODE_VERIFIER);
   }
 
+  obtainNameUser(): string {
+    const token = this.getAccesToken();
+
+    // El token se contiene en tres partes, la segunda parte es donde viene la información de los claims
+    const payload = token!.split(".")[1];
+
+    // Decodificamos el Payload
+    const payloadDecoded = atob(payload);
+    const values = JSON.parse(payloadDecoded);
+    return values.sub ;
+  }
 
 }

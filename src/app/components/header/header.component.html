@@ -27,7 +27,21 @@
             @if (!isAuthenticate) {
               <a class="navbar-link btn btn-outline-primary btn-lg d-block d-lg-inline" aria-current="page" (click)="onLogin()">Sign</a>
             } @else {
-              <a class="navbar-link btn btn-outline-primary btn-lg d-block d-lg-inline" aria-current="page" (click)="onLogout()">Logout</a>
+              <ul class="navbar-nav ms-auto">
+                <li id="navbar-dropdown" class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    {{obtainNameUser()}}
+                  </a>
+                   <!--DropDown alineado a la derecha al abrir queda cortado, solución: dropdown-menu-end -->
+                  <ul class="dropdown-menu dropdown-menu-end">
+                    <li><a class="dropdown-item" href="#">Action</a></li>
+                    <li><a class="dropdown-item" href="#">Another action</a></li>
+                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                    <li><a class="navbar-link btn btn-outline-primary btn-lg d-block d-lg-inline" aria-current="page" (click)="onLogout()">Logout</a></li>
+                  </ul>
+                </li>
+              </ul>
+              
             }
           </span>
         </div>
