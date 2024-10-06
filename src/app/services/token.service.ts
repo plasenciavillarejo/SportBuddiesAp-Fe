@@ -107,4 +107,15 @@ export class TokenService {
     return values.sub ;
   }
 
+  tokenExpired(): boolean {
+    const token = this.getAccesToken();
+    const payload = token!.split(".")[1];
+    // Decodificamos el Payload
+    const payloadDecoded = atob(payload);    
+    const exp = JSON.parse(payloadDecoded).exp;
+    // Convertirmos milsegundo en segundos y comparamos
+    return new Date().getTime() / 1000 > exp ? true : false;
+  }
+
+
 }

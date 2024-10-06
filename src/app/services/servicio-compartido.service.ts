@@ -11,6 +11,8 @@ export class ServicioCompartidoService {
   // Este servicio se va a crear dentro de authorize.components.ts y lo va a consumir el header.component.ts
   private _initSessionEventEmitter = new EventEmitter();
 
+  private _redirectHeaderEventEmitter = new EventEmitter();
+
   constructor() { }
 
   get loginhandlerEventEmitter() {
@@ -21,4 +23,7 @@ export class ServicioCompartidoService {
     return this._initSessionEventEmitter;
   }
 
+  get redirectHeaderEventEmitter() {
+    return this._redirectHeaderEventEmitter;
+  }
 }

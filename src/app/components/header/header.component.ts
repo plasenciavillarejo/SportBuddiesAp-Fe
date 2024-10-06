@@ -6,6 +6,7 @@ import { TokenService } from '../../services/token.service';
 import { CookieService } from 'ngx-cookie-service';
 import * as CryptoJS from 'crypto-js';
 import { ServicioCompartidoService } from '../../services/servicio-compartido.service';
+import { AuthService } from '../../services/auth.service';
 
 const CHARACTERS = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
 
@@ -42,7 +43,8 @@ export class HeaderComponent implements OnInit {
   constructor(private tokenService: TokenService,
     private http: HttpClient,
     private cookieService : CookieService,
-    private servicioCompartido: ServicioCompartidoService
+    private servicioCompartido: ServicioCompartidoService,
+    private authService : AuthService
   ) {}
 
   ngOnInit(): void {
@@ -70,17 +72,11 @@ export class HeaderComponent implements OnInit {
     });
   }
 
+  /**
+   * Función para cerrar sesión
+   */
   onLogout():void {    
-    this.http.get(this.url_logout,{ withCredentials: true }).subscribe({
-      next: response => {
-        this.tokenService.clearToken();
-        console.log('Sesión cerrada con éxito');
-        location.href = 'http://localhost:4200'; // Redirigir al login o página principal
-      },
-      error: error => {
-        console.error('Error al cerrar sesión:', error);
-      }
-    });
+    this.authService.logout();
   }
 
   getLogged():void {
