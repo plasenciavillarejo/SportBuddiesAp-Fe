@@ -13,6 +13,8 @@ import { FormularioActividadRequest } from '../../models/formularioActividadRequ
 import { FormularioActividadResponse } from '../../models/FormularioActividadResponse';
 import Swal from 'sweetalert2';
 import { DatePipe } from '@angular/common';
+import { TokenService } from '../../services/token.service';
+import { InscripcionReservaActividad } from '../../models/inscripcionReservaActividad';
 
 @Component({
   selector: 'app-usuarios',
@@ -31,15 +33,23 @@ export class UsuariosComponent implements OnInit {
   listaProvincias: string[] = [];
   listaMunicipos: string[] = []
 
+  idUsuario!: number;
+  inscripcionReserva: InscripcionReservaActividad = new InscripcionReservaActividad();
+
+  actividadSeleccionada!: string;
+
   formularioActividadRequest: FormularioActividadRequest = new FormularioActividadRequest();
   formularioActividadResponse: FormularioActividadResponse[] = [];
 
   title: string = 'Realizar Busqueda';
 
+  
+
   constructor(private usuarioService: UsuarioService,
     private servicioCompartido: ServicioCompartidoService,
     private authService: AuthService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private tokenService: TokenService
   ) {
 
   }
@@ -87,7 +97,7 @@ export class UsuariosComponent implements OnInit {
 
   }
 
-  consultarListadoRerservas(): void {
+  consultListReservations(): void {
     format(this.formularioActividadRequest.fechaReserva, 'yyyy-MM-dd');
     console.log(this.formularioActividadRequest);
     this.usuarioService.loadReservationList(this.formularioActividadRequest).subscribe({
@@ -97,7 +107,8 @@ export class UsuariosComponent implements OnInit {
           this.formularioActividadResponse.forEach(res => {
             res.horaInicio = res.horaInicio.split(':').slice(0,2).join(':');
             res.horaFin = res.horaFin.split(':').slice(0,2).join(':');
-          });          
+          });
+          this.validateActivityUserInscrit();     
         } else {
           this.formularioActividadResponse = [];
           Swal.fire(
@@ -105,11 +116,55 @@ export class UsuariosComponent implements OnInit {
             'No existen datos para dichas características',
             'info'
           )
-        }
+        }        
       }, error: (error) => {
         console.log(error);
       }
     })
+  }
+
+
+  checkActivity(event: any) {
+    this.actividadSeleccionada = event.target.value;
+  }
+
+  makeReservationActivity(formActi: FormularioActividadResponse) : string {
+    this.inscripcionReserva.idReservaActividad = formActi.idReservaActividad;
+    this.inscripcionReserva.fechaReserva = format(formActi.fechaReserva, 'yyyy-MM-dd');
+    this.inscripcionReserva.horaInicioReserva = formActi.horaInicio;
+    this.inscripcionReserva.horaFinReserva = formActi.horaFin;
+    this.inscripcionReserva.idUsuario = this.tokenService.obtainIdUser();
+    this.inscripcionReserva.idDeporte = formActi.idReservaActividad;
+
+    this.usuarioService.registrationReservation(this.inscripcionReserva).subscribe({
+      next: response => {
+        Swal.fire(
+          'Inscripción exitosa',
+          'Se ha inscrito exitosamente a la actividad '+ this.actividadSeleccionada , 
+          'success'
+        )
+      }, error: error => {
+        Swal.fire(
+          'Error en la inscripción',
+          error.error.mensaje,
+          'error'
+        )
+        this.inscripcionReserva = new InscripcionReservaActividad();
+      }
+    });
+    return 'Se ha realizado la inscripción a la reserva exitosamente';
+  }
+
+  validateActivityUserInscrit() {
+    this.usuarioService.listActivityRegistered(this.tokenService.obtainIdUser()).subscribe({
+      next: response => {
+        if(response.length > 0) {
+          console.log('aaaaa');
+        }
+      }, error: error => {
+        console.log(error);
+      }
+    });
   }
 
 }

@@ -104,8 +104,21 @@ export class TokenService {
     // Decodificamos el Payload
     const payloadDecoded = atob(payload);
     const values = JSON.parse(payloadDecoded);
-    return values.sub ;
+    return values.sub;
   }
+
+  obtainIdUser() : number {
+    const token = this.getAccesToken();
+
+    // El token se contiene en tres partes, la segunda parte es donde viene la información de los claims
+    const payload = token!.split(".")[1];
+
+    // Decodificamos el Payload
+    const payloadDecoded = atob(payload);
+    const values = JSON.parse(payloadDecoded);
+    return values.idusuario;
+  }
+  
 
   tokenExpired(): boolean {
     const token = this.getAccesToken();

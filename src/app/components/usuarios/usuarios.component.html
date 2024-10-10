@@ -1,7 +1,8 @@
 <h3>{{title}}</h3>
-<form class="form-control border-info" (ngSubmit)="consultarListadoRerservas()" >
+<div class="col-md-7">
+<form class="form-control border-info" (ngSubmit)="consultListReservations()" >
     <div class="row mb-3">
-        <div class="col-md-3">
+        <div class="col-md-2">
             <!--<div class="custom-width-mobile"> -->
                 <label for="startDate" class="form-label">Buscar Día Reserva</label>
                 <input id="startDate" name="fechaReserva" class="form-control" type="date"
@@ -9,9 +10,10 @@
             <!--</div>-->
         </div>
 
-        <div class="col-md-3">
+        <div class="col-md-2">
             <label for="actividad" class="form-label">Actividad</label>
-            <select class="form-select" id="actividad" required [(ngModel)]="formularioActividadRequest.actividad" name="actividad">
+            <select class="form-select" id="actividad" required [(ngModel)]="formularioActividadRequest.actividad" name="actividad"
+            (change)="checkActivity($event)">
                 <option value="" disabled selected>Seleccione una Actividad</option>
                 @for (deporte of listaDeportes; track $index) {
                    <option [value]="deporte.actividad">
@@ -20,7 +22,7 @@
                 }
             </select>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-2">
             <label for="provincia" class="form-label">Provincia:</label>
             <select class="form-select" id="provincia" required  [(ngModel)]="formularioActividadRequest.provincia" name="provincia"
             (change)="loadMunicipaliti($event)">
@@ -40,12 +42,12 @@
                 }
             </select>
         </div>
-        <div class="col-md-3">
-            <button type="submit" class="btn btn-primary"> Consultar </button>
+        <div class="col-md-2 d-flex justify-content-center text-center w-auto p-2 mt-4">
+            <button type="submit" class="btn btn-primary "> Consultar </button>
         </div>
     </div>
 </form>
-
+</div>
 
 
    <!-- <div class="container my-4">-->
@@ -64,6 +66,7 @@
                         <th>Maximo Jugadores Requeridos</th>
                         <th>Urgencia Inscripción</th>
                         <th>Abono Pista</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -79,6 +82,7 @@
                         <td class="text-center">{{formActi.usuariosMaxRequeridos}}</td>
                         <td>{{formActi.urgencia}}</td>
                         <td>{{formActi.abonoPista}}</td>
+                        <td><button type="submit" class="btn btn-secondary " (click)="makeReservationActivity(formActi)" > Reservar </button></td>
                     </tr>
                     }
                 </tbody>

@@ -6,6 +6,7 @@ import { Reserva } from '../models/reserva';
 import { provincia } from '../models/provincia';
 import { environment } from '../../environments/environment';
 import { FormularioActividadRequest } from '../models/formularioActividadRequest';
+import { InscripcionReservaActividad } from '../models/inscripcionReservaActividad';
 
 @Injectable({
   providedIn: 'root'
@@ -17,8 +18,10 @@ export class UsuarioService {
   private reserva:  Reserva[] = [];
 
   url_combo = environment.hostname_port_local + '/api/main/reservaActividad/comboInicio';
-  url_municipios = environment.hostname_port_local + '/api/main/reservaActividad/listadoMunicipios';
-  url_listado_reserva = environment.hostname_port_local + '/api/main/reservaActividad/listadoReserva';
+  url_municipalities = environment.hostname_port_local + '/api/main/reservaActividad/listadoMunicipios';
+  url_listing_reservation = environment.hostname_port_local + '/api/main/reservaActividad/listadoReserva';
+  url_registration_reservation = environment.hostname_port_local + '/api/main/reservaActividad/inscripcion';
+  url_validate_activity = environment.hostname_port_local + '/api/main/reservaActividad/validarActividad/';
 
   constructor(private http: HttpClient) { }
 
@@ -28,13 +31,19 @@ export class UsuarioService {
 
   loadMunic(municipio: string): Observable<any> {
     const params = new HttpParams().set('municipio', municipio);
-    return this.http.get<any>(this.url_municipios, {params});
+    return this.http.get<any>(this.url_municipalities, {params});
   }
 
   loadReservationList(formularioActividad: FormularioActividadRequest) : Observable<any> {
-    return this.http.post<any>(this.url_listado_reserva, formularioActividad);
+    return this.http.post<any>(this.url_listing_reservation, formularioActividad);
   }
 
+  registrationReservation(inscripcionReserva: InscripcionReservaActividad): Observable<any>{
+    return this.http.post<any>(this.url_registration_reservation, inscripcionReserva);
+  }
 
+  listActivityRegistered(idUsuario: number) : Observable<any> {
+    return this.http.get<any>(this.url_validate_activity + idUsuario);
+  }
 
 }
