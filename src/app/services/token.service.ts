@@ -107,6 +107,18 @@ export class TokenService {
     return values.sub;
   }
 
+  obtainRoles(): string {
+    const token = this.getAccesToken();
+
+    // El token se contiene en tres partes, la segunda parte es donde viene la información de los claims
+    const payload = token!.split(".")[1];
+
+    // Decodificamos el Payload
+    const payloadDecoded = atob(payload);
+    const values = JSON.parse(payloadDecoded);
+    return values.roles;
+  }
+
   obtainIdUser() : number {
     const token = this.getAccesToken();
 

@@ -39,7 +39,9 @@
                   </a>
                    <!--DropDown alineado a la derecha al abrir queda cortado, solución: dropdown-menu-end -->
                   <ul class="dropdown-menu dropdown-menu-end">
-                    <li><a class="dropdown-item" href="#">Action</a></li>
+                    @if (admin()) {
+                      <li><a class="dropdown-item" [routerLink]="['/nuevo-cliente-oauth']">Nuevo Cliente Aplicación</a></li>
+                    }
                     <li><a class="dropdown-item" href="#">Another action</a></li>
                     <li><a class="dropdown-item" href="#">Something else here</a></li>
                     <li><a class="navbar-link btn btn-outline-primary btn-lg d-block d-lg-inline" aria-current="page" (click)="onLogout()">Logout</a></li>

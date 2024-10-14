@@ -132,6 +132,10 @@ export class HeaderComponent implements OnInit {
     return this.tokenService.obtainNameUser();
   }
 
+  admin(): boolean {
+    return this.tokenService.isRoleAdmin();
+  }
+
   /**
    * Función que se subcribe al servicio compartido para validar si el usuario ha iniciado sesion y pasados 2 segundos desaparecerá
    * 

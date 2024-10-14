@@ -5,6 +5,7 @@ import { NuevaActividadComponent } from './components/nueva-actividad/nueva-acti
 import { authGuard } from './core/guard/auth.guard';
 import { AuthorizeComponent } from './components/authorize/authorize.component';
 import { LogoutComponent } from './components/logout/logout.component';
+import { NuevoClienteOauthComponent } from './components/nuevo-cliente-oauth/nuevo-cliente-oauth.component';
 
 export const routes: Routes = [
     /**Por defecto si el path es vació nos redigira a usuarios */
@@ -33,5 +34,9 @@ export const routes: Routes = [
     {
         path: 'logout',
         component: LogoutComponent,
+    },
+    {
+        path: 'nuevo-cliente-oauth',
+        component: NuevoClienteOauthComponent,
     }
 ];
