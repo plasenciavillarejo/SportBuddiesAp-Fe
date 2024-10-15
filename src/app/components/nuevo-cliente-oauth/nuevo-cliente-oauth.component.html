@@ -13,7 +13,7 @@
                 name="clientSecret" />
         </div>
 
-        <div class="col-md-2">
+        <div class="col-md-3">
             <label for="clientName" class="form-label">Nombre cliente</label>
             <input type="text" class="form-control" id="clientName" [(ngModel)]="clienteOauth.clientName"
                 name="clientName" />
@@ -36,21 +36,6 @@
                     <label class="form-check-label" for="{{auth.value}}">{{auth.value}}</label>
                 </div>
                 }
-            </div>
-
-            <div class="col-md-10">
-                <label for="redirectUris" class="form-label">Redirección Urls</label>
-                <div class="d-flex align-items-center">
-                    @for (i of redirectUris; track $index) {
-                        <input type="text" class="form-control me-2"
-                        [(ngModel)]="redirectUris[$index]"
-                        (blur)="updateUri($index, redirectUris[$index])"
-                        name="redirectUri{{$index}}"/>
-                    }
-                    <button type="button" class="btn btn-primary" (click)="updateRedirectUris()">
-                      <i class="bi bi-plus-lg"></i>
-                    </button>
-                  </div>
             </div>
             
             <div class="col-md-1">
@@ -76,6 +61,42 @@
                     [(ngModel)]="clienteOauth.timeRefrehsToken" name="timeRefrehsToken" />
             </div>
         </div>
+  
+        <div class="row mt-2">
+            <div class="col-9 mt-2">
+              <label for="redirectUris" class="form-label">Redirección Urls</label>
+          
+              <!-- Div principal que contiene el primer input y el botón -->
+              <div id="url-redirect">
+                <div class="d-flex align-items-center">
+                  <!-- Primer input con botón alineado a la derecha -->
+                  <input type="text" class="form-control me-2 w-100"
+                    [(ngModel)]="redirectUris[0]"
+                    (blur)="updateUri(0, redirectUris[0])"
+                    name="redirectUri0" />
+          
+                  <!-- Botón alineado con el primer input -->
+                  <button type="button" class="btn btn-primary ms-2" (click)="updateRedirectUris()">
+                    <i class="bi bi-plus-lg"></i>
+                  </button>
+                </div>
+              </div>
+          
+              <!-- Inputs adicionales que se muestran uno debajo del otro -->
+              @for (i of redirectUris.slice(1); track $index) {
+                <div class="mt-2 d-flex align-items-center">
+                    <input type="text" class="form-control"
+                    [(ngModel)]="redirectUris[$index + 1]"
+                    (blur)="updateUri($index + 1, redirectUris[$index + 1])"
+                    name="redirectUri{{i + 1}}" />
+                    <button type="button" class="btn btn-primary ms-2" (click)="removeInput($index + 1)">
+                        <i class="bi bi-x-circle"></i>
+                      </button>
+                    
+                </div>
+            }
+            </div>
+          </div>
     </div>
     <button type="submit" class="btn btn-primary mb-3">Crear Reserva</button>
 </form>

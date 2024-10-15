@@ -26,6 +26,8 @@ export class NuevoClienteOauthComponent implements OnInit {
 
   redirectUris: string[] = [''];
 
+  showNextInput: boolean = false; 
+
   constructor() {
   }
 
@@ -90,6 +92,12 @@ export class NuevoClienteOauthComponent implements OnInit {
   updateRedirectUris(): void {
     console.log(this.redirectUris);
     this.redirectUris.push('');
+  }
+
+  removeInput(index: number) {
+    if (this.redirectUris.length > 1) {
+      this.redirectUris.splice(index, 1); // Elimina el elemento del array
+    }
   }
 
 }
