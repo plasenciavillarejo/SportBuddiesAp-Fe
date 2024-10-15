@@ -6,7 +6,6 @@ import { UsuariosComponent } from './components/usuarios/usuarios.component';
 import { LoginComponent } from './components/login/login.component';
 import { LayoutComponent } from './components/layout/layout.component';
 import { filter } from 'rxjs';
-import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
