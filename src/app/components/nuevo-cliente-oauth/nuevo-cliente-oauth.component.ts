@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ClienteOauthRequest } from '../../models/clienteOauthRequest';
 import { FormsModule } from '@angular/forms';
 import { NgFor } from '@angular/common';
+import { ClienteOauthService } from '../../services/cliente-oauth.service';
+import Swal from 'sweetalert2';
 
 
 @Component({
@@ -28,7 +30,7 @@ export class NuevoClienteOauthComponent implements OnInit {
 
   showNextInput: boolean = false; 
 
-  constructor() {
+  constructor(private clientOauthServie: ClienteOauthService) {
   }
 
   ngOnInit(): void {
@@ -68,16 +70,6 @@ export class NuevoClienteOauthComponent implements OnInit {
   }
 
   /**
-   * Función encargada de enviar el formulario para crear un nuevo clientes para el acceso de la apliación
-   * @param clienteOauth 
-   */
-  createActivity(clienteOauth: ClienteOauthRequest): void {
-    this.clienteOauth.redirectUris = this.redirectUris;
-    console.log('CLiente recibido: ', this.clienteOauth);
-  }
-
-
-  /**
   * Recibe la posición del input y su valor para agregar al objeto this.redirectUris el valor de la URL
   * @param index 
   * @param value 
@@ -103,5 +95,39 @@ export class NuevoClienteOauthComponent implements OnInit {
       this.redirectUris.splice(index, 1); // Elimina el elemento del array
     }
   }
+
+
+  /**
+   * Función encargada de enviar el formulario para crear un nuevo clientes para el acceso de la apliación
+   * @param clienteOauth 
+   */
+  createActivity(clienteOauth: ClienteOauthRequest): void {
+    this.clienteOauth.redirectUris = this.redirectUris;
+    if (typeof clienteOauth.authenticationMethods === 'string') {
+      // Convertirlo en un array en el caso de que solo se agregue un único valor
+      clienteOauth.authenticationMethods = [clienteOauth.authenticationMethods];
+    }
+    if(typeof clienteOauth.postLogoutRedirectUris === 'string') {
+      clienteOauth.postLogoutRedirectUris = [clienteOauth.postLogoutRedirectUris];
+    }
+    console.log('CLiente recibido: ', this.clienteOauth);
+    this.clientOauthServie.createNewClientOauth(clienteOauth).subscribe({
+      next: next => {
+          Swal.fire(
+            'Cliente Oauth',
+            'Se ha registrado correctamente el cliente para la aplicación', 
+            'success'
+          )
+      }, error: error => {
+        Swal.fire(
+          'Cliente Oauth',
+          'No se ha registrado correctamente el cliente para la aplicación.' + error.error.message, 
+          'error'
+        )
+      }
+    });
+
+  }
+
 
 }

@@ -97,6 +97,13 @@
             }
             </div>
           </div>
+
+        <div class="col-md-2">
+            <label for="postLogoutRedirectUris" class="form-label">Post Logout redirect Uris</label>
+            <input type="text" class="form-control" id="postLogoutRedirectUris"
+                [(ngModel)]="clienteOauth.postLogoutRedirectUris" name="postLogoutRedirectUris" />
+        </div>
+
     </div>
     <button type="submit" class="btn btn-primary mb-3">Crear Reserva</button>
 </form>

@@ -15,6 +15,8 @@ export class ClienteOauthRequest {
   
     redirectUris = [] as string [];
     
+    postLogoutRedirectUris = [] as string [];
+    
     scopes = [] as string [];
   
     timeAccesToken!: number;

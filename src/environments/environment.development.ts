@@ -15,5 +15,6 @@ export const environment = {
     logout_url: 'http://localhost:8090/logout',
     secret_pkce: '12345',
     hostname_port_local: 'http://localhost:8090',
-    hostname_port_local_fe: 'http://localhost:4200'
+    hostname_port_local_fe: 'http://localhost:4200',
+    hostname_port_local_oauth: 'http://localhost:9000',
 };
