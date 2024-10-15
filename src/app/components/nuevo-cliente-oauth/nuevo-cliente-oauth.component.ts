@@ -94,6 +94,10 @@ export class NuevoClienteOauthComponent implements OnInit {
     this.redirectUris.push('');
   }
 
+  /**
+   * Función encargada de recibir el valor del índice el input para eliminar el input
+   * @param index 
+   */
   removeInput(index: number) {
     if (this.redirectUris.length > 1) {
       this.redirectUris.splice(index, 1); // Elimina el elemento del array
