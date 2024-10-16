@@ -14,9 +14,9 @@
             <label for="actividad" class="form-label">Actividad</label>
             <select class="form-select" id="actividad" required [(ngModel)]="formularioActividadRequest.actividad" name="actividad"
             (change)="checkActivity($event)">
-                <option value="" disabled selected>Seleccione una Actividad</option>
+                <option disabled selected>Seleccione una Actividad</option>
                 @for (deporte of listaDeportes; track $index) {
-                   <option [value]="deporte.actividad">
+                   <option id="{{deporte.idDeporte}}" [value]="deporte.actividad">
                         {{deporte.actividad}}
                     </option>
                 }
@@ -60,6 +60,7 @@
             <table class=" table table-hover table-striped border-info mt-2">
                 <thead>
                     <tr>
+                        <th hidden></th>
                         <th>Fecha Reserva</th>
                         <th>Hora Reserva</th>
                         <th>Requerimientos</th>
@@ -72,17 +73,26 @@
                 <tbody>
                     @for (formActi of formularioActividadResponse; track $index) {
                     <tr>
+                        <td hidden>{{formActi.idReservaActividad}}</td>
                         <td>{{formActi.fechaReserva}}</td>
                         <td>{{formActi.horaInicio}} - {{formActi.horaFin}}</td>
                         <td>
                             @for (requi of formActi.requerimientos; track $index) {
-                                {{requi}} <br>
+                            {{requi}} <br>
                             }
                         </td>
                         <td class="text-center">{{formActi.usuariosMaxRequeridos}}</td>
                         <td>{{formActi.urgencia}}</td>
                         <td>{{formActi.abonoPista}}</td>
-                        <td><button type="submit" class="btn btn-secondary " (click)="makeReservationActivity(formActi)" > Reservar </button></td>
+                        <td>
+                            @if(!listaIdInscripcion.includes(formActi.idReservaActividad)){
+                                <button type="submit" class="btn btn-secondary "
+                                (click)="makeReservationActivity(formActi)"> Reservar </button>
+                            } @else {
+                                <button type="button" class="btn btn-danger"
+                                (click)="cancelReservation(formActi.idReservaActividad, formActi.usuarioActividadDto.idUsuario)">Cancelar reserva</button>
+                            }
+                        </td>
                     </tr>
                     }
                 </tbody>

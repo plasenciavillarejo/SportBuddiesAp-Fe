@@ -20,6 +20,7 @@ export class UsuarioService {
   url_listing_reservation = environment.hostname_port_local + '/api/main/reservaActividad/listadoReserva';
   url_registration_reservation = environment.hostname_port_local + '/api/main/reservaActividad/inscripcion';
   url_validate_activity = environment.hostname_port_local + '/api/main/reservaActividad/validarActividad/';
+  url_delete_activity = environment.hostname_port_local + '/api/main/reservaUsuario/eliminar/';
 
   constructor(private http: HttpClient) { }
 
@@ -40,8 +41,11 @@ export class UsuarioService {
     return this.http.post<any>(this.url_registration_reservation, inscripcionReserva);
   }
 
-  listActivityRegistered(idUsuario: number) : Observable<any> {
+  listActivityRegistered(idUsuario: number): Observable<number []> {
     return this.http.get<any>(this.url_validate_activity + idUsuario);
   }
 
+  deleteActivityRegistered(idReserva: number, idUsuario: number): Observable<any>  {
+    return this.http.delete<any>(this.url_delete_activity + idReserva + "/" + idUsuario);
+  }
 }
