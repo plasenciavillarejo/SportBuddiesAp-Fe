@@ -1,9 +1,8 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component,  OnInit, } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { TokenService } from '../../services/token.service';
 import { ServicioCompartidoService } from '../../services/servicio-compartido.service';
-import { Usuario } from '../../models/usuario';
 
 @Component({
   selector: 'app-authorize',

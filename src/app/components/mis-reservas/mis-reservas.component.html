@@ -1,0 +1,8 @@
+
+<h1>CREAR LISTA PARA LAS RESERVAS</h1>
+@for (res of listReservasResponse; track $index) {
+   <span> {{res.deporteReservaDto.actividad}}</span><br/>
+   <span> {{res.deporteReservaDto.idDeporte}}</span><br/>
+   <span> {{res.fechaReserva}}</span><br/>
+   <span> {{res.horaInicioReserva}}</span><br/>
+}

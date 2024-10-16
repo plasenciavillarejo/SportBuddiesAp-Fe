@@ -42,8 +42,8 @@
                     @if (admin()) {
                       <li><a class="dropdown-item" [routerLink]="['/nuevo-cliente-oauth']">Nuevo Cliente Aplicación</a></li>
                     }
-                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                    <li><a class="dropdown-item" [routerLink]="['/mis-reservas']">Mis reservas</a></li>
+                    <li><a class="dropdown-item" [routerLink]="['/historial-reservas']">Historial reservas</a></li>
                     <li><a class="navbar-link btn btn-outline-primary btn-lg d-block d-lg-inline" aria-current="page" (click)="onLogout()">Logout</a></li>
                   </ul>
                 </li>

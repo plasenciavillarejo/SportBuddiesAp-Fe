@@ -6,12 +6,14 @@ import { UsuariosComponent } from './components/usuarios/usuarios.component';
 import { LoginComponent } from './components/login/login.component';
 import { LayoutComponent } from './components/layout/layout.component';
 import { filter } from 'rxjs';
+import { MisReservasComponent } from './components/mis-reservas/mis-reservas.component';
+import { HistorialReservasComponent } from './components/historial-reservas/historial-reservas.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   // Importamos los componentes "Login"
-  imports: [UsuariosComponent,LoginComponent,HeaderComponent, RouterOutlet, LayoutComponent],
+  imports: [UsuariosComponent,LoginComponent,HeaderComponent, RouterOutlet, LayoutComponent,MisReservasComponent, HistorialReservasComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

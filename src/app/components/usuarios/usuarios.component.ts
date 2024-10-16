@@ -224,7 +224,7 @@ export class UsuariosComponent implements OnInit {
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!"
+      confirmButtonText: "Sí"
     }).then((result) => {
       if (result.isConfirmed) {
         this.usuarioService.deleteActivityRegistered(idReseva,idUsuario).subscribe({
