@@ -20,4 +20,10 @@ export class ReservasService {
     return this.http.get<any>(this.url_my_reservations, {params});
   }
 
+  consultReservationsHistory(idUsuario: number) : Observable<any> {
+    let params = new HttpParams()
+    .set('idUsuario', idUsuario)
+    return this.http.get<any>(this.url_history_reservations, {params});
+  }
+
 }
