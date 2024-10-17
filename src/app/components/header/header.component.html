@@ -44,7 +44,10 @@
                     }
                     <li><a class="dropdown-item" [routerLink]="['/mis-reservas']">Mis reservas</a></li>
                     <li><a class="dropdown-item" [routerLink]="['/historial-reservas']">Historial reservas</a></li>
-                    <li><a class="navbar-link btn btn-outline-primary btn-lg d-block d-lg-inline" aria-current="page" (click)="onLogout()">Logout</a></li>
+                    <li class="mt-3 mx-3 mb-3">
+                        <a class="navbar-link btn btn-outline-primary btn-lg d-block d-lg-inline" aria-current="page" 
+                        (click)="onLogout()">Logout</a>
+                    </li>
                   </ul>
                 </li>
               </ul>
