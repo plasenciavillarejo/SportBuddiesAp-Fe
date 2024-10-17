@@ -1,8 +1,36 @@
-
-<h1>CREAR LISTA PARA LAS RESERVAS</h1>
-@for (res of listReservasResponse; track $index) {
-   <span> {{res.deporteReservaDto.actividad}}</span><br/>
-   <span> {{res.deporteReservaDto.idDeporte}}</span><br/>
-   <span> {{res.fechaReserva}}</span><br/>
-   <span> {{res.horaInicioReserva}}</span><br/>
-}
+<div class="container my-4">
+   <h1>CREAR LISTA PARA LAS RESERVAS</h1>
+   @if (listReservasResponse.length == 0 ) {
+      <div class="container alert alert-info d-flex justify-content-center text-center w-auto p-2 mt-4">
+         <span>El historial de reservas estas vacio</span>
+      </div>
+   } @else {
+   <div class="form-control border-info mt-4 text-center">
+      <table class=" table table-hover table-striped border-info mt-2">
+         <thead>
+               <tr>
+                  <th hidden></th>
+                  <th>Fecha Reserva</th>
+                  <th>Hora Reserva</th>
+                  <th>Observaciones</th>
+                  <th>Usuario Reserva</th>
+                  <th>Deporte Reserva</th>
+                  <th></th>
+               </tr>
+         </thead>
+         <tbody>
+               @for (reserva of listReservasResponse; track $index) {
+               <tr>
+                  <td hidden>{{reserva.idReserva}}</td>
+                  <td>{{reserva.fechaReserva}}</td>
+                  <td>{{reserva.horaInicioReserva}} - {{reserva.horaFinReserva}}</td>
+                  <td>{{reserva.observaciones}}</td>
+                  <td>{{reserva.usuarioReservaDto.nombreUsuario}}</td>
+                  <td>{{reserva.deporteReservaDto.actividad}}</td>
+               </tr>
+               }
+         </tbody>
+      </table>
+   </div>
+   }
+</div>
