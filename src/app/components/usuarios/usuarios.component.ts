@@ -4,7 +4,7 @@ import { Usuario } from '../../models/usuario';
 import { throwError } from 'rxjs';
 import { format } from 'date-fns';
 import { HeaderComponent } from '../header/header.component';
-import { ActivatedRoute, RouterOutlet } from '@angular/router';
+import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
 import { Reserva } from '../../models/reserva';
 import { ServicioCompartidoService } from '../../services/servicio-compartido.service';
 import { AuthService } from '../../services/auth.service';
@@ -16,7 +16,7 @@ import { DatePipe } from '@angular/common';
 import { TokenService } from '../../services/token.service';
 import { InscripcionReservaActividad } from '../../models/inscripcionReservaActividad';
 import { PaypalService } from '../../services/paypal.service';
-
+import { Location } from '@angular/common';
 @Component({
   selector: 'app-usuarios',
   standalone: true,
@@ -28,7 +28,7 @@ import { PaypalService } from '../../services/paypal.service';
 export class UsuariosComponent implements OnInit {
 
   title: string = 'Realizar Busqueda';
-
+  
   paymentId: string = '';
   payerId: string = '';
 
@@ -54,7 +54,8 @@ export class UsuariosComponent implements OnInit {
     private datePipe: DatePipe,
     private tokenService: TokenService,
     private activatedRoute: ActivatedRoute,
-    private paypalService: PaypalService
+    private paypalService: PaypalService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -81,7 +82,10 @@ export class UsuariosComponent implements OnInit {
                 'error'
               );
             }
-          }, error: error => {
+            // Reemplaza la URL en el historial para que no contenga el paymentId y el payerId
+            this.router.navigate(['/usuarios'], { replaceUrl: true }); 
+          },
+            error: error => {
             Swal.fire(
               'Error',
               'Ha sucedido un problema con el pago: ' + error,
