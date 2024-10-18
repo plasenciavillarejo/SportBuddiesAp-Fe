@@ -64,8 +64,20 @@ export class UsuariosComponent implements OnInit {
 
     // Se espera la repuesta de paypal cuando se procede a confirmar el pago
     this.activatedRoute.queryParams.subscribe(data => {
+      // En el caso de que el usuario le de atras, enviará la peticion al componente paypal-cancel y este redirigiara de nuevo aqúi con un param
+      if(data['cancel-paypal'] === 'true') {
+        Swal.fire(
+          'Pago cancelado',
+          'Se ha cancelado el pago, para más info',
+          'info'
+        );
+        // Reemplaza la URL en el historial para que no contenga el paymentId y el payerId
+        this.router.navigate(['/usuarios'], { replaceUrl: true }); 
+      }
       this.paymentId = data['paymentId'];
       this.payerId = data['PayerID'];
+
+
       if (this.paymentId != null && this.payerId != null) {
         this.paypalService.confirmPayment(this.paymentId, this.payerId).subscribe({
           next: response => {
