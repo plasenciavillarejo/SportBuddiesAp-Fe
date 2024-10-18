@@ -8,6 +8,7 @@ import { LogoutComponent } from './components/logout/logout.component';
 import { NuevoClienteOauthComponent } from './components/nuevo-cliente-oauth/nuevo-cliente-oauth.component';
 import { MisReservasComponent } from './components/mis-reservas/mis-reservas.component';
 import { HistorialReservasComponent } from './components/historial-reservas/historial-reservas.component';
+import { PaypalComponent } from './components/paypal/paypal.component';
 
 export const routes: Routes = [
     /**Por defecto si el path es vació nos redigira a usuarios */
@@ -48,5 +49,9 @@ export const routes: Routes = [
     {
         path: 'historial-reservas',
         component: HistorialReservasComponent,
+    },
+    {
+        path: 'paypal',
+        component: PaypalComponent,
     }
 ];

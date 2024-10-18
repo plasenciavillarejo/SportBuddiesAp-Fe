@@ -8,8 +8,8 @@ import { Observable } from 'rxjs';
 })
 export class ReservasService {
 
-  url_my_reservations = environment.hostname_port_local + '/api/main/reservaUsuario/misReservas';
-  url_history_reservations = environment.hostname_port_local + '/api/main/reservaUsuario/historialReservas';
+  url_my_reservations = environment.hostname_port_local_gtw + '/api/main/reservaUsuario/misReservas';
+  url_history_reservations = environment.hostname_port_local_gtw + '/api/main/reservaUsuario/historialReservas';
 
   constructor(private http: HttpClient) { }
 

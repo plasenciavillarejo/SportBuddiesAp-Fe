@@ -20,7 +20,7 @@ const CHARACTERS = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567
 })
 export class HeaderComponent implements OnInit {
 
-  url_logout = environment.hostname_port_local +'/cerrarSesion';
+  url_logout = environment.hostname_port_local_gtw +'/cerrarSesion';
 
   authorize_uri = environment.authorize_uri;
   logout_url = environment.logout_url;

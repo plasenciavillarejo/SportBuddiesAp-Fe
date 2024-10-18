@@ -1,20 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 import { UsuarioService } from '../../services/usuario.service';
 import { Usuario } from '../../models/usuario';
-import { catchError, map, Observable, of, throwError } from 'rxjs';
+import { throwError } from 'rxjs';
 import { format } from 'date-fns';
 import { HeaderComponent } from '../header/header.component';
-import { RouterOutlet } from '@angular/router';
+import { ActivatedRoute, RouterOutlet } from '@angular/router';
 import { Reserva } from '../../models/reserva';
 import { ServicioCompartidoService } from '../../services/servicio-compartido.service';
 import { AuthService } from '../../services/auth.service';
 import { FormsModule } from '@angular/forms';
 import { FormularioActividadRequest } from '../../models/formularioActividadRequest';
-import { FormularioActividadResponse } from '../../models/FormularioActividadResponse';
+import { FormularioActividadResponse } from '../../models/formularioActividadResponse';
 import Swal from 'sweetalert2';
 import { DatePipe } from '@angular/common';
 import { TokenService } from '../../services/token.service';
 import { InscripcionReservaActividad } from '../../models/inscripcionReservaActividad';
+import { PaypalService } from '../../services/paypal.service';
 
 @Component({
   selector: 'app-usuarios',
@@ -27,6 +28,9 @@ import { InscripcionReservaActividad } from '../../models/inscripcionReservaActi
 export class UsuariosComponent implements OnInit {
 
   title: string = 'Realizar Busqueda';
+
+  paymentId: string = '';
+  payerId: string = '';
 
   usuario: Usuario[] = [];
   reserva: Reserva[] = [];
@@ -48,12 +52,46 @@ export class UsuariosComponent implements OnInit {
     private servicioCompartido: ServicioCompartidoService,
     private authService: AuthService,
     private datePipe: DatePipe,
-    private tokenService: TokenService
+    private tokenService: TokenService,
+    private activatedRoute: ActivatedRoute,
+    private paypalService: PaypalService
   ) { }
 
   ngOnInit(): void {
     this.loadComboInitial();
     this.validateActivityUserInscrit();
+
+    // Se espera la repuesta de paypal cuando se procede a confirmar el pago
+    this.activatedRoute.queryParams.subscribe(data => {
+      this.paymentId = data['paymentId'];
+      this.payerId = data['PayerID'];
+      if (this.paymentId != null && this.payerId != null) {
+        this.paypalService.confirmPayment(this.paymentId, this.payerId).subscribe({
+          next: response => {
+            if (response.success) {
+              Swal.fire(
+                'Pago confirmado',
+                'Se ha realizado el pago exitosamente',
+                'success'
+              );
+            } else {
+              Swal.fire(
+                'Error',
+                'Ha sucedido un problema con el pago: ' + response.error,
+                'error'
+              );
+            }
+          }, error: error => {
+            Swal.fire(
+              'Error',
+              'Ha sucedido un problema con el pago: ' + error,
+              'error'
+            );
+          }
+        });
+      } 
+    });
+
   }
 
   /**

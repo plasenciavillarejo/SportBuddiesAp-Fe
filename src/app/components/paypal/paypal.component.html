@@ -1,0 +1,46 @@
+<div class="container">
+    <h1 class="text-center mt-5">Paypal Payment Integration</h1>
+    <form class="mt-5 card p-3" (ngSubmit)="createPayment(paypalRequest)">
+        <div class="mb-3">
+            <label for="method" class="form-label">Método de Pago</label>
+            <input id="method" type="text" class="form-control" name="metodo" readonly [(ngModel)]="paypalRequest.metodo" />
+        </div>
+
+        <div class="mb-3">
+            <label for="amount" class="form-label">Cantidad</label>
+            <input id="amount" type="number" class="form-control" [(ngModel)]="paypalRequest.total" 
+            name="total"/>
+        </div>
+
+        <div class="mb-3">
+            <label for="currency" class="form-label">Divisa</label>
+            <select class="form-select" id="currency" name="divisa" [(ngModel)]="paypalRequest.divisa">
+                <option value="USD" selected>USD</option>
+                <option value="EUR">EUR</option>
+                <option value="GBP">GBP</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="description" class="form-label">Descripción</label>
+            <input id="description" type="text" class="form-control" name="descripcion"
+            [(ngModel)]="paypalRequest.descripcion"/>
+        </div>
+
+        <div class="mb-3">
+            <label for="intent" class="form-label">Intención</label>
+            <select class="form-select" id="intent" name="intencion" [(ngModel)]="paypalRequest.intencion">
+                <option value="sale" selected>SALE</option>
+                <option value="authorize">AUTHORIZE</option>
+                <option value="order">ORDER</option>
+            </select>
+        </div>
+
+        <div class="d-flex justify-content-center">
+            <button type="submit" class="btn btn-primary">
+                Pay with Paypal
+            </button>
+        </div>
+
+    </form>
+</div>

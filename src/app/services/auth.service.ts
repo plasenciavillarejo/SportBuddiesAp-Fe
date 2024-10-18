@@ -10,8 +10,8 @@ import { TokenService } from './token.service';
 export class AuthService {
 
   private token_url = environment.token_url;
-  private url_logout = environment.hostname_port_local +'/cerrarSesion';
-  private url_clear_cookie = environment.hostname_port_local + '/api/main/borrarCookie' ;
+  private url_logout = environment.hostname_port_local_gtw +'/cerrarSesion';
+  private url_clear_cookie = environment.hostname_port_local_gtw + '/api/main/borrarCookie' ;
 
   constructor(private http: HttpClient,
     private tokenService: TokenService

@@ -15,12 +15,12 @@ export class UsuarioService {
 
   private reserva:  Reserva[] = [];
 
-  url_combo = environment.hostname_port_local + '/api/main/reservaActividad/comboInicio';
-  url_municipalities = environment.hostname_port_local + '/api/main/reservaActividad/listadoMunicipios';
-  url_listing_reservation = environment.hostname_port_local + '/api/main/reservaActividad/listadoReserva';
-  url_registration_reservation = environment.hostname_port_local + '/api/main/reservaActividad/inscripcion';
-  url_validate_activity = environment.hostname_port_local + '/api/main/reservaActividad/validarActividad/';
-  url_delete_activity = environment.hostname_port_local + '/api/main/reservaUsuario/eliminar/';
+  url_combo = environment.hostname_port_local_gtw + '/api/main/reservaActividad/comboInicio';
+  url_municipalities = environment.hostname_port_local_gtw + '/api/main/reservaActividad/listadoMunicipios';
+  url_listing_reservation = environment.hostname_port_local_gtw + '/api/main/reservaActividad/listadoReserva';
+  url_registration_reservation = environment.hostname_port_local_gtw + '/api/main/reservaActividad/inscripcion';
+  url_validate_activity = environment.hostname_port_local_gtw + '/api/main/reservaActividad/validarActividad/';
+  url_delete_activity = environment.hostname_port_local_gtw + '/api/main/reservaUsuario/eliminar/';
 
   constructor(private http: HttpClient) { }
 
