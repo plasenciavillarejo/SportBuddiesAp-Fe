@@ -35,14 +35,9 @@ export class MisReservasComponent implements OnInit {
   listReservation(idUsuario: number, fechaReserva: string): void {
     this.reservaService.consultReservations(idUsuario, fechaReserva).subscribe({
       next: response => {
-        this.idReserva = response[0].idReserva;
         this.listReservasResponse = response;
       }
     })
-  }
-
-  obtainIdReservation(): number {
-    return this.idReserva;
   }
 
 }
