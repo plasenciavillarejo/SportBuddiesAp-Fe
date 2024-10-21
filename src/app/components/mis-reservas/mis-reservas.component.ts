@@ -6,6 +6,7 @@ import { ReservasResponse } from '../../models/reservasResponse';
 import { TokenService } from '../../services/token.service';
 import { RouterLink } from '@angular/router';
 import { ServicioCompartidoService } from '../../services/servicio-compartido.service';
+import { FormularioActividadResponse } from '../../models/formularioActividadResponse';
 
 @Component({
   selector: 'app-mis-reservas',
@@ -28,6 +29,11 @@ export class MisReservasComponent implements OnInit {
 
   ngOnInit(): void {
     this.listReservation(this.tokenService.obtainIdUser(), '');
+    this.servicioCompartido.validateActivityUserInscrit().subscribe({
+      next: response => {
+        this.listaIdInscripcion = response;       
+      }
+    }); 
   }
 
   /**
@@ -36,22 +42,29 @@ export class MisReservasComponent implements OnInit {
    * @param fechaReserva 
    */
   listReservation(idUsuario: number, fechaReserva: string): void {
-    this.reservaService.consultReservations(idUsuario, fechaReserva).subscribe({
-      next: response => {
-        this.idReserva = response[0].idReserva;
-        this.listReservasResponse = response;
-      }
-    })
+    this.reservaService.consultReservations(idUsuario, fechaReserva).forEach(res => {
+      this.listReservasResponse = res;
+    });
   }
 
+  /**
+   * Obtiene el id de la reserva
+   * @returns 
+   */
   obtainIdReservation(): number {
     return this.idReserva;
   }
 
+  /**
+   * Función compartida para cancelar una reserva
+   * @param idReseva 
+   * @param idUsuario 
+   */
   cancelReservation(idReseva: number, idUsuario: number): void {
     this.servicioCompartido.cancelReservation(idReseva, idUsuario).subscribe({
       next: () => {
         // Volvemos a consultar el servicio donde se obtiene los id de las actividades inscritas
+        this.listReservation(this.tokenService.obtainIdUser(), '');
         this.validateActivityUser();
       },
       error: error => {
@@ -60,8 +73,8 @@ export class MisReservasComponent implements OnInit {
     });
   }
 
-    /**
-   * Función encargada de recibir todos los id's de las actividades en la que está inscritas el usuario
+  /**
+   * Función compartida encargada de recibir todos los id's de las actividades en la que está inscritas el usuario
    * */
     validateActivityUser(): void {
       this.servicioCompartido.validateActivityUserInscrit().subscribe({
@@ -70,4 +83,6 @@ export class MisReservasComponent implements OnInit {
         }
       });    
     }
+    
+
 }
