@@ -26,4 +26,5 @@ export class ServicioCompartidoService {
   get redirectHeaderEventEmitter() {
     return this._redirectHeaderEventEmitter;
   }
+ 
 }

@@ -11,4 +11,6 @@ export class FormularioPaypalRequest {
 
     descripcion!: string;
 
+    idReserva!: number;
+
 }

@@ -17,10 +17,11 @@ export class PaypalService {
     return this.http.post<any>(this.url_payment_paypal, paypalRequest);
   }
 
-  confirmPayment(paymentId: string, payerId: string) {
+  confirmPayment(paymentId: string, payerId: string, idReserva: number) {
     let params = new HttpParams()
     .set('paymentId', paymentId)
-    .set('PayerID', payerId);
+    .set('PayerID', payerId)
+    .set('idReserva', idReserva);
     return this.http.get<any>(this.url_confirm_payment_paypal, {params});
   }
 

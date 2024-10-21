@@ -6,17 +6,15 @@ import { format } from 'date-fns';
 import { HeaderComponent } from '../header/header.component';
 import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
 import { Reserva } from '../../models/reserva';
-import { ServicioCompartidoService } from '../../services/servicio-compartido.service';
-import { AuthService } from '../../services/auth.service';
 import { FormsModule } from '@angular/forms';
 import { FormularioActividadRequest } from '../../models/formularioActividadRequest';
 import { FormularioActividadResponse } from '../../models/formularioActividadResponse';
 import Swal from 'sweetalert2';
-import { DatePipe } from '@angular/common';
 import { TokenService } from '../../services/token.service';
 import { InscripcionReservaActividad } from '../../models/inscripcionReservaActividad';
 import { PaypalService } from '../../services/paypal.service';
-import { Location } from '@angular/common';
+import { ServicioCompartidoService } from '../../services/servicio-compartido.service';
+
 @Component({
   selector: 'app-usuarios',
   standalone: true,
@@ -29,8 +27,6 @@ export class UsuariosComponent implements OnInit {
 
   title: string = 'Realizar Busqueda';
   
-  paymentId: string = '';
-  payerId: string = '';
 
   usuario: Usuario[] = [];
   reserva: Reserva[] = [];
@@ -48,14 +44,16 @@ export class UsuariosComponent implements OnInit {
   formularioActividadRequest: FormularioActividadRequest = new FormularioActividadRequest();
   formularioActividadResponse: FormularioActividadResponse[] = [];
 
+  paymentId: string = '';
+  payerId: string = '';
+  idReserva!: number;
+
   constructor(private usuarioService: UsuarioService,
-    private servicioCompartido: ServicioCompartidoService,
-    private authService: AuthService,
-    private datePipe: DatePipe,
     private tokenService: TokenService,
-    private activatedRoute: ActivatedRoute,
     private paypalService: PaypalService,
-    private router: Router
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
+    private servicioCompartido: ServicioCompartidoService
   ) { }
 
   ngOnInit(): void {
@@ -64,22 +62,24 @@ export class UsuariosComponent implements OnInit {
 
     // Se espera la repuesta de paypal cuando se procede a confirmar el pago
     this.activatedRoute.queryParams.subscribe(data => {
+
       // En el caso de que el usuario le de atras, enviará la peticion al componente paypal-cancel y este redirigiara de nuevo aqúi con un param
-      if(data['cancel-paypal'] === 'true') {
+      if (data['cancel-paypal'] === 'true') {
         Swal.fire(
           'Pago cancelado',
           'Se ha cancelado el pago, para más info',
           'info'
         );
         // Reemplaza la URL en el historial para que no contenga el paymentId y el payerId
-        this.router.navigate(['/usuarios'], { replaceUrl: true }); 
+        this.router.navigate(['/usuarios'], { replaceUrl: true });
       }
       this.paymentId = data['paymentId'];
       this.payerId = data['PayerID'];
 
-
       if (this.paymentId != null && this.payerId != null) {
-        this.paypalService.confirmPayment(this.paymentId, this.payerId).subscribe({
+        this.idReserva = Number(localStorage.getItem("id"));
+
+        this.paypalService.confirmPayment(this.paymentId, this.payerId, this.idReserva).subscribe({
           next: response => {
             if (response.success) {
               Swal.fire(
@@ -95,9 +95,10 @@ export class UsuariosComponent implements OnInit {
               );
             }
             // Reemplaza la URL en el historial para que no contenga el paymentId y el payerId
-            this.router.navigate(['/usuarios'], { replaceUrl: true }); 
+            this.router.navigate(['/usuarios'], { replaceUrl: true });
           },
-            error: error => {
+          error: error => {
+            
             Swal.fire(
               'Error',
               'Ha sucedido un problema con el pago: ' + error,
@@ -105,7 +106,8 @@ export class UsuariosComponent implements OnInit {
             );
           }
         });
-      } 
+        localStorage.removeItem("id");
+      }
     });
 
   }

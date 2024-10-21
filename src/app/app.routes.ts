@@ -52,7 +52,7 @@ export const routes: Routes = [
         component: HistorialReservasComponent,
     },
     {
-        path: 'paypal',
+        path: 'paypal/:id',
         component: PaypalComponent,
     },
     {
