@@ -27,7 +27,7 @@
                   <td>{{reserva.deporteReservaDto.actividad}}</td>
                   <td>{{reserva.abonado == false ? 'No' : 'Sí' }}</td>
                   @if (reserva.abonado == false) {
-                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="idReserva=reserva.idReserva">
                         Proceder con el pago
                       </button>
                   }
