@@ -58,7 +58,11 @@ export class UsuariosComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadComboInitial();
-    this.validateActivityUserInscrit();
+    this.servicioCompartido.validateActivityUserInscrit().subscribe({
+      next: response =>  {
+        this.listaIdInscripcion = response;
+      }
+    }); 
 
     // Se espera la repuesta de paypal cuando se procede a confirmar el pago
     this.activatedRoute.queryParams.subscribe(data => {
@@ -237,7 +241,11 @@ export class UsuariosComponent implements OnInit {
               'Se ha inscrito exitosamente a la actividad: ' + deporte,
               'success'
             )
-            this.validateActivityUserInscrit();
+            this.servicioCompartido.validateActivityUserInscrit().subscribe({
+              next: response =>  {
+                this.listaIdInscripcion = response;
+              }
+            }); 
           }, error: error => {
             Swal.fire(
               'Error en la inscripción',
@@ -255,51 +263,26 @@ export class UsuariosComponent implements OnInit {
   /**
    * Función encargada de recibir todos los id's de las actividades en la que está inscritas el usuario
    * */
-  validateActivityUserInscrit(): void {
-    this.usuarioService.listActivityRegistered(this.tokenService.obtainIdUser()).subscribe({
-      next: response => {
-        if (response.length > 0) {
-          // Vacío el ARRAY en el caso de que exista id's para evitar la duplicidad
-          this.listaIdInscripcion = [];
-          response.forEach(id => this.listaIdInscripcion.push(id));
-        }
-      }, error: error => {
-        return throwError(() => new Error());
+  validateActivityUser(): void {
+    this.servicioCompartido.validateActivityUserInscrit().subscribe({
+      next: response =>  {
+        this.listaIdInscripcion = response;
       }
-    });
+    });    
   }
 
   /**
    * Función encargada de borrar una activida asociado a un usuario en el caso de que dicha actividad se encuentre pendiente de pago y dentro del plazo preestablecido
    * @param idReseva
    */
-  cancelReservation(idReseva: number, idUsuario: number): void{
-    Swal.fire({
-      title: "¿Estás seguro de cancelar la Reserva?",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Sí"
-    }).then((result) => {
-      if (result.isConfirmed) {
-        this.usuarioService.deleteActivityRegistered(idReseva,idUsuario).subscribe({
-          next: response => {
-            // Volvemos a consultar el servicio donde se obtiene los id de las actividades inscritas
-            this.validateActivityUserInscrit();
-            Swal.fire({
-              title: "Actividad eliminada!",
-              text: "Se ha elminado exitosamente la actividad.",
-              icon: "success"
-            });
-          }, error: error =>{
-            Swal.fire({
-              title: "Error!",
-              text: "Ha sucedido un error a la hora de eliminar la actividad." + error.error.mensaje,
-              icon: "error"
-            });
-          }
-        })
+  cancelReservation(idReseva: number, idUsuario: number): void {
+    this.servicioCompartido.cancelReservation(idReseva, idUsuario).subscribe({
+      next: () => {
+        // Volvemos a consultar el servicio donde se obtiene los id de las actividades inscritas
+        this.validateActivityUser();
+      },
+      error: error => {
+        console.error("Error al eliminar la actividad:", error);
       }
     });
   }
