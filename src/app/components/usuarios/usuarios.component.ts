@@ -59,7 +59,7 @@ export class UsuariosComponent implements OnInit {
   ngOnInit(): void {
     this.loadComboInitial();
     this.servicioCompartido.validateActivityUserInscrit().subscribe({
-      next: response =>  {
+      next: response => {
         this.listaIdInscripcion = response;
       }
     }); 
@@ -287,4 +287,6 @@ export class UsuariosComponent implements OnInit {
     });
   }
 
+
+  
 }

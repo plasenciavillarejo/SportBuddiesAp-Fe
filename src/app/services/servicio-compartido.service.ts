@@ -3,6 +3,9 @@ import Swal from 'sweetalert2';
 import { UsuarioService } from './usuario.service';
 import { Observable } from 'rxjs';
 import { TokenService } from './token.service';
+import { InscripcionReservaActividad } from '../models/inscripcionReservaActividad';
+import { FormularioActividadResponse } from '../models/formularioActividadResponse';
+import { format } from 'date-fns';
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +24,10 @@ export class ServicioCompartidoService {
 
   private _redirectHeaderEventEmitter = new EventEmitter();
 
+  inscripcionReserva: InscripcionReservaActividad = new InscripcionReservaActividad();
+
+  actividadSeleccionada = new Map<number, string>();
+
   get loginhandlerEventEmitter() {
     return this._loginhandlerEventEmitter;
   }
@@ -32,11 +39,12 @@ export class ServicioCompartidoService {
   get redirectHeaderEventEmitter() {
     return this._redirectHeaderEventEmitter;
   }
- 
- /**
-   * Función encargada de borrar una activida asociado a un usuario en el caso de que dicha actividad se encuentre pendiente de pago y dentro del plazo preestablecido
-   * @param idReseva
-   */
+
+  /**
+    * Función encargada de borrar una activida asociado a un usuario en el caso de que dicha actividad se encuentre pendiente de pago y dentro del plazo preestablecido
+    * @param idReseva
+    * @param idUsuario
+    */
   cancelReservation(idReseva: number, idUsuario: number): Observable<void> {
     return new Observable<void>((observer) => {
       Swal.fire({
@@ -50,7 +58,7 @@ export class ServicioCompartidoService {
         if (result.isConfirmed) {
           this.usuarioService.deleteActivityRegistered(idReseva, idUsuario).subscribe({
             next: response => {
-              // Aquí puedes usar el observer para notificar que la actividad fue eliminada
+              // Utilizamos el observer para notificar que la actividad fue eliminada
               observer.next();
               observer.complete();
               Swal.fire({
@@ -65,6 +73,7 @@ export class ServicioCompartidoService {
                 text: "Ha sucedido un error a la hora de eliminar la actividad. " + error.error.mensaje,
                 icon: "error"
               });
+              // Notificamos que sucedio un error
               observer.error(error);
             }
           });
@@ -72,8 +81,6 @@ export class ServicioCompartidoService {
       });
     });
   }
-
-
 
   /**
      * Función encargada de recibir todos los id's de las actividades en la que está inscritas el usuario

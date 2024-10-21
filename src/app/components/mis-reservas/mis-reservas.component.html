@@ -30,6 +30,10 @@
                      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="idReserva=reserva.idReserva">
                         Proceder con el pago
                       </button>
+                  } 
+                  @if(listaIdInscripcion.includes(reserva.reservaActividadDto.idReservaActividad)){ 
+                     <button type="button" class="btn btn-danger"
+                                (click)="cancelReservation(reserva.reservaActividadDto.idReservaActividad, reserva.usuarioReservaDto.idUsuario)">Cancelar reserva</button>                                
                   }
                </tr>
                }
