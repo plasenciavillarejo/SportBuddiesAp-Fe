@@ -12,10 +12,9 @@
                   <th hidden></th>
                   <th>Fecha Reserva</th>
                   <th>Hora Reserva</th>
-                  <th>Observaciones</th>
                   <th>Usuario Reserva</th>
                   <th>Deporte Reserva</th>
-                  <th></th>
+                  <th>Abonado</th>
                </tr>
          </thead>
          <tbody>
@@ -24,9 +23,17 @@
                   <td hidden>{{reserva.idReserva}}</td>
                   <td>{{reserva.fechaReserva}}</td>
                   <td>{{reserva.horaInicioReserva}} - {{reserva.horaFinReserva}}</td>
-                  <td>{{reserva.observaciones}}</td>
                   <td>{{reserva.usuarioReservaDto.nombreUsuario}}</td>
                   <td>{{reserva.deporteReservaDto.actividad}}</td>
+                  <td>{{reserva.abonado == false ? 'No' : 'Sí' }}</td>
+                  @if (reserva.abonado == false) {
+                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        Proceder con el pago
+                      </button>
+                      
+                  } @else {
+                     Sí
+                  }
                </tr>
                }
          </tbody>
@@ -34,3 +41,24 @@
    </div>
    }
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+   <div class="modal-dialog">
+     <div class="modal-content">
+       <div class="modal-header">
+         <h1 class="modal-title fs-5" id="exampleModalLabel">¿Como desea realizar el pago?</h1>
+         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+       </div>
+       <div class="modal-body">
+            <a class="navbar-brand btn btn-info" aria-current="page" [routerLink]="['/paypal']" data-bs-dismiss="modal">Paypal</a> <br/>
+            <a class="navbar-brand btn btn-info mt-3" aria-current="page" href="#" data-bs-dismiss="modal">Bizúm</a> <br/>
+            <a class="navbar-brand btn btn-info mt-3" aria-current="page" href="#" data-bs-dismiss="modal">Efectivo</a> <br/>
+       </div>
+       <div class="modal-footer">
+         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+       </div>
+     </div>
+   </div>
+ </div>
+ 

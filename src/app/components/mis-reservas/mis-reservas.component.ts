@@ -4,11 +4,12 @@ import { ReservasService } from '../../services/reservas.service';
 import { FormsModule } from '@angular/forms';
 import { ReservasResponse } from '../../models/reservasResponse';
 import { TokenService } from '../../services/token.service';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-mis-reservas',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, RouterLink],
   templateUrl: './mis-reservas.component.html',
   styleUrl: './mis-reservas.component.css'
 })

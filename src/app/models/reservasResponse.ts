@@ -17,4 +17,5 @@ export class ReservasResponse {
 
     deporteReservaDto: Deporte = new Deporte();
 
+    abonado!: boolean;
 }
