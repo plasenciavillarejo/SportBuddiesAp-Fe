@@ -60,8 +60,8 @@ export class MisReservasComponent implements OnInit {
    * @param idReseva 
    * @param idUsuario 
    */
-  cancelReservation(idReseva: number, idUsuario: number): void {
-    this.servicioCompartido.cancelReservation(idReseva, idUsuario).subscribe({
+  cancelReservation(idReservaUsuario: number, idUsuario: number, abonado: boolean): void {
+    this.servicioCompartido.cancelReservation(idReservaUsuario, idUsuario, abonado).subscribe({
       next: () => {
         // Volvemos a consultar el servicio donde se obtiene los id de las actividades inscritas
         this.listReservation(this.tokenService.obtainIdUser(), '');

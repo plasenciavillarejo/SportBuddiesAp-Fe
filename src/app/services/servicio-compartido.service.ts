@@ -42,13 +42,14 @@ export class ServicioCompartidoService {
 
   /**
     * Función encargada de borrar una activida asociado a un usuario en el caso de que dicha actividad se encuentre pendiente de pago y dentro del plazo preestablecido
-    * @param idReseva
+    * @param idReservaUsuario
     * @param idUsuario
     */
-  cancelReservation(idReseva: number, idUsuario: number): Observable<void> {
+  cancelReservation(idReservaUsuario: number, idUsuario: number, abonado: boolean): Observable<void> {
     return new Observable<void>((observer) => {
       Swal.fire({
         title: "¿Estás seguro de cancelar la Reserva?",
+        text: abonado ? "La reserva actualmente se ha pagado, en caso de cancelarla, el pago se realizará en unos días" : '',
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
@@ -56,7 +57,7 @@ export class ServicioCompartidoService {
         confirmButtonText: "Sí"
       }).then((result) => {
         if (result.isConfirmed) {
-          this.usuarioService.deleteActivityRegistered(idReseva, idUsuario).subscribe({
+          this.usuarioService.deleteActivityRegistered(idReservaUsuario, idUsuario).subscribe({
             next: response => {
               // Utilizamos el observer para notificar que la actividad fue eliminada
               observer.next();

@@ -33,7 +33,7 @@
                   } 
                   @if(listaIdInscripcion.includes(reserva.reservaActividadDto.idReservaActividad)){ 
                      <button type="button" class="btn btn-danger"
-                                (click)="cancelReservation(reserva.reservaActividadDto.idReservaActividad, reserva.usuarioReservaDto.idUsuario)">Cancelar reserva</button>                                
+                                (click)="cancelReservation(reserva.idReserva, reserva.usuarioReservaDto.idUsuario, reserva.abonado)">Cancelar reserva</button>                                
                   }
                </tr>
                }
