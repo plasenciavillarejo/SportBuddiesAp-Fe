@@ -295,5 +295,16 @@ export class UsuariosComponent implements OnInit {
     return 'Se ha realizado la inscripción a la reserva exitosamente';
   }
 
-  
+  /**
+   * Función para obtener la fecha actual y formatearla
+   * @returns 
+   */
+  formatDate(): string {
+    const date: Date = new Date();
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Los meses van de 0 a 11
+    const day = String(date.getDate()).padStart(2, '0');
+    
+    return `${year}-${month}-${day}`;
+}
 }
