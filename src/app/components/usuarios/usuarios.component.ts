@@ -295,33 +295,5 @@ export class UsuariosComponent implements OnInit {
     return 'Se ha realizado la inscripción a la reserva exitosamente';
   }
 
-  /**
-   * Función encargada de recibir todos los id's de las actividades en la que está inscritas el usuario
-   * */
-  validateActivityUser(): void {
-    this.servicioCompartido.validateActivityUserInscrit().subscribe({
-      next: response =>  {
-        this.listaIdInscripcion = response;
-      }
-    });    
-  }
-
-  /**
-   * Función encargada de borrar una activida asociado a un usuario en el caso de que dicha actividad se encuentre pendiente de pago y dentro del plazo preestablecido
-   * @param idReseva
-   */
-  cancelReservation(idReseva: number, idUsuario: number): void {
-    this.servicioCompartido.cancelReservation(idReseva, idUsuario).subscribe({
-      next: () => {
-        // Volvemos a consultar el servicio donde se obtiene los id de las actividades inscritas
-        this.validateActivityUser();
-      },
-      error: error => {
-        console.error("Error al eliminar la actividad:", error);
-      }
-    });
-  }
-
-
   
 }

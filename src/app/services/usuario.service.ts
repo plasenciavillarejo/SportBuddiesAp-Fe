@@ -45,7 +45,7 @@ export class UsuarioService {
     return this.http.get<any>(this.url_validate_activity + idUsuario);
   }
 
-  deleteActivityRegistered(idReserva: number, idUsuario: number): Observable<any>  {
-    return this.http.delete<any>(this.url_delete_activity + idReserva + "/" + idUsuario);
+  deleteActivityRegistered(idReservaUsuario: number, idUsuario: number): Observable<any>  {
+    return this.http.delete<any>(this.url_delete_activity + idReservaUsuario + "/" + idUsuario);
   }
 }
