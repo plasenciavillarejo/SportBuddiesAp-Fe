@@ -10,6 +10,7 @@ export class ReservasService {
 
   url_my_reservations = environment.hostname_port_local_gtw + '/api/main/reservaUsuario/misReservas';
   url_history_reservations = environment.hostname_port_local_gtw + '/api/main/reservaUsuario/historialReservas';
+  url_price_activity = environment.hostname_port_local_gtw + `/api/main/reservaUsuario/obtenerPrecio/`;
 
   constructor(private http: HttpClient) { }
 
@@ -26,4 +27,8 @@ export class ReservasService {
     return this.http.get<any>(this.url_history_reservations, {params});
   }
 
+
+  obtainPriceReservation(idReservaUsuario: number): Observable<any> {
+    return this.http.get<any>(this.url_price_activity + idReservaUsuario);
+  }
 }

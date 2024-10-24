@@ -24,6 +24,10 @@ export class NuevoUsuarioComponent implements OnInit {
     
   }
 
+  /**
+   * Función encargada de crear un nuevo usuario para acceder a la aplicación que retornara a la página de inicio una vez que ha sido creado
+   * @param usuario 
+   */
   createNewUser(usuario: Usuario) {
     this.usuarioServicio.createUser(usuario).subscribe({
       next: response => {
