@@ -28,6 +28,7 @@ export class NuevoUsuarioComponent implements OnInit {
     this.usuarioServicio.createUser(usuario).subscribe({
       next: response => {
         Swal.fire(
+          'Usuario creado exitosamente',
           'Se ha registrado correctamente el cliente para la aplicación', 
           'success'
         );
