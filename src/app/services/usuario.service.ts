@@ -5,6 +5,7 @@ import { Reserva } from '../models/reserva';
 import { environment } from '../../environments/environment';
 import { FormularioActividadRequest } from '../models/formularioActividadRequest';
 import { InscripcionReservaActividad } from '../models/inscripcionReservaActividad';
+import { Usuario } from '../models/usuario';
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +22,8 @@ export class UsuarioService {
   url_registration_reservation = environment.hostname_port_local_gtw + '/api/main/reservaActividad/inscripcion';
   url_validate_activity = environment.hostname_port_local_gtw + '/api/main/reservaActividad/validarActividad/';
   url_delete_activity = environment.hostname_port_local_gtw + '/api/main/reservaUsuario/eliminar/';
+  url_crete_user = environment.hostname_port_local_gtw + "/api/main/usuario/crear"
+
 
   constructor(private http: HttpClient) { }
 
@@ -48,4 +51,9 @@ export class UsuarioService {
   deleteActivityRegistered(idReservaUsuario: number, idUsuario: number): Observable<any>  {
     return this.http.delete<any>(this.url_delete_activity + idReservaUsuario + "/" + idUsuario);
   }
+
+  createUser(usuario: Usuario): Observable<void> {
+    return this.http.post<void>(this.url_crete_user, usuario);
+  }
+
 }

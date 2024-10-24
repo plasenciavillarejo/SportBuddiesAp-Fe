@@ -10,6 +10,7 @@ import { MisReservasComponent } from './components/mis-reservas/mis-reservas.com
 import { HistorialReservasComponent } from './components/historial-reservas/historial-reservas.component';
 import { PaypalComponent } from './components/paypal/paypal.component';
 import { PaypalCancelComponent } from './components/paypal-cancel/paypal-cancel.component';
+import { NuevoUsuarioComponent } from './components/nuevo-usuario/nuevo-usuario.component';
 
 export const routes: Routes = [
     /**Por defecto si el path es vació nos redigira a usuarios */
@@ -58,5 +59,10 @@ export const routes: Routes = [
     {
         path: 'paypal-cancel',
         component: PaypalCancelComponent,
+    },
+    {
+        path: 'nuevo-usuario',
+        component: NuevoUsuarioComponent,
     }
+
 ];
