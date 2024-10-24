@@ -4,6 +4,8 @@ import { PaypalService } from '../../services/paypal.service';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
 import { ServicioCompartidoService } from '../../services/servicio-compartido.service';
+import { ReservasService } from '../../services/reservas.service';
+import { map, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-paypal',
@@ -20,14 +22,14 @@ export class PaypalComponent implements OnInit {
 
   constructor(private paypalService: PaypalService,
     private activatedRoute: ActivatedRoute,
-    private router: Router,
-    private servicioCompartido: ServicioCompartidoService
+    private reservaUsuario: ReservasService
   ) {
     this.paypalRequest.metodo = 'Paypal'; // Inicializamos el string con el valor por defecto Paypal  
   }
 
   ngOnInit(): void {
-    // Capturamos el idReserva que se envía en la URL
+    
+    // Capturamos el idReservaUsuario que se envía en la URL
     this.activatedRoute.params.subscribe(params => {
       this.idReserva = params['id'];
       // Agregamos el idReserva al servicio compartido
@@ -35,14 +37,26 @@ export class PaypalComponent implements OnInit {
         localStorage.setItem("id", String(this.idReserva));
       }      
     });
+
+    /* Con el idReservaUsuario rellenamos el formulario necesario para los datos en paypal y hacermos la cosulta al BE
+     para obtener el precio que debe pagar el usuario */
+    this.paypalForm(this.idReserva).subscribe({
+      next: response => {
+        // Cuando pulsamos en pagar directamente rellenamos los datos necesarios para enviarlo a paypal
+        this.createPayment(this.paypalRequest);
+      }
+    });
   }
 
+  /**
+   * Función encargada de crear el pago de Paypal
+   * @param formularioPaypal
+   */
   createPayment(formularioPaypal: FormularioPaypalRequest) {
     this.idReserva = formularioPaypal.idReserva;
     this.paypalService.createPayment(formularioPaypal).subscribe({
       next: response => {
-        const approvalUrl = response.approval_url; // Cambiamos la búsqueda de la URL
-        
+        const approvalUrl = response.approval_url; // Cambiamos la búsqueda de la URL        
         if (approvalUrl) {
           // Redirige al usuario a PayPal para que apruebe el pago
           window.location.href = approvalUrl;
@@ -55,5 +69,26 @@ export class PaypalComponent implements OnInit {
       }
     });
   }
+
+  /**
+   * Función encargada de autorellenar el formulario con los datos necesarios para enviarlo a paypal
+   * @returns 
+   */
+  paypalForm(idReservasUsuario: number): Observable<FormularioPaypalRequest> {
+    this.paypalRequest.idReserva = idReservasUsuario;
+    this.paypalRequest.metodo = 'Paypal';
+    this.paypalRequest.descripcion = 'Pago Abono Pista';
+    this.paypalRequest.divisa = 'EUR';
+    this.paypalRequest.intencion ='SALE';
+    /* A partir del id Reserva puedo obtener el precio a abonar, utilizamos el pipe junto al map para envolver el
+     resultado obtenido en un Objeto FormularioPaypalRequest */
+    return this.reservaUsuario.obtainPriceReservation(idReservasUsuario).pipe(
+      map(response => {
+        this.paypalRequest.total = response
+        return this.paypalRequest;
+      })
+    );    
+  }
+
 
 }
