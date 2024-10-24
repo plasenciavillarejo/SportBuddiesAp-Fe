@@ -22,7 +22,8 @@ export class PaypalComponent implements OnInit {
 
   constructor(private paypalService: PaypalService,
     private activatedRoute: ActivatedRoute,
-    private reservaUsuario: ReservasService
+    private reservaUsuario: ReservasService,
+    private servicioCompartido: ServicioCompartidoService
   ) {
     this.paypalRequest.metodo = 'Paypal'; // Inicializamos el string con el valor por defecto Paypal  
   }
@@ -53,6 +54,7 @@ export class PaypalComponent implements OnInit {
    * @param formularioPaypal
    */
   createPayment(formularioPaypal: FormularioPaypalRequest) {
+    this.servicioCompartido.showSpinnerModal();
     this.idReserva = formularioPaypal.idReserva;
     this.paypalService.createPayment(formularioPaypal).subscribe({
       next: response => {

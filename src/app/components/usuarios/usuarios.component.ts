@@ -65,9 +65,10 @@ export class UsuariosComponent implements OnInit {
       }
     }); 
 
-    // Se espera la repuesta de paypal cuando se procede a confirmar el pago
+    /* ##########################################################################
+       Respuesta de Paypal para validar que ha ido todo correctamente en el pago
+       ########################################################################## */
     this.activatedRoute.queryParams.subscribe(data => {
-
       // En el caso de que el usuario le de atras, enviará la peticion al componente paypal-cancel y este redirigiara de nuevo aqúi con un param
       if (data['cancel-paypal'] === 'true') {
         Swal.fire(
@@ -83,18 +84,18 @@ export class UsuariosComponent implements OnInit {
 
       if (this.paymentId != null && this.payerId != null) {
         this.idReserva = Number(localStorage.getItem("id"));
-        this.showSpinnerModal();
+        this.showSpinner();
         this.paypalService.confirmPayment(this.paymentId, this.payerId, this.idReserva).subscribe({
           next: response => {
             if (response.success) {
-              this.hideSpinnerModal();
+              this.hideSpinner();
               Swal.fire(
                 'Pago confirmado',
                 'Se ha realizado el pago exitosamente',
                 'success'
               );
             } else {
-              this.hideSpinnerModal();
+              this.hideSpinner();
               Swal.fire(
                 'Error',
                 'Ha sucedido un problema con el pago: ' + response.error,
@@ -105,7 +106,7 @@ export class UsuariosComponent implements OnInit {
             this.router.navigate(['/usuarios'], { replaceUrl: true });
           },
           error: error => {
-            this.hideSpinnerModal();
+            this.hideSpinner();
             Swal.fire(
               'Error',
               'Ha sucedido un problema con el pago: ' + error,
@@ -122,33 +123,15 @@ export class UsuariosComponent implements OnInit {
   /**
    * Función encargada de abrir el modal del spinner
    */
-  private showSpinnerModal() {
-    const spinnerModalElement = document.getElementById('spinner-modal') as HTMLElement;
-    if (spinnerModalElement) {
-      // Agregamos los elementos a mano para evitar conflicto con bootstrap
-      spinnerModalElement.classList.add('show'); // Agrega la clase 'show' para mostrar el modal
-      spinnerModalElement.style.display = 'block'; // Block para asegurarnos de que es visible, por defecto, está a none
-      document.body.classList.add('modal-open'); // Agrega la clase para evitar el scroll
-      const backdrop = document.createElement('div'); // Crea el backdrop
-      backdrop.className = 'modal-backdrop fade show'; // Asigna las clases para mostrar el modal
-      document.body.appendChild(backdrop); // Agrega el backdrop al cuerpo
-    }
+  private showSpinner() {
+    this.servicioCompartido.showSpinnerModal();
   }
 
   /**
    * Función encargada de cerrar el modal del spinner
    */
-  private hideSpinnerModal() {
-    const spinnerModalElement = document.getElementById('spinner-modal') as HTMLElement;
-    if (spinnerModalElement) {
-      spinnerModalElement.classList.remove('show'); // Remueve la clase 'show'
-      spinnerModalElement.style.display = 'none'; // Oculta el modal
-      document.body.classList.remove('modal-open'); // Remueve la clase para permitir el scroll
-      const backdrop = document.querySelector('.modal-backdrop'); // Busca el backdrop
-      if (backdrop) {
-        backdrop.remove(); // Elimina el backdrop
-      }
-    }
+  private hideSpinner() {
+    this.servicioCompartido.hideSpinnerModal();
   }
 
   /**

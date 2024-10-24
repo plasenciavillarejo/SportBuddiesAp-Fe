@@ -57,8 +57,10 @@ export class ServicioCompartidoService {
         confirmButtonText: "Sí"
       }).then((result) => {
         if (result.isConfirmed) {
+          this.showSpinnerModal();
           this.usuarioService.deleteActivityRegistered(idReservaUsuario, idUsuario).subscribe({
             next: response => {
+              this.hideSpinnerModal();
               // Utilizamos el observer para notificar que la actividad fue eliminada
               observer.next();
               observer.complete();
@@ -109,7 +111,37 @@ export class ServicioCompartidoService {
 
 
 
+  /**
+     * Función encargada de abrir el modal del spinner
+     */
+  showSpinnerModal() {
+    const spinnerModalElement = document.getElementById('spinner-modal') as HTMLElement;
+    if (spinnerModalElement) {
+      // Agregamos los elementos a mano para evitar conflicto con bootstrap
+      spinnerModalElement.classList.add('show'); // Agrega la clase 'show' para mostrar el modal
+      spinnerModalElement.style.display = 'block'; // Block para asegurarnos de que es visible, por defecto, está a none
+      document.body.classList.add('modal-open'); // Agrega la clase para evitar el scroll
+      const backdrop = document.createElement('div'); // Crea el backdrop
+      backdrop.className = 'modal-backdrop fade show'; // Asigna las clases para mostrar el modal
+      document.body.appendChild(backdrop); // Agrega el backdrop al cuerpo
+    }
+  }
 
+  /**
+   * Función encargada de cerrar el modal del spinner
+   */
+  hideSpinnerModal() {
+    const spinnerModalElement = document.getElementById('spinner-modal') as HTMLElement;
+    if (spinnerModalElement) {
+      spinnerModalElement.classList.remove('show'); // Remueve la clase 'show'
+      spinnerModalElement.style.display = 'none'; // Oculta el modal
+      document.body.classList.remove('modal-open'); // Remueve la clase para permitir el scroll
+      const backdrop = document.querySelector('.modal-backdrop'); // Busca el backdrop
+      if (backdrop) {
+        backdrop.remove(); // Elimina el backdrop
+      }
+    }
+  }
 
 
 }
