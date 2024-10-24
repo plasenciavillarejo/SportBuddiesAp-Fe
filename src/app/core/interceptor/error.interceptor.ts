@@ -12,7 +12,7 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
           error.error.mensaje, 
           'error'
         )        
-        return throwError(() => new Error());
+        return throwError(() => error);
       } else {
         return next(req);
       }

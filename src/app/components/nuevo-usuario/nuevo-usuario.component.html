@@ -1,0 +1,24 @@
+<form class="container-sm border d-flex justify-content-center" (ngSubmit)="createNewUser(usuario)">
+    <div class=" col-12 col-md-5">
+        <h2 class="mb-4">Nuevo Usuario</h2>
+        	
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="nombreUsuario" placeholder="nombre-prueba" 
+            [(ngModel)]="usuario.nombreUsuario" name="nombreUsuario">
+            <label for="nombreUsuario">Nombre</label>
+        </div>
+
+        <div class="form-floating mb-3">
+            <input type="password" class="form-control" id="password" placeholder="Password" [(ngModel)]="usuario.password"
+             name="password">
+            <label for="floatingPassword">Password:</label>
+        </div>
+
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control"id="email" placeholder="name@example.com" [(ngModel)]="usuario.email" name="email">
+            <label for="email">Email:</label>
+        </div>
+
+        <button type="submit" class="btn btn-primary mb-3  d-flex justify-content-center">Crear</button>
+    </div> 
+</form>
