@@ -71,6 +71,7 @@ export class ServicioCompartidoService {
               });
             },
             error: error => {
+              this.hideSpinnerModal();
               Swal.fire({
                 title: "Error!",
                 text: "Ha sucedido un error a la hora de eliminar la actividad. " + error.error.mensaje,
