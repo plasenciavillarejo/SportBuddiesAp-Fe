@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { TokenService } from './token.service';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,8 @@ export class AuthService {
   private url_clear_cookie = environment.hostname_port_local_gtw + '/api/main/borrarCookie' ;
 
   constructor(private http: HttpClient,
-    private tokenService: TokenService
+    private tokenService: TokenService,
+    private router: Router,
   ) { }
 
   getToken(code: string, code_verifier: string): Observable<any> {
@@ -47,7 +49,8 @@ export class AuthService {
         location.href = environment.hostname_port_local_fe; // Redirigir al login o página principal
       },
       error: error => {
-        console.error('Error al cerrar sesión:', error);
+        this.tokenService.clearToken();
+        this.router.navigate(['']);
       }
     });
   }

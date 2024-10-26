@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UsuarioService } from '../../services/usuario.service';
 import { Usuario } from '../../models/usuario';
-import { throwError } from 'rxjs';
 import { format } from 'date-fns';
 import { HeaderComponent } from '../header/header.component';
 import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
@@ -14,7 +13,6 @@ import { TokenService } from '../../services/token.service';
 import { InscripcionReservaActividad } from '../../models/inscripcionReservaActividad';
 import { PaypalService } from '../../services/paypal.service';
 import { ServicioCompartidoService } from '../../services/servicio-compartido.service';
-import { Modal } from 'bootstrap';
 
 @Component({
   selector: 'app-usuarios',
