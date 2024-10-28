@@ -48,6 +48,8 @@ export class UsuariosComponent implements OnInit {
   payerId: string = '';
   idReserva!: number;
 
+  formSubmitted = false;
+
   constructor(private usuarioService: UsuarioService,
     private tokenService: TokenService,
     private paypalService: PaypalService,
@@ -58,7 +60,8 @@ export class UsuariosComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadComboInitial();
-
+    
+    // Activa los ToolTips
     const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
     tooltipTriggerList.forEach(tooltipTriggerEl => {
       new bootstrap.Tooltip(tooltipTriggerEl);
@@ -190,6 +193,7 @@ export class UsuariosComponent implements OnInit {
    */
   consultListReservations(): void {
     format(this.formularioActividadRequest.fechaReserva, 'yyyy-MM-dd');
+    this.formSubmitted = true;
     // Valida el formulario
     this.validateForm(this.formularioActividadRequest);
 
@@ -244,6 +248,8 @@ export class UsuariosComponent implements OnInit {
    if(error) {
     throw new Error;
    }
+
+   
   }
 
   /**

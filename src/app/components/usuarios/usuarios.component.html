@@ -13,9 +13,11 @@
 
         <div class="col-md-2">
             <label for="actividad" class="form-label">Actividad</label>
-            <select class="form-select" id="actividad" [(ngModel)]="formularioActividadRequest.actividad" name="actividad"
-            (change)="checkActivity($event)" required #actividad="ngModel" data-bs-toggle="tooltip" data-bs-placement="bottom"
-            data-bs-title="Seleccione una Actividad">
+            <select class="form-select" id="actividad" 
+            [(ngModel)]="formularioActividadRequest.actividad" 
+            name="actividad"
+            (change)="checkActivity($event)" 
+            required #actividad="ngModel">
                 <option disabled selected>Seleccione una Actividad</option>
                 @for (deporte of listaDeportes; track $index) {
                    <option id="{{deporte.idDeporte}}" [value]="deporte.actividad">
@@ -23,8 +25,13 @@
                     </option>
                 }
             </select> 
+            @if (formSubmitted && !formularioActividadRequest.actividad) {
+                <div class="text-danger">
+                    Seleccione una actividad.
+                </div>    
+            }
         </div>
-        
+
         <div class="col-md-2">
             <label for="provincia" class="form-label">Provincia:</label>
             <select class="form-select" id="provincia" required  [(ngModel)]="formularioActividadRequest.provincia" name="provincia"
