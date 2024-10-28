@@ -1,27 +1,30 @@
 <h3>{{title}}</h3>
 <div class="col-md-7">
-<form class="form-control border-info" (ngSubmit)="consultListReservations()" >
+<form class="form-control border-info" #miFormulario="ngForm" (ngSubmit)="consultListReservations()" >
     <div class="row mb-3">
         <div class="col-md-2">
             <!--<div class="custom-width-mobile"> -->
                 <label for="startDate" class="form-label">Buscar Día Reserva</label>
                 <input id="startDate" name="fechaReserva" class="form-control" type="date"
                 [(ngModel)]="formularioActividadRequest.fechaReserva"/>
+               
             <!--</div>-->
         </div>
 
         <div class="col-md-2">
             <label for="actividad" class="form-label">Actividad</label>
-            <select class="form-select" id="actividad" required [(ngModel)]="formularioActividadRequest.actividad" name="actividad"
-            (change)="checkActivity($event)">
+            <select class="form-select" id="actividad" [(ngModel)]="formularioActividadRequest.actividad" name="actividad"
+            (change)="checkActivity($event)" required #actividad="ngModel" data-bs-toggle="tooltip" data-bs-placement="bottom"
+            data-bs-title="Seleccione una Actividad">
                 <option disabled selected>Seleccione una Actividad</option>
                 @for (deporte of listaDeportes; track $index) {
                    <option id="{{deporte.idDeporte}}" [value]="deporte.actividad">
                         {{deporte.actividad}}
                     </option>
                 }
-            </select>
+            </select> 
         </div>
+        
         <div class="col-md-2">
             <label for="provincia" class="form-label">Provincia:</label>
             <select class="form-select" id="provincia" required  [(ngModel)]="formularioActividadRequest.provincia" name="provincia"
@@ -43,7 +46,7 @@
             </select>
         </div>
         <div class="col-md-2 d-flex justify-content-center text-center w-auto p-2 mt-4">
-            <button type="submit" class="btn btn-primary "> Consultar </button>
+            <button type="submit" class="btn btn-primary"> Consultar </button>
         </div>
     </div>
 </form>

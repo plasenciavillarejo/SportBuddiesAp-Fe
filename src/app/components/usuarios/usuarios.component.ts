@@ -13,6 +13,7 @@ import { TokenService } from '../../services/token.service';
 import { InscripcionReservaActividad } from '../../models/inscripcionReservaActividad';
 import { PaypalService } from '../../services/paypal.service';
 import { ServicioCompartidoService } from '../../services/servicio-compartido.service';
+declare var bootstrap: any
 
 @Component({
   selector: 'app-usuarios',
@@ -57,9 +58,16 @@ export class UsuariosComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadComboInitial();
+
+    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+    tooltipTriggerList.forEach(tooltipTriggerEl => {
+      new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+    
+
     this.servicioCompartido.validateActivityUserInscrit().subscribe({
       next: response => {
-        this.listaIdInscripcion = response;
+        this.listaIdInscripcion  = response;
       }
     }); 
 
@@ -176,12 +184,15 @@ export class UsuariosComponent implements OnInit {
       }
     });
   }
-
+  
   /**
    * Función encargada de visualizar las actividades en la página principal
    */
   consultListReservations(): void {
     format(this.formularioActividadRequest.fechaReserva, 'yyyy-MM-dd');
+    // Valida el formulario
+    this.validateForm(this.formularioActividadRequest);
+
     console.log(this.formularioActividadRequest);
     this.usuarioService.loadReservationList(this.formularioActividadRequest).subscribe({
       next: (response) => {
@@ -203,6 +214,36 @@ export class UsuariosComponent implements OnInit {
         console.log(error);
       }
     })
+  }
+
+  validateForm(formularioActividadRequest: FormularioActividadRequest) {
+    const actividad = document.getElementById('actividad');
+    const provincia = document.getElementById('provincia');
+    const municipio = document.getElementById('municipio');
+    
+    let error: Boolean = false;
+    if(this.formularioActividadRequest.actividad === undefined) {
+      actividad?.classList.add('border', 'border-danger');
+      error = true;
+    } else {
+      actividad?.classList.remove('border', 'border-danger');
+    }
+    if(this.formularioActividadRequest.provincia === undefined) {
+      provincia?.classList.add('border', 'border-danger');
+      error = true;
+    } else {
+      provincia?.classList.remove('border', 'border-danger');
+    }
+    if(this.formularioActividadRequest.municipio === undefined) {
+      municipio?.classList.add('border', 'border-danger');
+      error = true;
+    } else {
+      municipio?.classList.remove('border', 'border-danger');
+    }
+
+   if(error) {
+    throw new Error;
+   }
   }
 
   /**
