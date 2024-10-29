@@ -1,72 +1,106 @@
-<h3>{{title}}</h3>
-<div class="col-md-7">
-    <form class="form-control border-info" #miFormulario="ngForm" (ngSubmit)="consultListReservations()">
-        <div class="row mb-3">
-            <div class="col-md-2">
-                <label for="startDate" class="form-label">Buscar Día Reserva</label>
-                <input id="startDate" name="fechaReserva" class="form-control" type="date"
-                    [(ngModel)]="formularioActividadRequest.fechaReserva" required #fechaReserva="ngModel" />
-                @if (formSubmitted && !formularioActividadRequest.fechaReserva) {
-                <div class="text-danger mt-1">
-                    Seleccione una fecha.
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <!-- Damos una sombra al card utilizando shadow-lg -->
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-primary text-white text-center">
+                    <h3>{{title}}</h3>
                 </div>
-                }
-            </div>
+                <div class="card-body">
+                    <form class="form-control border-0" #miFormulario="ngForm" (ngSubmit)="consultListReservations()">
+                        <div class="row g-3">
+                            <!-- Fecha Reserva -->
+                            <div class="col-md-6">
+                                <label for="startDate" class="form-label fw-bold">Buscar Día Reserva</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-secondary">
+                                        <i class="bi bi-calendar"></i>
+                                    </span>
+                                    <input id="startDate" name="fechaReserva" type="date"
+                                        class="form-control border-secondary"
+                                        [(ngModel)]="busquedadActividadRequest.fechaReserva" required
+                                        #fechaReserva="ngModel" 
+                                        [ngClass]="{'border-danger': this.formSubmitted && busquedadActividadRequest.fechaReserva === undefined}"/>
+                                </div>
+                                @if(formSubmitted && !busquedadActividadRequest.fechaReserva) {
+                                <div class="text-danger mt-1">
+                                    Seleccione una fecha.
+                                </div>
+                                }
+                            </div>
 
-            <div class="col-md-2">
-                <label for="actividad" class="form-label">Actividad</label>
-                <select class="form-select" id="actividad" [(ngModel)]="formularioActividadRequest.actividad"
-                    name="actividad" (change)="checkActivity($event)" required #actividad="ngModel">
-                    <option disabled selected>Seleccione una Actividad</option>
-                    @for (deporte of listaDeportes; track $index) {
-                    <option id="{{deporte.idDeporte}}" [value]="deporte.actividad">
-                        {{deporte.actividad}}
-                    </option>
-                    }
-                </select>
-                @if (formSubmitted && !formularioActividadRequest.actividad) {
-                <div class="text-danger mt-1">
-                    Seleccione una actividad.
-                </div>
-                }
-            </div>
+                            <!-- Actividad -->
+                            <div class="col-md-6">
+                                <label for="actividad" class="form-label fw-bold">Actividad</label>
+                                <select id="actividad" class="form-select border-secondary"
+                                    [(ngModel)]="busquedadActividadRequest.actividad" name="actividad"
+                                    (change)="checkActivity($event)" required #actividad="ngModel"
+                                    [ngClass]="{'border-danger': this.formSubmitted && busquedadActividadRequest.actividad === undefined}"
+                                    >
+                                    <option disabled selected>Seleccione una Actividad</option>
+                                    @for (deporte of listaDeportes; track $index) {
+                                    <option id="{{deporte.idDeporte}}" [value]="deporte.actividad">
+                                        {{deporte.actividad}}
+                                    </option>
+                                    }
+                                </select>
+                                @if(formSubmitted && !busquedadActividadRequest.actividad) {
+                                <div class="text-danger mt-1">
+                                    Seleccione una actividad.
+                                </div>
+                                }
+                            </div>
 
-            <div class="col-md-2">
-                <label for="provincia" class="form-label">Provincia:</label>
-                <select class="form-select" id="provincia" [(ngModel)]="formularioActividadRequest.provincia"
-                    name="provincia" (change)="loadMunicipaliti($event)" required #provincia="ngModel">
-                    <option value="" disabled selected>Seleccione una Provincia</option>
-                    @for (provincia of listaProvincias; track $index) {
-                    <option [value]="provincia">{{provincia}}</option>
-                    }
-                </select>
-                @if (formSubmitted && !formularioActividadRequest.provincia) {
-                <div class="text-danger mt-1">
-                    Seleccione una provincia.
-                </div>
-                }
-            </div>
+                            <!-- Provincia -->
+                            <div class="col-md-6">
+                                <label for="provincia" class="form-label fw-bold">Provincia</label>
+                                <select id="provincia" class="form-select border-secondary"
+                                    [(ngModel)]="busquedadActividadRequest.provincia" name="provincia"
+                                    (change)="loadMunicipaliti($event)" required #provincia="ngModel"
+                                    [ngClass]="{'border-danger': this.formSubmitted && busquedadActividadRequest.provincia === undefined}">
+                                    <option value="" disabled selected>Seleccione una Provincia</option>
+                                    @for (provincia of listaProvincias; track $index) {
+                                    <option [value]="provincia">{{provincia}}</option>
+                                    }
+                                </select>
+                                @if(formSubmitted && !busquedadActividadRequest.provincia) {
+                                <div class="text-danger mt-1">
+                                    Seleccione una provincia.
+                                </div>
+                                }
+                            </div>
 
-            <div class="col-md-3">
-                <label for="municipio" class="form-label">Municipio:</label>
-                <select class="form-select" id="municipio" [(ngModel)]="formularioActividadRequest.municipio"
-                    name="municipio" required #municipio="ngModel">
-                    <option value="" disabled selected>Seleccione un Municipio</option>
-                    @for (municipio of listaMunicipos; track $index) {
-                    <option [value]="municipio">{{municipio}}</option>
-                    }
-                </select>
-                @if (formSubmitted && !formularioActividadRequest.municipio) {
-                <div class="text-danger mt-1">
-                    Seleccione un municipio.
+                            <!-- Municipio -->
+                            <div class="col-md-6">
+                                <label for="municipio" class="form-label fw-bold">Municipio</label>
+                                <select id="municipio" class="form-select border-secondary"
+                                    [(ngModel)]="busquedadActividadRequest.municipio" name="municipio" required
+                                    #municipio="ngModel"
+                                    [ngClass]="{'border-danger': this.formSubmitted && busquedadActividadRequest.municipio === undefined}">
+                                    <option value="" disabled selected>Seleccione un Municipio</option>
+                                    @for (municipio of listaMunicipos; track $index) {
+                                    <option [value]="municipio">{{municipio}}</option>
+                                    }
+                                </select>
+                                @if(formSubmitted && !busquedadActividadRequest.municipio) {
+                                <div class="text-danger mt-1">
+                                    Seleccione un municipio.
+                                </div>
+                                }
+                            </div>
+
+                            <!-- Botón -->
+                            <div class="col-12 text-center mt-4">
+                                <button type="submit" class="btn btn-primary btn-lg px-5">
+                                    <i class="bi bi-search"></i> Consultar
+                                </button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
-                }
-            </div>
-            <div class="col-md-2 text-center w-auto p-2 mt-4">
-                <button type="submit" class="btn btn-primary"> Consultar </button>
             </div>
         </div>
-    </form>
+    </div>
 </div>
 
 <!-- <div class="container my-4">-->
@@ -76,14 +110,14 @@
 </div>
 } @else {
 <div class="form-control border-info mt-4 text-center">
-    <table class=" table table-hover table-striped border-info mt-2">
-        <thead>
+    <table class="table table-hover table-bordered border-info mt-2">
+        <thead class="table-info">
             <tr>
                 <th hidden></th>
                 <th>Fecha Reserva</th>
                 <th>Hora Reserva</th>
                 <th>Requerimientos</th>
-                <th>Maximo Jugadores Requeridos</th>
+                <th>Máximo Jugadores</th>
                 <th>Urgencia Inscripción</th>
                 <th>Abono Pista</th>
                 <th></th>
@@ -91,26 +125,33 @@
         </thead>
         <tbody>
             @for (formActi of formularioActividadResponse; track $index) {
-            <tr>
+            <tr class="align-middle">
                 <td hidden>{{formActi.idReservaActividad}}</td>
                 <td>{{formActi.fechaReserva}}</td>
                 <td>{{formActi.horaInicio}} - {{formActi.horaFin}}</td>
                 <td>
                     @for (requi of formActi.requerimientos; track $index) {
-                    {{requi}} <br>
+                    <span [attr.data-bs-toggle]="$index === 0 ? 'tooltip' : null" title="{{requi}}">
+                        {{requi}}<br>
+                    </span> <br>
                     }
                 </td>
                 <td class="text-center">{{formActi.usuariosMaxRequeridos}}</td>
-                <td>{{formActi.urgencia}}</td>
+                <td>
+                    <span
+                        [ngClass]="{'text-danger': formActi.urgencia === 'Alta', 'text-warning': formActi.urgencia === 'Media', 'text-success': formActi.urgencia === 'Baja'}">
+                        {{formActi.urgencia}}
+                    </span>
+                </td>
                 <td>{{formActi.abonoPista}} €</td>
                 <td>
                     @if(!listaIdInscripcion.includes(formActi.idReservaActividad)){
-                    <button type="submit" class="btn btn-secondary " (click)="makeReservationActivity(formActi)">
-                        Reservar </button>
+                    <button type="submit" class="btn btn-outline-primary btn-sm"
+                        (click)="makeReservationActivity(formActi)">
+                        Reservar
+                    </button>
                     } @else {
-                    <div class="alert alert-success" role="alert">
-                        Reservado
-                    </div>
+                    <span class="badge bg-success">Reservado</span>
                     }
                 </td>
             </tr>
@@ -118,6 +159,7 @@
         </tbody>
     </table>
 </div>
+
 }
 <!--  </div>-->
 

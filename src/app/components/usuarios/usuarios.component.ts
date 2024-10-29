@@ -6,19 +6,20 @@ import { HeaderComponent } from '../header/header.component';
 import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
 import { Reserva } from '../../models/reserva';
 import { FormsModule } from '@angular/forms';
-import { FormularioActividadRequest } from '../../models/formularioActividadRequest';
 import { FormularioActividadResponse } from '../../models/formularioActividadResponse';
 import Swal from 'sweetalert2';
 import { TokenService } from '../../services/token.service';
 import { InscripcionReservaActividad } from '../../models/inscripcionReservaActividad';
 import { PaypalService } from '../../services/paypal.service';
 import { ServicioCompartidoService } from '../../services/servicio-compartido.service';
+import { BusquedaActividadRequest } from '../../models/busquedaActividadRequest';
+import { CommonModule } from '@angular/common';
 declare var bootstrap: any
 
 @Component({
   selector: 'app-usuarios',
   standalone: true,
-  imports: [RouterOutlet, HeaderComponent, FormsModule],
+  imports: [RouterOutlet, HeaderComponent, FormsModule, CommonModule],
   templateUrl: './usuarios.component.html',
   styleUrl: './usuarios.component.css'
 })
@@ -27,7 +28,6 @@ export class UsuariosComponent implements OnInit {
 
   title: string = 'Realizar Busqueda';
   
-
   usuario: Usuario[] = [];
   reserva: Reserva[] = [];
 
@@ -41,7 +41,8 @@ export class UsuariosComponent implements OnInit {
 
   actividadSeleccionada = new Map<number, string>();
 
-  formularioActividadRequest: FormularioActividadRequest = new FormularioActividadRequest();
+  
+  busquedadActividadRequest: BusquedaActividadRequest = new BusquedaActividadRequest();
   formularioActividadResponse: FormularioActividadResponse[] = [];
 
   paymentId: string = '';
@@ -148,13 +149,13 @@ export class UsuariosComponent implements OnInit {
    * @param event 
    */
   handleFechaChange(event: any) {
-    this.formularioActividadRequest.fechaReserva = new Date(event.target.value);
-    if (isNaN(this.formularioActividadRequest.fechaReserva.getTime())) {
+    this.busquedadActividadRequest.fechaReserva = new Date(event.target.value);
+    if (isNaN(this.busquedadActividadRequest.fechaReserva.getTime())) {
       // Entonces el usuario ha pulsado en el boton limpiar
       this.reserva = [];
     } else {
       // libreria para formt npm install date-fns --save
-      const fechaFormateada = format(this.formularioActividadRequest.fechaReserva, 'yyyy-MM-dd');
+      const fechaFormateada = format(this.busquedadActividadRequest.fechaReserva, 'yyyy-MM-dd');
       console.log('Buscando registros para la fecha', fechaFormateada);
     }
   }
@@ -195,9 +196,9 @@ export class UsuariosComponent implements OnInit {
     
     this.formSubmitted = true;
     // Valida el formulario
-    this.validateForm(this.formularioActividadRequest);
+    this.validateForm(this.busquedadActividadRequest);
 
-    this.usuarioService.loadReservationList(this.formularioActividadRequest).subscribe({
+    this.usuarioService.loadReservationList(this.busquedadActividadRequest).subscribe({
       next: (response) => {
         if (response.length >= 1) {
           this.formularioActividadResponse = response;
@@ -223,44 +224,24 @@ export class UsuariosComponent implements OnInit {
    * Función encargada de validar los campos del formulario de busqueda
    * @param formularioActividadRequest 
    */
-  validateForm(formularioActividadRequest: FormularioActividadRequest) {
-    const fechaInput = document.getElementById('startDate');
-    const actividad = document.getElementById('actividad');
-    const provincia = document.getElementById('provincia');
-    const municipio = document.getElementById('municipio');
-    
+  validateForm(formularioActividadRequest: BusquedaActividadRequest) {
     let error: Boolean = false;
-    if(!this.formularioActividadRequest.fechaReserva) {
-      fechaInput?.classList.add('border', 'border-danger');
+    if (!this.busquedadActividadRequest.fechaReserva) {
       error = true
-    } else {
-      format(this.formularioActividadRequest.fechaReserva, 'yyyy-MM-dd');
-      fechaInput?.classList.remove('border', 'border-danger');
     }
-    if(this.formularioActividadRequest.actividad === undefined) {
-      actividad?.classList.add('border', 'border-danger');
+    if (this.busquedadActividadRequest.actividad === undefined) {
       error = true;
-    } else {
-      actividad?.classList.remove('border', 'border-danger');
     }
-    if(this.formularioActividadRequest.provincia === undefined) {
-      provincia?.classList.add('border', 'border-danger');
+    if (this.busquedadActividadRequest.provincia === undefined) {
       error = true;
-    } else {
-      provincia?.classList.remove('border', 'border-danger');
     }
-    if(this.formularioActividadRequest.municipio === undefined) {
-      municipio?.classList.add('border', 'border-danger');
+    if (this.busquedadActividadRequest.municipio === undefined) {
       error = true;
-    } else {
-      municipio?.classList.remove('border', 'border-danger');
     }
 
-   if(error) {
-    throw new Error;
-   }
-
-   
+    if (error) {
+      throw new Error;
+    }
   }
 
   /**

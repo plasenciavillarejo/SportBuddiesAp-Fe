@@ -1,4 +1,4 @@
-export class FormularioActividadRequest {
+export class BusquedaActividadRequest {
 
     fechaReserva?: Date;
 
