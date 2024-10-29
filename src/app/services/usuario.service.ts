@@ -3,9 +3,9 @@ import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Reserva } from '../models/reserva';
 import { environment } from '../../environments/environment';
-import { FormularioActividadRequest } from '../models/formularioActividadRequest';
 import { InscripcionReservaActividad } from '../models/inscripcionReservaActividad';
 import { Usuario } from '../models/usuario';
+import { BusquedaActividadRequest } from '../models/busquedaActividadRequest';
 
 @Injectable({
   providedIn: 'root'
@@ -36,7 +36,7 @@ export class UsuarioService {
     return this.http.get<any>(this.url_municipalities, {params});
   }
 
-  loadReservationList(formularioActividad: FormularioActividadRequest) : Observable<any> {
+  loadReservationList(formularioActividad: BusquedaActividadRequest) : Observable<any> {
     return this.http.post<any>(this.url_listing_reservation, formularioActividad);
   }
 

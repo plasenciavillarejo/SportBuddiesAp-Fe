@@ -223,7 +223,7 @@ export class UsuariosComponent implements OnInit {
    * Función encargada de validar los campos del formulario de busqueda
    * @param formularioActividadRequest 
    */
-  validateForm(formularioActividadRequest: FormularioActividadRequest) {
+  validateForm(formularioActividadRequest: BusquedaActividadRequest) {
     const fechaInput = document.getElementById('startDate');
     const actividad = document.getElementById('actividad');
     const provincia = document.getElementById('provincia');
