@@ -131,7 +131,7 @@ export class NuevaActividadComponent {
       }, error: error => {
         Swal.fire(
           'Cliente CrearActividad',
-          'No se ha registrado correctamente la actividad.' + error.error.message, 
+          error.error.mensaje, 
           'error'
         )
       }
