@@ -44,6 +44,10 @@ export class MisReservasComponent implements OnInit {
   listReservation(idUsuario: number, fechaReserva: string): void {
     this.reservaService.consultReservations(idUsuario, fechaReserva).forEach(res => {
       this.listReservasResponse = res;
+      this.listReservasResponse.forEach(list => {
+        list.horaInicioReserva = list.horaInicioReserva.split(':').slice(0,2).join(':');
+        list.horaFinReserva = list.horaFinReserva.split(':').slice(0,2).join(':');
+      });
     });
   }
 
