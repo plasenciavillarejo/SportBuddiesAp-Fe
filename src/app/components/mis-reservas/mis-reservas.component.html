@@ -1,8 +1,16 @@
 <div class="container my-4">
    @if (listReservasResponse.length == 0 ) {
-   <div class="container alert alert-info d-flex justify-content-center text-center w-auto p-2 mt-4">
-      <span>No contiene actualmente ninguna reserva activa</span>
-   </div>
+
+    <div class="card mt-4 border-info shadow">
+        <div class="card-header bg-info text-white text-center">
+            <h5 class="mb-0">Reservas</h5>
+        </div>
+        <div class="card-body">
+            <div class="container alert alert-info d-flex justify-content-center text-center w-auto p-2 mt-4">
+                <span>No contiene actualmente ninguna reserva activa</span>
+            </div>
+        </div>
+    </div>
    } @else {
       <div class="card mt-4 border-info shadow">
          <div class="card-header bg-info text-white text-center">
@@ -14,7 +22,7 @@
                      <thead class="table-light">
                          <tr>
                              <th hidden></th>
-                             <th >Fecha Reserva</th>
+                             <th>Fecha Reserva</th>
                              <th>Hora Reserva</th>
                              <th>Deporte Reserva</th>
                              <th>Abonado</th>

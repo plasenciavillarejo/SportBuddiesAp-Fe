@@ -91,7 +91,7 @@
 
                             <!-- Botón -->
                             <div class="col-12 text-center mt-4">
-                                <button type="submit" class="btn btn-primary btn-lg px-5">
+                                <button type="submit" class="btn btn-primary btn-lg px-5 rounded-pill">
                                     <i class="bi bi-search"></i> Consultar
                                 </button>
                             </div>
@@ -102,25 +102,23 @@
         </div>
     </div>
 </div>
-
-<!-- <div class="container my-4">-->
+<div class="container py-4">
 @if (formularioActividadResponse.length == 0 ) {
 <div class="container alert alert-info d-flex justify-content-center text-center w-auto p-2 mt-4">
     <span>Actualmente no se realizado ninguna busqueda, para ello, rellene los campos de arriba</span>
 </div>
 } @else {
-<div class="form-control border-info mt-4 text-center">
-    <table class="table table-hover table-bordered border-info mt-2">
+    <table class="table table-hover mt-2 text-center border border-3 shadow-lg">
         <thead class="table-info">
             <tr>
                 <th hidden></th>
-                <th>Fecha Reserva</th>
-                <th>Hora Reserva</th>
-                <th>Requerimientos</th>
-                <th>Máximo Jugadores</th>
-                <th>Urgencia Inscripción</th>
-                <th>Abono Pista</th>
-                <th></th>
+                <th class="bg-primary text-white">Fecha Reserva</th>
+                <th class="bg-primary text-white">Hora Reserva</th>
+                <th class="bg-primary text-white">Requerimientos</th>
+                <th class="bg-primary text-white">Máximo Jugadores</th>
+                <th class="bg-primary text-white">Urgencia Inscripción</th>
+                <th class="bg-primary text-white">Abono Pista</th>
+                <th class="bg-primary text-white"></th>
             </tr>
         </thead>
         <tbody>
@@ -146,22 +144,21 @@
                 <td>{{formActi.abonoPista}} €</td>
                 <td>
                     @if(!listaIdInscripcion.includes(formActi.idReservaActividad)){
-                    <button type="submit" class="btn btn-outline-primary btn-sm"
+                    <button type="submit" class="btn btn-outline-primary btn-sm rounded-pill"
                         (click)="makeReservationActivity(formActi)">
                         Reservar
                     </button>
                     } @else {
-                    <span class="badge bg-success">Reservado</span>
+                    <span class="badge bg-success rounded-pill">Reservado</span>
                     }
                 </td>
             </tr>
             }
         </tbody>
     </table>
+}
 </div>
 
-}
-<!--  </div>-->
 
 <!-- MODAL SPINNER -->
 <!-- #############-->
