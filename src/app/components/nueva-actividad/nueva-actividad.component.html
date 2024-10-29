@@ -90,7 +90,7 @@
 
     <div class="col-md-2">
       <label for="usuariosMaxRequeridos" class="form-label">Usuarios Maximos Requeridos</label>
-      <input type="number" class="form-control" id="usuariosMaxRequeridos" required #usuariosMaxRequeridos="ngModel" [(ngModel)]="crearActividadRequest.usuariosMaxRequeridos" name="usuariosMaxRequeridos">
+      <input type="number" min="0" class="form-control" id="usuariosMaxRequeridos" required #usuariosMaxRequeridos="ngModel" [(ngModel)]="crearActividadRequest.usuariosMaxRequeridos" name="usuariosMaxRequeridos">
       @if(crearActividadRequest.usuariosMaxRequeridos === undefined && primeraCarga){
         <div class="text-danger mt-1">
           Los usuarios maximos no puede estar vacio.
@@ -98,7 +98,6 @@
       }
     </div>
   </div>
-
     
   <div class="row mb-3">
     <div class="col-md-2">
@@ -134,7 +133,7 @@
 
     <div class="col-md-2">
       <label for="codigoPostal" class="form-label">Codigo Postal</label>
-      <input type="number" class="form-control" id="codigoPostal" required #codigoPostal="ngModel" [(ngModel)]="crearActividadRequest.codigoPostal" name="codigoPostal">
+      <input type="text" pattern="^\d{5}$" maxlength="5" (input)="validarCodigoPostal($event)" class="form-control" id="codigoPostal" required #codigoPostal="ngModel" [(ngModel)]="crearActividadRequest.codigoPostal" name="codigoPostal">
       @if(crearActividadRequest.codigoPostal === undefined && primeraCarga){
         <div class="text-danger mt-1">
           El codigo postal no puede estar vacio.
@@ -171,7 +170,7 @@
 
     <div class="col-md-2">
       <label for="abonoPista" class="form-label">Abono Pista</label>
-      <input type="number" class="form-control" id="abonoPista" required #abonoPista="ngModel" [(ngModel)]="crearActividadRequest.abonoPista" name="abonoPista">
+      <input type="text" pattern="^\d+(\.\d{1,2})?$" (input)="validarDecimales($event)" class="form-control" id="abonoPista" required #abonoPista="ngModel" [(ngModel)]="crearActividadRequest.abonoPista" name="abonoPista">
       @if(crearActividadRequest.abonoPista === undefined && primeraCarga){
         <div class="text-danger mt-1">
           Abono Pista no puede estar vacia.
