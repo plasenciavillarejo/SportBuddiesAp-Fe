@@ -192,12 +192,11 @@ export class UsuariosComponent implements OnInit {
    * Función encargada de visualizar las actividades en la página principal
    */
   consultListReservations(): void {
-    format(this.formularioActividadRequest.fechaReserva, 'yyyy-MM-dd');
+    
     this.formSubmitted = true;
     // Valida el formulario
     this.validateForm(this.formularioActividadRequest);
 
-    console.log(this.formularioActividadRequest);
     this.usuarioService.loadReservationList(this.formularioActividadRequest).subscribe({
       next: (response) => {
         if (response.length >= 1) {
@@ -220,12 +219,24 @@ export class UsuariosComponent implements OnInit {
     })
   }
 
+  /**
+   * Función encargada de validar los campos del formulario de busqueda
+   * @param formularioActividadRequest 
+   */
   validateForm(formularioActividadRequest: FormularioActividadRequest) {
+    const fechaInput = document.getElementById('startDate');
     const actividad = document.getElementById('actividad');
     const provincia = document.getElementById('provincia');
     const municipio = document.getElementById('municipio');
     
     let error: Boolean = false;
+    if(!this.formularioActividadRequest.fechaReserva) {
+      fechaInput?.classList.add('border', 'border-danger');
+      error = true
+    } else {
+      format(this.formularioActividadRequest.fechaReserva, 'yyyy-MM-dd');
+      fechaInput?.classList.remove('border', 'border-danger');
+    }
     if(this.formularioActividadRequest.actividad === undefined) {
       actividad?.classList.add('border', 'border-danger');
       error = true;

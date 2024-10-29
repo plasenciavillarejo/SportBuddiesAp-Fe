@@ -1,6 +1,6 @@
 export class FormularioActividadRequest {
 
-    fechaReserva: Date = new Date();
+    fechaReserva?: Date;
 
     actividad!: string;
 
