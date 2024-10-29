@@ -13,12 +13,13 @@ import { InscripcionReservaActividad } from '../../models/inscripcionReservaActi
 import { PaypalService } from '../../services/paypal.service';
 import { ServicioCompartidoService } from '../../services/servicio-compartido.service';
 import { BusquedaActividadRequest } from '../../models/busquedaActividadRequest';
+import { CommonModule } from '@angular/common';
 declare var bootstrap: any
 
 @Component({
   selector: 'app-usuarios',
   standalone: true,
-  imports: [RouterOutlet, HeaderComponent, FormsModule],
+  imports: [RouterOutlet, HeaderComponent, FormsModule, CommonModule],
   templateUrl: './usuarios.component.html',
   styleUrl: './usuarios.component.css'
 })
@@ -224,43 +225,23 @@ export class UsuariosComponent implements OnInit {
    * @param formularioActividadRequest 
    */
   validateForm(formularioActividadRequest: BusquedaActividadRequest) {
-    const fechaInput = document.getElementById('startDate');
-    const actividad = document.getElementById('actividad');
-    const provincia = document.getElementById('provincia');
-    const municipio = document.getElementById('municipio');
-    
     let error: Boolean = false;
-    if(!this.busquedadActividadRequest.fechaReserva) {
-      fechaInput?.classList.add('border', 'border-danger');
+    if (!this.busquedadActividadRequest.fechaReserva) {
       error = true
-    } else {
-      format(this.busquedadActividadRequest.fechaReserva, 'yyyy-MM-dd');
-      fechaInput?.classList.remove('border', 'border-danger');
     }
-    if(this.busquedadActividadRequest.actividad === undefined) {
-      actividad?.classList.add('border', 'border-danger');
+    if (this.busquedadActividadRequest.actividad === undefined) {
       error = true;
-    } else {
-      actividad?.classList.remove('border', 'border-danger');
     }
-    if(this.busquedadActividadRequest.provincia === undefined) {
-      provincia?.classList.add('border', 'border-danger');
+    if (this.busquedadActividadRequest.provincia === undefined) {
       error = true;
-    } else {
-      provincia?.classList.remove('border', 'border-danger');
     }
-    if(this.busquedadActividadRequest.municipio === undefined) {
-      municipio?.classList.add('border', 'border-danger');
+    if (this.busquedadActividadRequest.municipio === undefined) {
       error = true;
-    } else {
-      municipio?.classList.remove('border', 'border-danger');
     }
 
-   if(error) {
-    throw new Error;
-   }
-
-   
+    if (error) {
+      throw new Error;
+    }
   }
 
   /**
