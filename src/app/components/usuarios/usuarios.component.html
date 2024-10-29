@@ -5,8 +5,8 @@
             <div class="col-md-2">
                 <label for="startDate" class="form-label">Buscar Día Reserva</label>
                 <input id="startDate" name="fechaReserva" class="form-control" type="date"
-                    [(ngModel)]="formularioActividadRequest.fechaReserva" required #fechaReserva="ngModel" />
-                @if (formSubmitted && !formularioActividadRequest.fechaReserva) {
+                    [(ngModel)]="busquedadActividadRequest.fechaReserva" required #fechaReserva="ngModel" />
+                @if (formSubmitted && !busquedadActividadRequest.fechaReserva) {
                 <div class="text-danger mt-1">
                     Seleccione una fecha.
                 </div>
@@ -15,7 +15,7 @@
 
             <div class="col-md-2">
                 <label for="actividad" class="form-label">Actividad</label>
-                <select class="form-select" id="actividad" [(ngModel)]="formularioActividadRequest.actividad"
+                <select class="form-select" id="actividad" [(ngModel)]="busquedadActividadRequest.actividad"
                     name="actividad" (change)="checkActivity($event)" required #actividad="ngModel">
                     <option disabled selected>Seleccione una Actividad</option>
                     @for (deporte of listaDeportes; track $index) {
@@ -24,7 +24,7 @@
                     </option>
                     }
                 </select>
-                @if (formSubmitted && !formularioActividadRequest.actividad) {
+                @if (formSubmitted && !busquedadActividadRequest.actividad) {
                 <div class="text-danger mt-1">
                     Seleccione una actividad.
                 </div>
@@ -33,14 +33,14 @@
 
             <div class="col-md-2">
                 <label for="provincia" class="form-label">Provincia:</label>
-                <select class="form-select" id="provincia" [(ngModel)]="formularioActividadRequest.provincia"
+                <select class="form-select" id="provincia" [(ngModel)]="busquedadActividadRequest.provincia"
                     name="provincia" (change)="loadMunicipaliti($event)" required #provincia="ngModel">
                     <option value="" disabled selected>Seleccione una Provincia</option>
                     @for (provincia of listaProvincias; track $index) {
                     <option [value]="provincia">{{provincia}}</option>
                     }
                 </select>
-                @if (formSubmitted && !formularioActividadRequest.provincia) {
+                @if (formSubmitted && !busquedadActividadRequest.provincia) {
                 <div class="text-danger mt-1">
                     Seleccione una provincia.
                 </div>
@@ -49,14 +49,14 @@
 
             <div class="col-md-3">
                 <label for="municipio" class="form-label">Municipio:</label>
-                <select class="form-select" id="municipio" [(ngModel)]="formularioActividadRequest.municipio"
+                <select class="form-select" id="municipio" [(ngModel)]="busquedadActividadRequest.municipio"
                     name="municipio" required #municipio="ngModel">
                     <option value="" disabled selected>Seleccione un Municipio</option>
                     @for (municipio of listaMunicipos; track $index) {
                     <option [value]="municipio">{{municipio}}</option>
                     }
                 </select>
-                @if (formSubmitted && !formularioActividadRequest.municipio) {
+                @if (formSubmitted && !busquedadActividadRequest.municipio) {
                 <div class="text-danger mt-1">
                     Seleccione un municipio.
                 </div>
