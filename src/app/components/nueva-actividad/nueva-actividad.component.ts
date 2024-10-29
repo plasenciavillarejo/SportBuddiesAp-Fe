@@ -4,7 +4,6 @@ import { TokenService } from '../../services/token.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PaypalService } from '../../services/paypal.service';
 import { ServicioCompartidoService } from '../../services/servicio-compartido.service';
-import { FormularioActividadRequest } from '../../models/formularioActividadRequest';
 import { FormularioActividadResponse } from '../../models/formularioActividadResponse';
 import { FormsModule } from '@angular/forms';
 
@@ -23,7 +22,6 @@ export class NuevaActividadComponent {
 
   actividadSeleccionada = new Map<number, string>();
 
-  formularioActividadRequest: FormularioActividadRequest = new FormularioActividadRequest();
   formularioActividadResponse: FormularioActividadResponse[] = [];
 
   constructor(private usuarioService: UsuarioService,

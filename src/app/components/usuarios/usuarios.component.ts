@@ -6,7 +6,6 @@ import { HeaderComponent } from '../header/header.component';
 import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
 import { Reserva } from '../../models/reserva';
 import { FormsModule } from '@angular/forms';
-import { FormularioActividadRequest } from '../../models/formularioActividadRequest';
 import { FormularioActividadResponse } from '../../models/formularioActividadResponse';
 import Swal from 'sweetalert2';
 import { TokenService } from '../../services/token.service';
@@ -28,7 +27,6 @@ export class UsuariosComponent implements OnInit {
 
   title: string = 'Realizar Busqueda';
   
-
   usuario: Usuario[] = [];
   reserva: Reserva[] = [];
 
