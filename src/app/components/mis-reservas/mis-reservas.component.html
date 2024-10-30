@@ -1,8 +1,8 @@
 <div class="container my-4">
-   @if (listReservasResponse.length == 0 ) {
+    @if (listReservasResponse.length == 0 ) {
 
-    <div class="card mt-4 border-info shadow">
-        <div class="card-header bg-info text-white text-center">
+    <div class="card mt-4 border border-3 shadow-lg">
+        <div class="card-header bg-primary text-white text-center">
             <h5 class="mb-0">Reservas</h5>
         </div>
         <div class="card-body">
@@ -11,94 +11,104 @@
             </div>
         </div>
     </div>
-   } @else {
-      <div class="card mt-4 border-info shadow">
-         <div class="card-header bg-info text-white text-center">
-             <h5 class="mb-0">Reservas</h5>
-         </div>
-         <div class="card-body">
-             <div class="table-responsive">
-                 <table class="table table-hover table-striped mt-2 text-center">
-                     <thead class="table-light">
-                         <tr>
-                             <th hidden></th>
-                             <th>Fecha Reserva</th>
-                             <th>Hora Reserva</th>
-                             <th>Deporte Reserva</th>
-                             <th>Abonado</th>
-                             <th>Acciones</th>
-                         </tr>
-                     </thead>
-                     <tbody>
-                         @for (reserva of listReservasResponse; track $index) {
-                         <tr>
-                             <td hidden>{{reserva.idReserva}}</td>
-                             <td>{{reserva.fechaReserva}}</td>
-                             <td>{{reserva.horaInicioReserva}} - {{reserva.horaFinReserva}}</td>
-                             <td>{{reserva.deporteReservaDto.actividad}}</td>
-                             <td>{{reserva.abonado ? 'Sí' : 'No'}}</td>
-                             <td class="text-center">
-                                 @if (reserva.abonado == false) {
-                                 <button type="button" class="btn btn-primary mx-1" data-bs-toggle="modal"
-                                     data-bs-target="#exampleModal" (click)="idReserva=reserva.idReserva">
-                                     Proceder con el pago
-                                 </button>
-                                 }
-                                 @if(listaIdInscripcion.includes(reserva.reservaActividadDto.idReservaActividad)){
-                                 <button type="button" class="btn btn-danger"
-                                     (click)="cancelReservation(reserva.idReserva, reserva.usuarioReservaDto.idUsuario, reserva.abonado)">
-                                     Cancelar reserva
-                                 </button>
-                                 }
-                             </td>
-                         </tr>
-                         }
-                     </tbody>
-                 </table>
-             </div>
-         </div>
-     </div>
-     
-   }
+    } @else {
+    <div class="card mt-4 border border-3 shadow-lg">
+        <div class="card-header bg-primary text-white text-center">
+            <h5 class="mb-0">Reservas</h5>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover table-striped mt-2 text-center">
+                    <thead class="table-light">
+                        <tr>
+                            <th hidden></th>
+                            <th>Fecha Reserva</th>
+                            <th>Hora Reserva</th>
+                            <th>Deporte Reserva</th>
+                            <th>Abonado</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (reserva of listReservasResponse; track $index) {
+                        <tr>
+                            <td hidden>{{reserva.idReserva}}</td>
+                            <td>{{reserva.fechaReserva}}</td>
+                            <td>{{reserva.horaInicioReserva}} - {{reserva.horaFinReserva}}</td>
+                            <td>{{reserva.deporteReservaDto.actividad}}</td>
+                            <td>{{reserva.abonado ? 'Sí' : 'No'}}</td>
+                            <td class="text-center">
+                                @if (reserva.abonado == false) {
+                                <span class="badge bg-danger rounded-pill">Pendiente</span>
+                                } @else {
+                                <span class="badge bg-success rounded-pill">Pagado</span>
+                                }
+                            </td>
+                            <td>
+                                @if(reserva.abonado == false) {
+                                <button type="button" class="btn btn-outline-success mx-1 btn-sm rounded-pill" data-bs-toggle="modal"
+                                    data-bs-target="#exampleModal" (click)="idReserva=reserva.idReserva">
+                                    Proceder con el pago
+                                </button>
+                                }
+                                @if(listaIdInscripcion.includes(reserva.reservaActividadDto.idReservaActividad)){
+                                <button type="button" class="btn btn-outline-danger btn-sm rounded-pill"
+                                    (click)="cancelReservation(reserva.idReserva, reserva.usuarioReservaDto.idUsuario, reserva.abonado)">
+                                    Cancelar reserva
+                                </button>
+                                }
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    }
 </div>
 
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-   <div class="modal-dialog">
-      <div class="modal-content">
-         <div class="modal-header">
-            <h1 class="modal-title fs-5" id="exampleModalLabel">¿Como desea realizar el pago?</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-         </div>
-         <div class="modal-body">
-            <a class="navbar-brand btn btn-info" aria-current="page" [routerLink]="['/paypal', idReserva]"
-               data-bs-dismiss="modal">Paypal</a> <br />
-            <a class="navbar-brand btn btn-info mt-3" aria-current="page" href="#" data-bs-dismiss="modal">Bizúm</a>
-            <br />
-            <a class="navbar-brand btn btn-info mt-3" aria-current="page" href="#" data-bs-dismiss="modal">Efectivo</a>
-            <br />
-         </div>
-         <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-         </div>
-      </div>
-   </div>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">¿Como desea realizar el pago?</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <a class="navbar-brand btn btn-info" aria-current="page" [routerLink]="['/paypal', idReserva]"
+                    data-bs-dismiss="modal">Paypal</a> <br />
+                <a class="navbar-brand btn btn-info mt-3" aria-current="page" href="#" data-bs-dismiss="modal">Bizúm</a>
+                <br />
+                <a class="navbar-brand btn btn-info mt-3" aria-current="page" href="#"
+                    data-bs-dismiss="modal">Efectivo</a>
+                <br />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
 </div>
- 
+
 <!-- MODAL SPINNER -->
 <!-- #############-->
 <div class="modal fade" id="spinner-modal" tabindex="-1" aria-labelledby="modalSpinnerLabel" aria-hidden="true">
-   <div class="modal-dialog modal-dialog-centered text-center">
-       <div class="modal-content">
-           <div class="modal-header d-flex justify-content-center">
-               <h1 class="modal-title fs-5" id="modalSpinnerLabel">Se está conectando con los servidores de Paypal. ¡Por favor, no recargue la página!</h1>
-           </div>
-           <div class="modal-body d-flex justify-content-center">
-               <div id="spinner-paypal" class="spinner-border text-primary" style="width: 5rem; height: 5rem;"
-                   role="status">
-                   <span class="visually-hidden">Loading...</span>
-               </div>
-           </div>
-       </div>
-   </div>
+    <div class="modal-dialog modal-dialog-centered text-center">
+        <div class="modal-content">
+            <div class="modal-header d-flex justify-content-center">
+                <h1 class="modal-title fs-5" id="modalSpinnerLabel">Se está conectando con los servidores de Paypal.
+                    ¡Por favor, no recargue la página!</h1>
+            </div>
+            <div class="modal-body d-flex justify-content-center">
+                <div id="spinner-paypal" class="spinner-border text-primary" style="width: 5rem; height: 5rem;"
+                    role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
