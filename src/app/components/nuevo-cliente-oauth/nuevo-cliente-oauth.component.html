@@ -1,109 +1,122 @@
-<form class="container border border-primary" (ngSubmit)="createActivity(clienteOauth)">
-    <h2 class="mb-4">Nueco cliente Oauth 2</h2>
-
-    <div class="row mb-4">
-        <div class="col-md-2">
-            <label for="clientId" class="form-label">Client Id</label>
-            <input type="text" class="form-control" id="clientId" [(ngModel)]="clienteOauth.clientId" name="clientId" />
-        </div>
-
-        <div class="col-md-2">
-            <label for="clientSecret" class="form-label">Client Secret</label>
-            <input type="text" class="form-control" id="clientSecret" [(ngModel)]="clienteOauth.clientSecret"
-                name="clientSecret" />
-        </div>
-
-        <div class="col-md-3">
-            <label for="clientName" class="form-label">Nombre cliente</label>
-            <input type="text" class="form-control" id="clientName" [(ngModel)]="clienteOauth.clientName"
-                name="clientName" />
-        </div>
-
-        <div class="col-md-5">
-            <label for="authenticationMethods" class="form-label">Método Autenticación</label>
-            <input type="text" class="form-control" id="authenticationMethods"
-                [(ngModel)]="clienteOauth.authenticationMethods" name="authenticationMethods" />
-        </div>
-
-        <div class="row mt-4">
-            <div class="col-md-2">
-                <label for="authorizationGrantTypes" class="form-label">Tipo de Autorizaciones</label>
-                @for (auth of autorizathion; track $index) {
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" [(ngModel)]="auth.checked" [value]="auth.value"
-                        id="{{auth.value}}" name="authorizationGrantTypes"
-                        (change)="onCheckboxChangeAuthorization(auth)">
-                    <label class="form-check-label" for="{{auth.value}}">{{auth.value}}</label>
-                </div>
-                }
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <!-- Damos una sombra al card utilizando shadow-lg -->
+        <div class="card shadow-lg border-0">
+            <div class="card-header bg-primary text-white text-center">
+                <h3>Nuevo cliente Oauth 2</h3>
             </div>
-            
-            <div class="col-md-1">
-                <label for="scopes" class="form-label">Scopes</label>
-                @for (scop of scopes; track $index) {
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" [(ngModel)]="scop.checked" [value]="scop.value"
-                        id="{{scop.value}}" name="authorizationGrantTypes" (change)="onCheckboxChangeScopes(scop)">
-                    <label class="form-check-label" for="{{scop.value}}">{{scop.value}}</label>
-                </div>
-                }
-            </div>
+            <div class="card-body">
+                <form class="container border border-0" (ngSubmit)="createActivity(clienteOauth)">
+                    <h2 class="mb-4"></h2>
 
-            <div class="col-md-2">
-                <label for="timeAccesToken" class="form-label">Tiempo Acces Token</label>
-                <input type="text" class="form-control" id="timeAccesToken" [(ngModel)]="clienteOauth.timeAccesToken"
-                    name="timeAccesToken" />
-            </div>
+                    <div class="row mb-4">
+                        <div class="col-md-2">
+                            <label for="clientId" class="form-label">Client Id</label>
+                            <input type="text" class="form-control" id="clientId" [(ngModel)]="clienteOauth.clientId"
+                                name="clientId" />
+                        </div>
 
-            <div class="col-md-2">
-                <label for="timeRefrehsToken" class="form-label">Tiempo Refresh Token</label>
-                <input type="text" class="form-control" id="timeRefrehsToken"
-                    [(ngModel)]="clienteOauth.timeRefrehsToken" name="timeRefrehsToken" />
+                        <div class="col-md-2">
+                            <label for="clientSecret" class="form-label">Client Secret</label>
+                            <input type="text" class="form-control" id="clientSecret"
+                                [(ngModel)]="clienteOauth.clientSecret" name="clientSecret" />
+                        </div>
+
+                        <div class="col-md-3">
+                            <label for="clientName" class="form-label">Nombre cliente</label>
+                            <input type="text" class="form-control" id="clientName"
+                                [(ngModel)]="clienteOauth.clientName" name="clientName" />
+                        </div>
+
+                        <div class="col-md-5">
+                            <label for="authenticationMethods" class="form-label">Método Autenticación</label>
+                            <input type="text" class="form-control" id="authenticationMethods"
+                                [(ngModel)]="clienteOauth.authenticationMethods" name="authenticationMethods" />
+                        </div>
+
+                        <div class="row mt-4">
+                            <div class="col-md-2">
+                                <label for="authorizationGrantTypes" class="form-label">Tipo de Autorizaciones</label>
+                                @for (auth of autorizathion; track $index) {
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" [(ngModel)]="auth.checked"
+                                        [value]="auth.value" id="{{auth.value}}" name="authorizationGrantTypes"
+                                        (change)="onCheckboxChangeAuthorization(auth)">
+                                    <label class="form-check-label" for="{{auth.value}}">{{auth.value}}</label>
+                                </div>
+                                }
+                            </div>
+
+                            <div class="col-md-1">
+                                <label for="scopes" class="form-label">Scopes</label>
+                                @for (scop of scopes; track $index) {
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" [(ngModel)]="scop.checked"
+                                        [value]="scop.value" id="{{scop.value}}" name="authorizationGrantTypes"
+                                        (change)="onCheckboxChangeScopes(scop)">
+                                    <label class="form-check-label" for="{{scop.value}}">{{scop.value}}</label>
+                                </div>
+                                }
+                            </div>
+
+                            <div class="col-md-2">
+                                <label for="timeAccesToken" class="form-label">Tiempo Acces Token</label>
+                                <input type="text" class="form-control" id="timeAccesToken"
+                                    [(ngModel)]="clienteOauth.timeAccesToken" name="timeAccesToken" />
+                            </div>
+
+                            <div class="col-md-2">
+                                <label for="timeRefrehsToken" class="form-label">Tiempo Refresh Token</label>
+                                <input type="text" class="form-control" id="timeRefrehsToken"
+                                    [(ngModel)]="clienteOauth.timeRefrehsToken" name="timeRefrehsToken" />
+                            </div>
+                        </div>
+
+                        <div class="row mt-2">
+                            <div class="col-9 mt-2">
+                                <label for="redirectUris" class="form-label">Redirección Urls</label>
+
+                                <!-- Div principal que contiene el primer input y el botón -->
+                                <div id="url-redirect">
+                                    <div class="d-flex align-items-center">
+                                        <!-- Primer input con botón alineado a la derecha -->
+                                        <input type="text" class="form-control me-2 w-100" [(ngModel)]="redirectUris[0]"
+                                            (blur)="updateUri(0, redirectUris[0])" name="redirectUri0" />
+
+                                        <!-- Botón alineado con el primer input -->
+                                        <button type="button" class="btn btn-primary ms-2"
+                                            (click)="updateRedirectUris()">
+                                            <i class="bi bi-plus-lg"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- Inputs adicionales que se muestran uno debajo del otro -->
+                                @for (i of redirectUris.slice(1); track $index) {
+                                <div class="mt-2 d-flex align-items-center">
+                                    <input type="text" class="form-control" [(ngModel)]="redirectUris[$index + 1]"
+                                        (blur)="updateUri($index + 1, redirectUris[$index + 1])"
+                                        name="redirectUri{{i + 1}}" />
+                                    <button type="button" class="btn btn-primary ms-2"
+                                        (click)="removeInput($index + 1)">
+                                        <i class="bi bi-x-circle"></i>
+                                    </button>
+
+                                </div>
+                                }
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <label for="postLogoutRedirectUris" class="form-label">Post Logout redirect Uris</label>
+                            <input type="text" class="form-control" id="postLogoutRedirectUris"
+                                [(ngModel)]="clienteOauth.postLogoutRedirectUris" name="postLogoutRedirectUris" />
+                        </div>
+
+                    </div>
+                    <button type="submit" class="btn btn-primary mb-3">Crear Reserva</button>
+                </form>
             </div>
         </div>
-  
-        <div class="row mt-2">
-            <div class="col-9 mt-2">
-              <label for="redirectUris" class="form-label">Redirección Urls</label>
-          
-              <!-- Div principal que contiene el primer input y el botón -->
-              <div id="url-redirect">
-                <div class="d-flex align-items-center">
-                  <!-- Primer input con botón alineado a la derecha -->
-                  <input type="text" class="form-control me-2 w-100"
-                    [(ngModel)]="redirectUris[0]"
-                    (blur)="updateUri(0, redirectUris[0])"
-                    name="redirectUri0" />
-          
-                  <!-- Botón alineado con el primer input -->
-                  <button type="button" class="btn btn-primary ms-2" (click)="updateRedirectUris()">
-                    <i class="bi bi-plus-lg"></i>
-                  </button>
-                </div>
-              </div>
-          
-              <!-- Inputs adicionales que se muestran uno debajo del otro -->
-              @for (i of redirectUris.slice(1); track $index) {
-                <div class="mt-2 d-flex align-items-center">
-                    <input type="text" class="form-control"
-                    [(ngModel)]="redirectUris[$index + 1]"
-                    (blur)="updateUri($index + 1, redirectUris[$index + 1])"
-                    name="redirectUri{{i + 1}}" />
-                    <button type="button" class="btn btn-primary ms-2" (click)="removeInput($index + 1)">
-                        <i class="bi bi-x-circle"></i>
-                      </button>
-                    
-                </div>
-            }
-            </div>
-          </div>
-
-        <div class="col-md-2">
-            <label for="postLogoutRedirectUris" class="form-label">Post Logout redirect Uris</label>
-            <input type="text" class="form-control" id="postLogoutRedirectUris"
-                [(ngModel)]="clienteOauth.postLogoutRedirectUris" name="postLogoutRedirectUris" />
-        </div>
-
     </div>
-    <button type="submit" class="btn btn-primary mb-3">Crear Reserva</button>
-</form>
+</div>

@@ -31,6 +31,10 @@ export class HistorialReservasComponent {
     this.reservaService.consultReservationsHistory(idUsuario).subscribe({
       next: response => {
         this.listReservasResponse = response;
+        this.listReservasResponse.forEach(list => {
+          list.horaInicioReserva = list.horaInicioReserva.split(':').slice(0,2).join(':');
+          list.horaFinReserva = list.horaFinReserva.split(':').slice(0,2).join(':');
+        });
       }
     })
   }

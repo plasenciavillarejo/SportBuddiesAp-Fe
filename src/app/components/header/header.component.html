@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg " style="background-color: #e3f2fd;">
+<nav class="navbar navbar-expand-lg bg-primary">
   <div class="container-fluid">
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
       aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -6,27 +6,19 @@
     </button>
 
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
-      <a class="navbar-brand" href="#">Inicio</a>
-
-      @if (isAdmin) {
-        <a class="navbar-brand" aria-current="page" [routerLink]="['/nueva-actividad']">Soy Admin</a>
-      }
-      @if (isAuthenticate) {
-        <a class="navbar-brand" aria-current="page">Soy Usuario</a>
-      }
-      <a class="navbar-brand" aria-current="page" [routerLink]="['/nueva-actividad']">Nueva Actividad</a>
-      
+      <a class="navbar-brand text-white" href="#">Inicio</a>
+      <a class="navbar-brand text-white" aria-current="page" [routerLink]="['/nueva-actividad']">Nueva Actividad</a>
     </div>
   
   <!-- d-block d-lg-inline: Esta clase hará que el botón se muestre como un bloque completo en pantallas pequeñas (d-block), lo que lo hará visible aunque el 
    menú esté colapsado. En pantallas grandes (d-lg-inline), el botón se mostrará en línea dentro de la barra de navegación-->
-    <nav class="navbar navbar-expand-lg" style="background-color: #e3f2fd;">
+    <nav class="navbar navbar-expand-lg bg-primary text-white">
       <div class="container-fluid">
         <div class="navbar-collapse justify-content-end" id="navbarNavDropdownLogin">
           <span class="nav-item text-primary mx-3">
             <!--<a class="navbar-link btn btn-outline-primary btn-lg d-block d-lg-inline" aria-current="page" [routerLink]="['/login']">Sign</a>-->
             @if (!isAuthenticate) {
-              <a class="navbar-link btn btn-outline-primary btn-lg d-block d-lg-inline" aria-current="page" (click)="onLogin()">Sign</a>
+              <a class="navbar-link btn btn-outline-primary btn-lg d-block d-lg-inline text-white" aria-current="page" (click)="onLogin()">Sign</a>
             } @else {
               @if(isSesionInit) {
                 <div class="alert alert-success fade-out isFading" role="alert">
@@ -35,7 +27,7 @@
               }
               <ul class="navbar-nav ms-auto">
                 <li id="navbar-dropdown" class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     {{obtainNameUser()}}
                   </a>
                    <!--DropDown alineado a la derecha al abrir queda cortado, solución: dropdown-menu-end -->
