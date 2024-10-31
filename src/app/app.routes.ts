@@ -39,18 +39,22 @@ export const routes: Routes = [
     {
         path: 'logout',
         component: LogoutComponent,
+        canActivate: [authGuard]
     },
     {
         path: 'nuevo-cliente-oauth',
         component: NuevoClienteOauthComponent,
+        canActivate: [authGuard]
     },
     {
         path: 'mis-reservas',
         component: MisReservasComponent,
+        canActivate: [authGuard]
     },
     {
         path: 'historial-reservas',
         component: HistorialReservasComponent,
+        canActivate: [authGuard]
     },
     {
         path: 'paypal/:id',
@@ -63,6 +67,7 @@ export const routes: Routes = [
     {
         path: 'nuevo-usuario',
         component: NuevoUsuarioComponent,
+        canActivate: [authGuard]
     }
 
 ];

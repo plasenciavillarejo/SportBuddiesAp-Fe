@@ -143,13 +143,15 @@
                 </td>
                 <td>{{formActi.abonoPista}} €</td>
                 <td>
-                    @if(!listaIdInscripcion.includes(formActi.idReservaActividad)){
+                    @if(!listaIdInscripcion.includes(formActi.idReservaActividad) && isAuthenticate()){
                     <button type="submit" class="btn btn-outline-primary btn-sm rounded-pill"
                         (click)="makeReservationActivity(formActi)">
                         Reservar
                     </button>
-                    } @else {
+                    } @else if(isAuthenticate()) {
                     <span class="badge bg-success rounded-pill">Reservado</span>
+                    } @else {
+                        <span class="badge bg-danger rounded-pill">Debe loguearse para realizar la reserva</span>
                     }
                 </td>
             </tr>

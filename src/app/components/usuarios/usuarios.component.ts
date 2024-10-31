@@ -192,11 +192,10 @@ export class UsuariosComponent implements OnInit {
   /**
    * Función encargada de visualizar las actividades en la página principal
    */
-  consultListReservations(): void {
-    
+  consultListReservations(): void {    
     this.formSubmitted = true;
     // Valida el formulario
-    this.validateForm(this.busquedadActividadRequest);
+    this.validateForm();
 
     this.usuarioService.loadReservationList(this.busquedadActividadRequest).subscribe({
       next: (response) => {
@@ -224,7 +223,7 @@ export class UsuariosComponent implements OnInit {
    * Función encargada de validar los campos del formulario de busqueda
    * @param formularioActividadRequest 
    */
-  validateForm(formularioActividadRequest: BusquedaActividadRequest) {
+  validateForm() {
     let error: Boolean = false;
     if (!this.busquedadActividadRequest.fechaReserva) {
       error = true
@@ -238,7 +237,6 @@ export class UsuariosComponent implements OnInit {
     if (this.busquedadActividadRequest.municipio === undefined) {
       error = true;
     }
-
     if (error) {
       throw new Error;
     }
@@ -328,4 +326,9 @@ export class UsuariosComponent implements OnInit {
     
     return `${year}-${month}-${day}`;
 }
+
+  isAuthenticate(): boolean {
+    return this.tokenService.isAuthenticate();
+  }
+
 }

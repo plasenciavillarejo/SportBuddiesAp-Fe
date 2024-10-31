@@ -79,13 +79,19 @@ export class HeaderComponent implements OnInit {
     this.authService.logout();
   }
 
+  /**
+   * Función encargada de asinar los permisos de cada rol
+   */
   getLogged():void {
     this.isAuthenticate = this.tokenService.isAuthenticate();
     this.isAdmin = this.tokenService.isRoleAdmin();
     this.isUser = this.tokenService.isRoleUser();
   }
 
-  /*Función encargada de generar el Verifie para poder enviarlo en la autenticación */
+  /**
+   * Función encargada de generar el Verifie para poder enviarlo en la autenticación
+   * @returns 
+   */
   generateCodeVerify(): string{
     let resultCode = '';
     // Para generar el código debemos de crearnos una constante que contenga 44 carácteres.
@@ -97,7 +103,10 @@ export class HeaderComponent implements OnInit {
   }
 
   /**
-   * FUnción encargada de cifrar el Code Verifier*/
+   * FUnción encargada de cifrar el Code Verifier
+   * @param codeVerifier 
+   * @returns 
+   */
   async generateCodeChallenge(codeVerifier: string): Promise<string> {
     const encoder = new TextEncoder();
     const data = encoder.encode(codeVerifier);
@@ -110,6 +119,8 @@ export class HeaderComponent implements OnInit {
 
   /**
    * Función auxiliar para convertir ArrayBuffer en Base64-url
+   * @param buffer 
+   * @returns 
    */
   arrayBufferToBase64Url(buffer: ArrayBuffer): string {
     const bytes = new Uint8Array(buffer);
