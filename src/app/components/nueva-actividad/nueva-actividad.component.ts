@@ -113,6 +113,25 @@ export class NuevaActividadComponent {
   }
 
   /**
+   * Función encargada de validar el formato para un input del tipo float
+   * @param event 
+   */
+  validarDecimales(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    input.value = input.value.match(/^\d+(\.\d{0,2})?/)?.[0] || '';
+    this.crearActividadRequest.abonoPista = input.value;
+  }
+/**
+   * Función encargada de validar el formato para un input del tipo float
+   * @param event 
+   */
+  validarCodigoPostal(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    input.value = input.value.replace(/\D/g, '').slice(0, 5); // Elimina caracteres no numéricos y limita a 5 dígitos
+    this.crearActividadRequest.codigoPostal = parseInt(input.value, 10) || 0;
+  }
+
+  /**
    * Función encargada de enviar el formulario para crear un nuevo clientes para el acceso de la apliación
    * @param clienteOauth 
    */
