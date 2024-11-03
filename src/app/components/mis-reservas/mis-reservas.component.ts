@@ -111,7 +111,7 @@ export class MisReservasComponent implements OnInit {
             response.success,
             'success'
           ) 
-          // Volvemos a cargar el listado de la página para que visualizar los cambios
+          // Volvemos a cargar el listado de la página para que se visualicen los cambios
           this.listReservation(this.tokenService.obtainIdUser(), '');
 
         }, error: error => {

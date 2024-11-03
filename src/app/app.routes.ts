@@ -11,6 +11,7 @@ import { HistorialReservasComponent } from './components/historial-reservas/hist
 import { PaypalComponent } from './components/paypal/paypal.component';
 import { PaypalCancelComponent } from './components/paypal-cancel/paypal-cancel.component';
 import { NuevoUsuarioComponent } from './components/nuevo-usuario/nuevo-usuario.component';
+import { ReservasCreadasComponent } from './components/reservas-creadas/reservas-creadas.component';
 
 export const routes: Routes = [
     /**Por defecto si el path es vació nos redigira a usuarios */
@@ -67,6 +68,11 @@ export const routes: Routes = [
     {
         path: 'nuevo-usuario',
         component: NuevoUsuarioComponent,
+        canActivate: [authGuard]
+    },
+    {
+        path: 'reservas-creadas',
+        component: ReservasCreadasComponent,
         canActivate: [authGuard]
     }
 
