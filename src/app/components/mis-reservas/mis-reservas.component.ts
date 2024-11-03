@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ReservasService } from '../../services/reservas.service';
 import { FormsModule } from '@angular/forms';
@@ -7,11 +7,13 @@ import { TokenService } from '../../services/token.service';
 import { RouterLink } from '@angular/router';
 import { ServicioCompartidoService } from '../../services/servicio-compartido.service';
 import { FormularioActividadResponse } from '../../models/formularioActividadResponse';
+import Swal from 'sweetalert2';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-mis-reservas',
   standalone: true,
-  imports: [FormsModule, RouterLink],
+  imports: [FormsModule, RouterLink, CommonModule],
   templateUrl: './mis-reservas.component.html',
   styleUrl: './mis-reservas.component.css'
 })
@@ -19,13 +21,15 @@ export class MisReservasComponent implements OnInit {
 
   constructor(private reservaService: ReservasService,
     private tokenService: TokenService,
-    private servicioCompartido: ServicioCompartidoService
+    private servicioCompartido: ServicioCompartidoService,
+    private cdRef: ChangeDetectorRef
   ) {}
 
   listReservasResponse: ReservasResponse[] = [];
   listaIdInscripcion: any[] = [];
 
-  idReserva!: number;
+  idReservaUsuario!: number;
+  pagoEfectivo: boolean = false;
 
   ngOnInit(): void {
     this.listReservation(this.tokenService.obtainIdUser(), '');
@@ -56,7 +60,7 @@ export class MisReservasComponent implements OnInit {
    * @returns 
    */
   obtainIdReservation(): number {
-    return this.idReserva;
+    return this.idReservaUsuario;
   }
 
   /**
@@ -87,6 +91,34 @@ export class MisReservasComponent implements OnInit {
         }
       });    
     }
-    
+
+    /**
+     * Función encargada de realizar el pago en efectivo
+     * @param idReservaUsuario 
+     */
+    paymentCash(idReservaUsuario: number) {
+      this.pagoEfectivo = true;
+      // Se le indica a Angular que verifique inmediatamente si hubo cambios en las propiedades o variables vinculadas al HTML del componente.
+      this.cdRef.detectChanges();
+
+      this.servicioCompartido.showSpinnerModal();
+      console.log('Se ha obtenido el id de la reserva del usuario: ', idReservaUsuario);
+      this.reservaService.paymentCash(idReservaUsuario).subscribe({
+        next: response => {
+          this.servicioCompartido.hideSpinnerModal();
+          Swal.fire(
+            'Pago realizado exitosamente',
+            response.success,
+            'success'
+          ) 
+          // Volvemos a cargar el listado de la página para que visualizar los cambios
+          this.listReservation(this.tokenService.obtainIdUser(), '');
+
+        }, error: error => {
+          this.servicioCompartido.hideSpinnerModal();
+          throw new error;
+        }
+      });
+    }
 
 }

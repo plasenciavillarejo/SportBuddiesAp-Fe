@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Reserva } from '../models/reserva';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { InscripcionReservaActividad } from '../models/inscripcionReservaActividad';
 import { Usuario } from '../models/usuario';
@@ -12,18 +11,13 @@ import { BusquedaActividadRequest } from '../models/busquedaActividadRequest';
 })
 export class UsuarioService {
 
-  private httpHeaders = new HttpHeaders({'Content-Type': 'application/json'});
-
-  private reserva:  Reserva[] = [];
-
-  url_combo = environment.hostname_port_local_gtw + '/api/main/reservaActividad/comboInicio';
-  url_municipalities = environment.hostname_port_local_gtw + '/api/main/reservaActividad/listadoMunicipios';
-  url_listing_reservation = environment.hostname_port_local_gtw + '/api/main/reservaActividad/listadoReserva';
-  url_registration_reservation = environment.hostname_port_local_gtw + '/api/main/reservaActividad/inscripcion';
-  url_validate_activity = environment.hostname_port_local_gtw + '/api/main/reservaActividad/validarActividad/';
-  url_delete_activity = environment.hostname_port_local_gtw + '/api/main/reservaUsuario/eliminar/';
-  url_crete_user = environment.hostname_port_local_gtw + "/api/main/usuario/crear"
-
+  private url_combo = environment.hostname_port_local_gtw + '/api/main/reservaActividad/comboInicio';
+  private url_municipalities = environment.hostname_port_local_gtw + '/api/main/reservaActividad/listadoMunicipios';
+  private url_listing_reservation = environment.hostname_port_local_gtw + '/api/main/reservaActividad/listadoReserva';
+  private url_registration_reservation = environment.hostname_port_local_gtw + '/api/main/reservaActividad/inscripcion';
+  private url_validate_activity = environment.hostname_port_local_gtw + '/api/main/reservaActividad/validarActividad/';
+  private url_delete_activity = environment.hostname_port_local_gtw + '/api/main/reservaUsuario/eliminar/';
+  private url_crete_user = environment.hostname_port_local_gtw + "/api/main/usuario/crear"
 
   constructor(private http: HttpClient) { }
 

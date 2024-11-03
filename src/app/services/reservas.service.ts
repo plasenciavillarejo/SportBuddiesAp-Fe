@@ -8,9 +8,10 @@ import { Observable } from 'rxjs';
 })
 export class ReservasService {
 
-  url_my_reservations = environment.hostname_port_local_gtw + '/api/main/reservaUsuario/misReservas';
-  url_history_reservations = environment.hostname_port_local_gtw + '/api/main/reservaUsuario/historialReservas';
-  url_price_activity = environment.hostname_port_local_gtw + `/api/main/reservaUsuario/obtenerPrecio/`;
+  private url_my_reservations = environment.hostname_port_local_gtw + '/api/main/reservaUsuario/misReservas';
+  private url_history_reservations = environment.hostname_port_local_gtw + '/api/main/reservaUsuario/historialReservas';
+  private url_price_activity = environment.hostname_port_local_gtw + `/api/main/reservaUsuario/obtenerPrecio/`;
+  private url_paymen_cash = environment.hostname_port_local_gtw + "/api/main/reservaUsuario/confirmacion/pago"
 
   constructor(private http: HttpClient) { }
 
@@ -31,4 +32,9 @@ export class ReservasService {
   obtainPriceReservation(idReservaUsuario: number): Observable<any> {
     return this.http.get<any>(this.url_price_activity + idReservaUsuario);
   }
+
+  paymentCash(idReservaUsuario: number): Observable<any> {
+    return this.http.post<any>(`${this.url_paymen_cash}/${idReservaUsuario}`, {});
+  }
+
 }

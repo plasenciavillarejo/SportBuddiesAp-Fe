@@ -21,4 +21,7 @@ export class ReservasResponse {
     reservaActividadDto: FormularioActividadResponse = new FormularioActividadResponse();
 
     abonado!: boolean;
+
+    metodoPago!: string;
+    
 }

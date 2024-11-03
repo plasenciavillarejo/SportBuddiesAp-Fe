@@ -27,6 +27,7 @@
                             <th>Deporte Reserva</th>
                             <th>Abonado</th>
                             <th>Estado</th>
+                            <th>Método Pago</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
@@ -39,16 +40,24 @@
                             <td>{{reserva.deporteReservaDto.actividad}}</td>
                             <td>{{reserva.abonado ? 'Sí' : 'No'}}</td>
                             <td class="text-center">
-                                @if (reserva.abonado == false) {
+                                @if (!reserva.abonado) {
                                 <span class="badge bg-danger rounded-pill">Pendiente</span>
                                 } @else {
                                 <span class="badge bg-success rounded-pill">Pagado</span>
                                 }
                             </td>
+                            <td class="text-center">
+                                @if (!reserva.abonado) {
+                                <span class="badge bg-warning rounded-pill">N/A</span>
+                                } @else {
+                                <span class="badge bg-primary rounded-pill">{{reserva.metodoPago}}</span>
+                                }
+                            </td>
                             <td>
-                                @if(reserva.abonado == false) {
-                                <button type="button" class="btn btn-outline-success mx-1 btn-sm rounded-pill" data-bs-toggle="modal"
-                                    data-bs-target="#exampleModal" (click)="idReserva=reserva.idReserva">
+                                @if(!reserva.abonado) {
+                                <button type="button" class="btn btn-outline-success mx-1 btn-sm rounded-pill"
+                                    data-bs-toggle="modal" data-bs-target="#exampleModal"
+                                    (click)="idReservaUsuario=reserva.idReserva">
                                     Proceder con el pago
                                 </button>
                                 }
@@ -70,7 +79,8 @@
     }
 </div>
 
-<!-- Modal -->
+<!-- Modal para elegir la opción de pago -->
+<!-- ################################### -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -79,12 +89,12 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <a class="navbar-brand btn btn-info" aria-current="page" [routerLink]="['/paypal', idReserva]"
+                <a class="navbar-brand btn btn-info" aria-current="page" [routerLink]="['/paypal', idReservaUsuario]"
                     data-bs-dismiss="modal">Paypal</a> <br />
                 <a class="navbar-brand btn btn-info mt-3" aria-current="page" href="#" data-bs-dismiss="modal">Bizúm</a>
                 <br />
                 <a class="navbar-brand btn btn-info mt-3" aria-current="page" href="#"
-                    data-bs-dismiss="modal">Efectivo</a>
+                    data-bs-dismiss="modal" (click)="paymentCash(idReservaUsuario)" >Efectivo</a>
                 <br />
             </div>
             <div class="modal-footer">
@@ -100,8 +110,12 @@
     <div class="modal-dialog modal-dialog-centered text-center">
         <div class="modal-content">
             <div class="modal-header d-flex justify-content-center">
-                <h1 class="modal-title fs-5" id="modalSpinnerLabel">Se está conectando con los servidores de Paypal.
-                    ¡Por favor, no recargue la página!</h1>
+                @if (!this.pagoEfectivo) {
+                    <h1 class="modal-title fs-5" id="modalSpinnerLabel">Se está conectando con los servidores de  Paypal.
+                        ¡Por favor, no recargue la página!</h1>
+                }@else {
+                    <h1 class="modal-title fs-5" id="modalSpinnerLabel">Se está realizando el abonamiento. ¡Por favor, no recargue la página!</h1>
+                }
             </div>
             <div class="modal-body d-flex justify-content-center">
                 <div id="spinner-paypal" class="spinner-border text-primary" style="width: 5rem; height: 5rem;"

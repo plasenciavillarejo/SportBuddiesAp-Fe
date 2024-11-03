@@ -4,8 +4,6 @@ import { UsuarioService } from './usuario.service';
 import { Observable } from 'rxjs';
 import { TokenService } from './token.service';
 import { InscripcionReservaActividad } from '../models/inscripcionReservaActividad';
-import { FormularioActividadResponse } from '../models/formularioActividadResponse';
-import { format } from 'date-fns';
 
 @Injectable({
   providedIn: 'root'
