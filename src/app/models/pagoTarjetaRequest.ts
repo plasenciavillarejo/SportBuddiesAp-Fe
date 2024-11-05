@@ -8,6 +8,16 @@ export class PagoTarjetaRequest {
 
     cvc!: number;
 
-    paymentMethod!: string;
+    metodoPago!: string;
+
+    cantidad!: number;
+
+    divisa!: string;
+
+    descripcion!: string;
+
+    idUsuario!: number;
+    
+    idReservaUsuario!: number;
     
 }

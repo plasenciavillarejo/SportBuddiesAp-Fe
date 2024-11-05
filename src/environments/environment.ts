@@ -17,4 +17,5 @@ export const environment = {
     hostname_port_local_gtw: 'http://localhost:8090',
     hostname_port_local_fe: 'http://localhost:4200',
     hostname_port_local_oauth: 'http://localhost:9000',
+    key_stripe: 'pk_test_51QHLE5KPTU50YCkCu2PCHKCHyjTj0tgu0oUvbvQQQCLiDJkiw0xoaGmJ1rDiV7glZvtbxzIbyn30LAOwn5IVhJ8f008GoACgYJ',
 };

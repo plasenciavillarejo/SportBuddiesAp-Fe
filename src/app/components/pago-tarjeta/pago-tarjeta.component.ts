@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { loadStripe, Stripe } from '@stripe/stripe-js';
 import { PagoTarjetaService } from '../../services/pago-tarjeta.service';
 import { PagoTarjetaRequest } from '../../models/pagoTarjetaRequest';
 import { ServicioCompartidoService } from '../../services/servicio-compartido.service';
 import { SpinnerModalComponent } from '../spinner-modal/spinner-modal.component';
+import { environment } from '../../../environments/environment';
+import { TokenService } from '../../services/token.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-pago-tarjeta',
@@ -31,7 +34,9 @@ export class PagoTarjetaComponent implements OnInit {
 
   constructor(private activatedRoute: ActivatedRoute,
     private pagoTarjetaService: PagoTarjetaService,
-    private servicioCompartido: ServicioCompartidoService) { }
+    private servicioCompartido: ServicioCompartidoService,
+    private tokenService: TokenService,
+    private router: Router) { }
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(params => {
@@ -41,7 +46,7 @@ export class PagoTarjetaComponent implements OnInit {
     });
     this.pagoTarjeta = true;
 
-    loadStripe('pk_test_51QHLE5KPTU50YCkCu2PCHKCHyjTj0tgu0oUvbvQQQCLiDJkiw0xoaGmJ1rDiV7glZvtbxzIbyn30LAOwn5IVhJ8f008GoACgYJ')
+    loadStripe(environment.key_stripe)
       .then((stripeInstance) => {
         this.stripe = stripeInstance;
         this.cardElement = this.stripe!.elements().create('card');
@@ -74,9 +79,31 @@ export class PagoTarjetaComponent implements OnInit {
       if (result.error) {
         console.error(result.error.message);
       } else {
-        console.log('PaymentMethod created:', result.paymentMethod);
-        // Lógica adicional para manejar el resultado del pago
         this.servicioCompartido.showSpinnerModal();
+        console.log('PaymentMethod created:', result.paymentMethod);        
+        pagoTarjetaRequest.metodoPago = result.paymentMethod.id;
+        pagoTarjetaRequest.cantidad = this.precioActividad;
+        pagoTarjetaRequest.divisa = 'EUR';
+        pagoTarjetaRequest.descripcion = 'Pago Pista ' + this.nombreActividad;
+        pagoTarjetaRequest.idUsuario = this.tokenService.obtainIdUser();
+        pagoTarjetaRequest.idReservaUsuario = this.idReservaUsuario;
+        
+        this.pagoTarjetaService.paymentCard(pagoTarjetaRequest).subscribe({
+          next: response => {
+            if (response.clientSecret != null) {
+              this.servicioCompartido.hideSpinnerModal();
+              Swal.fire(
+                'Pago confirmado',
+                'Se ha realizado el pago exitosamente',
+                'success'
+              );
+              this.router.navigate(['/usuarios'], { replaceUrl: true });
+            }
+          }, error: error => {
+            this.servicioCompartido.hideSpinnerModal();
+            throw new error;
+          }
+        });
       }
     });
   }
