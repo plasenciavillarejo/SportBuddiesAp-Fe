@@ -1,0 +1,102 @@
+<script src="https://js.stripe.com/v3/"></script>
+<div class="container d-flex justify-content-between flex-wrap mt-5">
+    <div class="col-12 col-md-5">
+        <div class="card shadow-lg m-2">
+            <div class="card-header bg-primary text-white text-center">
+                Actividad
+            </div>
+            <div class="card-body">
+                <table class="table table-striped text-center">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <label class="fw-bold fst-italic">Nombre Actividad:</label>
+                            </td>
+                            <td>
+                                <span id="activity" class="fst-italic">{{ nombreActividad}}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label class="fw-bold fst-italic">Precio Actividad:</label>
+                            </td>
+                            <td>
+                                <span id="price" class="fst-italic">{{ precioActividad}} €</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Barra vertical en el centro, oculta en pantallas pequeñas -->
+    <div class="d-none d-md-flex align-items-center">
+        <hr class="m-0" style="width: 1px; height: 350px; background-color: #000;">
+    </div>
+
+    <form (ngSubmit)="processPayment(pagoTarjetaRequest)">
+        <div class="mb-3">
+            <label for="cardholderName" class="form-label">Nombre del Titular de la tarjeta</label>
+            <div class="input-group">
+                <span class="input-group-text">
+                    <i class="bi bi-person-fill"></i>
+                </span>
+                <input type="text" id="nombreTitular" class="form-control" placeholder="Nombre completo" required name="nombreTitular"
+                [(ngModel)]="pagoTarjetaRequest.nombreTitular"/>
+            </div>
+        </div>
+        <!--
+        <div class="mb-3 position-relative">
+            <label for="cardNumber" class="form-label">Número de Tarjeta</label>
+            <div class="input-group">
+                <span class="input-group-text">
+                    <i class="bi bi-credit-card"></i>
+                </span>
+                <input type="text" id="numeroTarjeta" class="form-control" placeholder="1234 5678 9012 3456" maxlength="19"
+                    required name="numeroTarjeta" [(ngModel)]="pagoTarjetaRequest.numeroTarjeta"/>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3 position-relative">
+                <label for="expiryDate" class="form-label">Fecha de Expiración</label>
+                <div class="input-group">
+                    <span class="input-group-text">
+                        <i class="bi bi-calendar-event"></i>
+                    </span>
+                    <input type="text" id="fechaExpiracion" class="form-control" placeholder="MM/YY" maxlength="5"
+                        required name="fechaExpiracion" [(ngModel)]="pagoTarjetaRequest.fechaExpiracion"/>
+                </div>
+            </div>
+
+            <div class="col-md-6 mb-3 position-relative">
+                <label for="cvc" class="form-label">CVC</label>
+                <div class="input-group">
+                    <span class="input-group-text">
+                        <i class="bi bi-lock-fill"></i>
+                    </span>
+                    <input type="text" id="cvc" class="form-control" placeholder="123" maxlength="3" required 
+                    name="cvc" [(ngModel)]="pagoTarjetaRequest.cvc"/>
+                </div>
+            </div>
+        </div>
+    -->
+        <div id="card-element" class="form-control col-md-6 mb-3 position-relative"></div>
+
+        <div class="text-center mt-4">
+            <button type="submit" class="btn btn-primary w-100">
+                <i class="bi bi-check-circle-fill me-2"></i> Pagar
+            </button>
+        </div>
+    </form>
+    @if(pagoTarjeta) {
+        <app-spinner-modal [pagoTarjeta]="true"></app-spinner-modal>
+    }
+</div>

@@ -1,0 +1,24 @@
+<!-- MODAL SPINNER -->
+<!-- #############-->
+<div class="modal fade" id="spinner-modal" tabindex="-1" aria-labelledby="modalSpinnerLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered text-center">
+        <div class="modal-content">
+            <div class="modal-header d-flex justify-content-center">
+                @if (this.pagoPaypal) {
+                    <h1 class="modal-title fs-5" id="modalSpinnerLabel">Se está conectando con los servidores de  Paypal.
+                        ¡Por favor, no recargue la página!</h1>
+                }@else if(this.pagoTarjeta){
+                    <h1 class="modal-title fs-5" id="modalSpinnerLabel">Se está realizando el pago. ¡Por favor, no recargue la página!</h1>
+                } @else if(this.cancelarPago) {
+                    <h1 class="modal-title fs-5" id="modalSpinnerLabel">Procediendo a la cancelación del pago. ¡Por favor, no recargue la página!</h1>
+                }
+            </div>
+            <div class="modal-body d-flex justify-content-center">
+                <div id="spinner-paypal" class="spinner-border text-primary" style="width: 5rem; height: 5rem;"
+                    role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -12,6 +12,8 @@ import { PaypalComponent } from './components/paypal/paypal.component';
 import { PaypalCancelComponent } from './components/paypal-cancel/paypal-cancel.component';
 import { NuevoUsuarioComponent } from './components/nuevo-usuario/nuevo-usuario.component';
 import { ReservasCreadasComponent } from './components/reservas-creadas/reservas-creadas.component';
+import { PagoTarjetaComponent } from './components/pago-tarjeta/pago-tarjeta.component';
+import { SpinnerModalComponent } from './components/spinner-modal/spinner-modal.component';
 
 export const routes: Routes = [
     /**Por defecto si el path es vació nos redigira a usuarios */
@@ -73,6 +75,11 @@ export const routes: Routes = [
     {
         path: 'reservas-creadas',
         component: ReservasCreadasComponent,
+        canActivate: [authGuard]
+    },
+    {
+        path: 'pago-tarjeta/:idReservaUsuario/:nombreActividad/:precioActividad',
+        component: PagoTarjetaComponent,
         canActivate: [authGuard]
     }
 

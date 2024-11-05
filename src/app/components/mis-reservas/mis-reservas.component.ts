@@ -1,19 +1,18 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
 import { ReservasService } from '../../services/reservas.service';
 import { FormsModule } from '@angular/forms';
 import { ReservasResponse } from '../../models/reservasResponse';
 import { TokenService } from '../../services/token.service';
 import { RouterLink } from '@angular/router';
 import { ServicioCompartidoService } from '../../services/servicio-compartido.service';
-import { FormularioActividadResponse } from '../../models/formularioActividadResponse';
-import Swal from 'sweetalert2';
+
 import { CommonModule } from '@angular/common';
+import { SpinnerModalComponent } from '../spinner-modal/spinner-modal.component';
 
 @Component({
   selector: 'app-mis-reservas',
   standalone: true,
-  imports: [FormsModule, RouterLink, CommonModule],
+  imports: [FormsModule, RouterLink, CommonModule, SpinnerModalComponent],
   templateUrl: './mis-reservas.component.html',
   styleUrl: './mis-reservas.component.css'
 })
@@ -29,7 +28,11 @@ export class MisReservasComponent implements OnInit {
   listaIdInscripcion: any[] = [];
 
   idReservaUsuario!: number;
-  pagoEfectivo: boolean = false;
+  nombreActividad!: string;
+  precioActividad!: number;
+
+  pagoPaypal!: boolean;
+  cancelarPago!: boolean;
 
   ngOnInit(): void {
     this.listReservation(this.tokenService.obtainIdUser(), '');
@@ -69,6 +72,9 @@ export class MisReservasComponent implements OnInit {
    * @param idUsuario 
    */
   cancelReservation(idReservaUsuario: number, idUsuario: number, abonado: boolean): void {
+    this.cancelarPago = true;
+    // Se le indica para que fuerce actualizar el modal con el ()Input cancelarPago = true, de otra forma, no se podrá visualizar el modal
+    this.cdRef.detectChanges();
     this.servicioCompartido.cancelReservation(idReservaUsuario, idUsuario, abonado).subscribe({
       next: () => {
         // Volvemos a consultar el servicio donde se obtiene los id de las actividades inscritas
@@ -93,10 +99,19 @@ export class MisReservasComponent implements OnInit {
     }
 
     /**
-     * Función encargada de realizar el pago en efectivo
-     * @param idReservaUsuario 
+     * Función encargada de agregar el idReservaUsuario y el nombre de la actividad para pasarlo a paypal y el pago con tarjeta
      */
-    paymentCash(idReservaUsuario: number) {
+    obtainDataActivity(idReservaUsuario: number, nombreActividad: string, precioActividad: number): void {
+      this.idReservaUsuario = idReservaUsuario;
+      this.nombreActividad = nombreActividad;
+      this.precioActividad = precioActividad;
+    }
+
+    /**
+     * Función encargada de realizar el pago con tarjeta
+     * @param idReservaUsuario 
+     
+    paymentCard(idReservaUsuario: number) {
       this.pagoEfectivo = true;
       // Se le indica a Angular que verifique inmediatamente si hubo cambios en las propiedades o variables vinculadas al HTML del componente.
       this.cdRef.detectChanges();
@@ -120,5 +135,5 @@ export class MisReservasComponent implements OnInit {
         }
       });
     }
-
+*/
 }
