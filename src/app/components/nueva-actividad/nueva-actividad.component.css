@@ -1,0 +1,6 @@
+.icon-border {
+    border: 2px solid #ced4da; /* Color del borde alrededor del símbolo del euro */
+    border-radius: 0.375rem;    /* Opcional: Bordes redondeados para que coincida con el campo */
+    padding: 0.375rem 0.75rem;  /* Relleno para ajustar el tamaño del símbolo */
+    background-color: #f8f9fa;  /* Color de fondo opcional para que resalte */
+}

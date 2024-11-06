@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
-import { Reserva } from '../../models/reserva';
 import { ReservasService } from '../../services/reservas.service';
 import { ReservasResponse } from '../../models/reservasResponse';
 import { TokenService } from '../../services/token.service';
+import { CommonModule } from '@angular/common';
+
 @Component({
   selector: 'app-historial-reservas',
   standalone: true,
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './historial-reservas.component.html',
   styleUrl: './historial-reservas.component.css'
 })

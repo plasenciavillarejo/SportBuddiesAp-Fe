@@ -125,7 +125,7 @@
             @for (formActi of formularioActividadResponse; track $index) {
             <tr class="align-middle">
                 <td hidden>{{formActi.idReservaActividad}}</td>
-                <td>{{formActi.fechaReserva}}</td>
+                <td>{{formActi.fechaReserva | date:'dd-MM-yyyy'}}</td>
                 <td>{{formActi.horaInicio}} - {{formActi.horaFin}}</td>
                 <td>
                     @for (requi of formActi.requerimientos; track $index) {

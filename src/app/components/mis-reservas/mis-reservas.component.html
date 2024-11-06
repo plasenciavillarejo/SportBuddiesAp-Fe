@@ -35,7 +35,7 @@
                         @for (reserva of listReservasResponse; track $index) {
                         <tr>
                             <td hidden>{{reserva.idReserva}}</td>
-                            <td>{{reserva.fechaReserva}}</td>
+                            <td>{{reserva.fechaReserva | date:'dd-MM-yyyy'}}</td>
                             <td>{{reserva.horaInicioReserva}} - {{reserva.horaFinReserva}}</td>
                             <td>{{reserva.deporteReservaDto.actividad}}</td>
                             <td>{{reserva.abonado ? 'Sí' : 'No'}}</td>
@@ -81,27 +81,38 @@
 
 <!-- Modal para elegir la opción de pago -->
 <!-- ################################### -->
+<!-- Modal para elegir la opción de pago -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">¿Como desea realizar el pago?</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content shadow-lg border-0">
+            <div class="modal-header bg-primary text-white">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">
+                    <i class="bi bi-credit-card"></i> ¿Cómo desea realizar el pago?
+                </h1>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-                <a class="navbar-brand btn btn-info" aria-current="page" [routerLink]="['/paypal', idReservaUsuario]"
-                    data-bs-dismiss="modal">Paypal</a> <br />
-                <!-- <a class="navbar-brand btn btn-info mt-3" aria-current="page" href="#" data-bs-dismiss="modal">Bizúm</a> <br />-->
-                <a class="navbar-brand btn btn-info mt-3" aria-current="page" href="#"
-                    data-bs-dismiss="modal" [routerLink]="['/pago-tarjeta', idReservaUsuario, nombreActividad, precioActividad]" >Pago con Tarjeta</a>
-                <br />
+            <div class="modal-body text-center">
+                <p class="mb-4">Seleccione el método de pago que prefiera:</p>
+
+                <!-- Botón de pago con PayPal -->
+                <a class="btn btn-outline-info btn-lg w-100 mb-3 d-flex align-items-center justify-content-center" 
+                   [routerLink]="['/paypal', idReservaUsuario]" data-bs-dismiss="modal">
+                    <i class="bi bi-paypal me-2 fs-4"></i> Pagar con PayPal
+                </a>
+
+                <!-- Botón de pago con Tarjeta -->
+                <a class="btn btn-outline-success btn-lg w-100 d-flex align-items-center justify-content-center" 
+                   [routerLink]="['/pago-tarjeta', idReservaUsuario, nombreActividad, precioActividad]" data-bs-dismiss="modal">
+                    <i class="bi bi-credit-card me-2 fs-4"></i> Pagar con Tarjeta
+                </a>
             </div>
-            <div class="modal-footer">
+            <div class="modal-footer d-flex justify-content-center">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
             </div>
         </div>
     </div>
 </div>
+
 
 <!-- Visualiza el modal para el pago por paypal -->
 @if(pagoPaypal) {

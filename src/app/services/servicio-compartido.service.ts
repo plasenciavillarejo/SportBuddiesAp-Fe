@@ -39,10 +39,12 @@ export class ServicioCompartidoService {
   }
 
   /**
-    * Función encargada de borrar una activida asociado a un usuario en el caso de que dicha actividad se encuentre pendiente de pago y dentro del plazo preestablecido
-    * @param idReservaUsuario
-    * @param idUsuario
-    */
+   * Función encargada de borrar una activida asociado a un usuario en el caso de que dicha actividad se encuentre pendiente de pago y dentro del plazo preestablecido
+   * @param idReservaUsuario 
+   * @param idUsuario 
+   * @param abonado 
+   * @returns 
+   */
   cancelReservation(idReservaUsuario: number, idUsuario: number, abonado: boolean): Observable<void> {
     return new Observable<void>((observer) => {
       Swal.fire({
@@ -56,29 +58,31 @@ export class ServicioCompartidoService {
       }).then((result) => {
         if (result.isConfirmed) {
           this.showSpinnerModal();
-          this.usuarioService.deleteActivityRegistered(idReservaUsuario, idUsuario).subscribe({
-            next: response => {
-              this.hideSpinnerModal();
-              // Utilizamos el observer para notificar que la actividad fue eliminada
-              observer.next();
-              observer.complete();
-              Swal.fire({
-                title: "Actividad eliminada!",
-                text: "Se ha eliminado exitosamente la actividad.",
-                icon: "success"
-              });
-            },
-            error: error => {
-              this.hideSpinnerModal();
-              Swal.fire({
-                title: "Error!",
-                text: "Ha sucedido un error a la hora de eliminar la actividad. " + error.error.mensaje,
-                icon: "error"
-              });
-              // Notificamos que sucedio un error
-              observer.error(error);
-            }
-          });
+          setTimeout( () => {
+            this.usuarioService.deleteActivityRegistered(idReservaUsuario, idUsuario).subscribe({
+              next: response => {
+                this.hideSpinnerModal();
+                // Utilizamos el observer para notificar que la actividad fue eliminada
+                observer.next();
+                observer.complete();
+                Swal.fire({
+                  title: "Actividad eliminada!",
+                  text: "Se ha eliminado exitosamente la actividad.",
+                  icon: "success"
+                });
+              },
+              error: error => {
+                this.hideSpinnerModal();
+                Swal.fire({
+                  title: "Error al cancelar la actividad",
+                  text: error.error.mensaje,
+                  icon: "error"
+                });
+                // Notificamos que sucedio un error
+                observer.error(error);
+              }
+            });
+          },2000);
         }
       });
     });

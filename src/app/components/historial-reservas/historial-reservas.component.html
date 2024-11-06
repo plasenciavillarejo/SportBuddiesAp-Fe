@@ -41,66 +41,47 @@
                 </div>
             </div>
         </div>-->
+
     <div class="row justify-content-center">
-        <div class="d-flex flex-row flex-wrap col-auto">
-            @for (reserva of listReservasResponse; track $index) {
-
-            <div class="card shadow-lg m-2">
-                <div class="card-header bg-primary text-white text-center">
-                    Historial Reserva : {{$index + 1}}
+        <div class="col-auto">
+            <div class="d-flex flex-wrap justify-content-center">
+                @for (reserva of listReservasResponse; track $index) {
+                <div class="card shadow-lg m-2" style="width: 18rem;">
+                    <div class="card-header bg-primary text-white text-center">
+                        Historial Reserva #{{$index + 1}}
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-borderless text-center">
+                            <tbody>
+                                <tr>
+                                    <td class="fw-bold fst-italic">Fecha Reserva:</td>
+                                    <td><span id="hist-fechaReserva">{{reserva.fechaReserva | date:'dd-MM-yyyy'}}</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-bold fst-italic">Hora Reserva:</td>
+                                    <td>
+                                        <span id="hist-horaReserva">{{reserva.horaInicioReserva}} -
+                                            {{reserva.horaFinReserva}}</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-bold fst-italic">Deporte:</td>
+                                    <td>
+                                        <span id="hist-deporteReserva">{{reserva.deporteReservaDto.actividad}}</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="card-footer text-center"> 
+                                        <!--(click)="verDetalles(reserva.idReserva)" -->       
+                        <button class="btn btn-outline-primary btn-sm"> 
+                            Ver Detalles
+                        </button>
+                    </div>
                 </div>
-                <div class="card-body">
-                    <table class="table table-hover table-striped text-center">
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr hidden>
-                                <td>
-                                    <label class="fw-bold">Fecha Reserva:</label>
-                                </td>
-                                <td>
-                                    <span id="hist-fechaReserva fst-italic">{{reserva.idReserva}}</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label class="fw-bold fst-italic">Fecha Reserva:</label>
-                                </td>
-                                <td>
-                                    <span id="hist-fechaReserva fst-italic">{{reserva.fechaReserva}}</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label class="fw-bold fst-italic">Hora Reserva:</label>
-                                </td>
-                                <td>
-                                    <span id="hist-horaReserva fst-italic">{{reserva.horaInicioReserva}} -
-                                        {{reserva.horaFinReserva}}</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label class="fw-bold fst-italic">Deporte Reserva:</label>
-                                </td>
-                                <td>
-                                    <span id="hist-deporteReserva fst-italic">{{reserva.deporteReservaDto.actividad}}</span>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                }
             </div>
-
-            }
         </div>
     </div>
-
-    }
-
-
-</div>
+}

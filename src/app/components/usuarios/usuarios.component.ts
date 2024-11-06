@@ -30,26 +30,24 @@ export class UsuariosComponent implements OnInit {
   
   usuario: Usuario[] = [];
   reserva: Reserva[] = [];
-
   listaDeportes: any[] = [];
   listaProvincias: string[] = [];
   listaMunicipos: string[] = []
   listaIdInscripcion: any[] = [];
 
-  idUsuario!: number;
-  inscripcionReserva: InscripcionReservaActividad = new InscripcionReservaActividad();
+  formSubmitted = false;
 
   actividadSeleccionada = new Map<number, string>();
-
   
-  busquedadActividadRequest: BusquedaActividadRequest = new BusquedaActividadRequest();
-  formularioActividadResponse: FormularioActividadResponse[] = [];
+  idUsuario!: number;
 
   paymentId: string = '';
   payerId: string = '';
   idReserva!: number;
-
-  formSubmitted = false;
+  
+  busquedadActividadRequest: BusquedaActividadRequest = new BusquedaActividadRequest();
+  formularioActividadResponse: FormularioActividadResponse[] = [];
+  inscripcionReserva: InscripcionReservaActividad = new InscripcionReservaActividad();
 
   constructor(private usuarioService: UsuarioService,
     private tokenService: TokenService,
@@ -169,7 +167,7 @@ export class UsuariosComponent implements OnInit {
         this.listaDeportes = response.listadoDeportes;
         this.listaProvincias = response.listaProvincias;
       }, error: (error) => {
-        console.log(error);
+        throw new error;
       }
     });
   }
@@ -184,7 +182,7 @@ export class UsuariosComponent implements OnInit {
       next: (response) => {
         this.listaMunicipos = response;
       }, error: (error) => {
-        console.log(error);
+        throw new error;
       }
     });
   }
@@ -214,7 +212,7 @@ export class UsuariosComponent implements OnInit {
           )
         }
       }, error: (error) => {
-        console.log(error);
+        throw new error;
       }
     })
   }
@@ -322,8 +320,7 @@ export class UsuariosComponent implements OnInit {
     const year = date.getFullYear();
     // Los meses van de 0 a 11
     const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-    
+    const day = String(date.getDate()).padStart(2, '0');    
     return `${year}-${month}-${day}`;
 }
 

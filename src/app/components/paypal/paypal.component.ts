@@ -6,11 +6,12 @@ import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
 import { ServicioCompartidoService } from '../../services/servicio-compartido.service';
 import { ReservasService } from '../../services/reservas.service';
 import { map, Observable } from 'rxjs';
+import { SpinnerModalComponent } from '../spinner-modal/spinner-modal.component';
 
 @Component({
   selector: 'app-paypal',
   standalone: true,
-  imports: [FormsModule, RouterOutlet],
+  imports: [FormsModule, RouterOutlet, SpinnerModalComponent],
   templateUrl: './paypal.component.html',
   styleUrl: './paypal.component.css'
 })
