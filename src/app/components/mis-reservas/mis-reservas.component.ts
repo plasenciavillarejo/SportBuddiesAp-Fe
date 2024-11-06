@@ -107,33 +107,4 @@ export class MisReservasComponent implements OnInit {
       this.precioActividad = precioActividad;
     }
 
-    /**
-     * Función encargada de realizar el pago con tarjeta
-     * @param idReservaUsuario 
-     
-    paymentCard(idReservaUsuario: number) {
-      this.pagoEfectivo = true;
-      // Se le indica a Angular que verifique inmediatamente si hubo cambios en las propiedades o variables vinculadas al HTML del componente.
-      this.cdRef.detectChanges();
-
-      this.servicioCompartido.showSpinnerModal();
-      console.log('Se ha obtenido el id de la reserva del usuario: ', idReservaUsuario);
-      this.reservaService.paymentCash(idReservaUsuario).subscribe({
-        next: response => {
-          this.servicioCompartido.hideSpinnerModal();
-          Swal.fire(
-            'Pago realizado exitosamente',
-            response.success,
-            'success'
-          ) 
-          // Volvemos a cargar el listado de la página para que se visualicen los cambios
-          this.listReservation(this.tokenService.obtainIdUser(), '');
-
-        }, error: error => {
-          this.servicioCompartido.hideSpinnerModal();
-          throw new error;
-        }
-      });
-    }
-*/
 }

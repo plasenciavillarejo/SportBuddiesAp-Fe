@@ -58,8 +58,8 @@ export class ServicioCompartidoService {
       }).then((result) => {
         if (result.isConfirmed) {
           this.showSpinnerModal();
-          setTimeout( () => {
-            this.usuarioService.deleteActivityRegistered(idReservaUsuario, idUsuario).subscribe({
+          this.functionGenericTimeOut(this.usuarioService.deleteActivityRegistered(idReservaUsuario, idUsuario)
+          .subscribe({
               next: response => {
                 this.hideSpinnerModal();
                 // Utilizamos el observer para notificar que la actividad fue eliminada
@@ -81,8 +81,8 @@ export class ServicioCompartidoService {
                 // Notificamos que sucedio un error
                 observer.error(error);
               }
-            });
-          },2000);
+            })
+          )
         }
       });
     });
@@ -111,8 +111,6 @@ export class ServicioCompartidoService {
       });
     });
   }
-
-
 
   /**
      * Función encargada de abrir el modal del spinner
@@ -146,5 +144,14 @@ export class ServicioCompartidoService {
     }
   }
 
+  /**
+   * Función genérica que recibe cualquier función para darle un timeout
+   * @param object 
+   */
+  functionGenericTimeOut(object: any): void {
+    setTimeout(() => {
+      object;
+    }, 2000);
 
+  }
 }

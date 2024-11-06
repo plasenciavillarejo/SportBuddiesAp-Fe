@@ -12,7 +12,7 @@ export class SpinnerModalComponent implements OnInit{
   @Input() pagoTarjeta : boolean = false;
   @Input() pagoPaypal: boolean = false;
   @Input() cancelarPago: boolean = false;
-
+  @Input() procesandoPago: boolean = false;
 
   constructor(private activatedRoute: ActivatedRoute,
     private cdRef: ChangeDetectorRef

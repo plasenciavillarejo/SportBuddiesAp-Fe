@@ -41,11 +41,9 @@ export class HeaderComponent implements OnInit {
   }
 
   constructor(private tokenService: TokenService,
-    private http: HttpClient,
-    private cookieService : CookieService,
     private servicioCompartido: ServicioCompartidoService,
     private authService : AuthService
-  ) {}
+    ) {}
 
   ngOnInit(): void {
     this.initSesionEmit();

@@ -14,12 +14,13 @@ import { PaypalService } from '../../services/paypal.service';
 import { ServicioCompartidoService } from '../../services/servicio-compartido.service';
 import { BusquedaActividadRequest } from '../../models/busquedaActividadRequest';
 import { CommonModule } from '@angular/common';
+import { SpinnerModalComponent } from '../spinner-modal/spinner-modal.component';
 declare var bootstrap: any
 
 @Component({
   selector: 'app-usuarios',
   standalone: true,
-  imports: [RouterOutlet, HeaderComponent, FormsModule, CommonModule],
+  imports: [RouterOutlet, HeaderComponent, FormsModule, CommonModule, SpinnerModalComponent],
   templateUrl: './usuarios.component.html',
   styleUrl: './usuarios.component.css'
 })
@@ -92,8 +93,8 @@ export class UsuariosComponent implements OnInit {
 
       if (this.paymentId != null && this.payerId != null) {
         this.idReserva = Number(localStorage.getItem("id"));
-        this.showSpinner();
-        this.paypalService.confirmPayment(this.paymentId, this.payerId, this.idReserva).subscribe({
+        this.servicioCompartido.showSpinnerModal();
+        this.servicioCompartido.functionGenericTimeOut(this.paypalService.confirmPayment(this.paymentId, this.payerId, this.idReserva).subscribe({
           next: response => {
             if (response.success) {
               this.hideSpinner();
@@ -121,18 +122,11 @@ export class UsuariosComponent implements OnInit {
               'error'
             );
           }
-        });
+        }));
         localStorage.removeItem("id");
       }
     });
 
-  }
-
-  /**
-   * Función encargada de abrir el modal del spinner
-   */
-  private showSpinner() {
-    this.servicioCompartido.showSpinnerModal();
   }
 
   /**
@@ -328,4 +322,6 @@ export class UsuariosComponent implements OnInit {
     return this.tokenService.isAuthenticate();
   }
 
+
+  
 }

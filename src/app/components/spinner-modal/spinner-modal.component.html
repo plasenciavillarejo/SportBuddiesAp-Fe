@@ -11,10 +11,12 @@
                     <i class="bi bi-paypal mx-1"></i>
                     } @else if(this.cancelarPago) {
                     <i class="bi bi-x-circle mx-1"></i>
+                    } @else if(this.procesandoPago) {
+                        ICONO NO SE CUAL
                     }
                     {{ this.pagoPaypal ? 'Conectando a los servidores de PayPal' :
                     this.pagoTarjeta ? 'Realizando el pago' :
-                    this.cancelarPago ? 'Cancelando el pago' : '' }}
+                    this.cancelarPago ? 'Cancelando el pago' : 'Se está procesando el pago' }}
                 </h5>
             </div>
             <div class="modal-body">
