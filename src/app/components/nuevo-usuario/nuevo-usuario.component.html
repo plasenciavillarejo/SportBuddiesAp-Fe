@@ -14,7 +14,8 @@
                             <div class="form-floating">
                                 <input type="text" class="form-control" id="nombreUsuario" required
                                     #nombreUsuario="ngModel" placeholder="nombre-prueba"
-                                    [(ngModel)]="usuario.nombreUsuario" name="nombreUsuario">
+                                    [(ngModel)]="usuario.nombreUsuario" name="nombreUsuario"
+                                    [disabled]="idUsuario != null">
                                 <label for="nombreUsuario">Nombre</label>
                                 @if(errorUsuario){
                                 <div class="text-danger mt-1">

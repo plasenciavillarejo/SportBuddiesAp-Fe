@@ -19,6 +19,7 @@ export class UsuarioService {
   private url_delete_activity = environment.hostname_port_local_gtw + '/api/main/reservaUsuario/eliminar/';
   private url_crete_user = environment.hostname_port_local_gtw + "/api/main/usuario/crear"
   private url_user_dto = environment.hostname_port_local_gtw + "/api/main/usuario/buscarUsuarioId"
+  private url_update_user = environment.hostname_port_local_gtw + "/api/main/usuario/actualizar"
 
   constructor(private http: HttpClient) { }
 
@@ -56,5 +57,8 @@ export class UsuarioService {
     return this.http.get<any>(this.url_user_dto, {params});
   }
 
+  updateUser(usuario: Usuario): Observable<any> {
+    return this.http.post<void>(this.url_update_user, usuario);
+  }
 
 }

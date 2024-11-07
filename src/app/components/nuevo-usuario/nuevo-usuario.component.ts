@@ -52,7 +52,6 @@ export class NuevoUsuarioComponent implements OnInit {
    * @param usuario 
    */
   createOrUpdateUser(usuario: Usuario) {
-    
     if(this.idUsuario == null) {
       this.validarCampos(usuario);
       this.usuarioServicio.createUser(usuario).subscribe({
@@ -71,9 +70,30 @@ export class NuevoUsuarioComponent implements OnInit {
           );
         }
       });
-  
     } else {
-      console.log('Falta crear el servicio para llamar al BE');
+      Swal.fire({
+        title: "¿Estás seguro de actualizar los datos?",
+        text: "Una vez actualizados, para retroceder, deberá de volver a insetar los datos anteriores",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#0d6efd",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Sí, actualizar!"
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.usuarioServicio.updateUser(usuario).subscribe({
+            next: response => {
+              Swal.fire(
+                'Usuario actualizao exitosamente',
+                'Se ha actualizado correctamente el usuario',
+                'success'
+              );
+            },error: error => {
+              throw new error;
+            }
+          });
+        }
+      });
     }
   }
 
