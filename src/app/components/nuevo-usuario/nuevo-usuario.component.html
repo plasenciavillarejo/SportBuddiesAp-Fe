@@ -6,7 +6,7 @@
                 <h3 class="mb-4">Nuevo Usuario</h3>
             </div>
             <div class="card-body">
-                <form class="container" (ngSubmit)="createNewUser(usuario)">
+                <form class="container" (ngSubmit)="createOrUpdateUser(usuario)">
                     <div class="row g-4"> <!-- Usamos g-4 para más espacio entre filas -->
 
                         <!-- Nombre Usuario -->
@@ -23,7 +23,7 @@
                                 }
                             </div>
                         </div>
-
+                        @if(idUsuario == null) {
                         <!-- Password -->
                         <div class="col-md-6">
                             <div class="form-floating">
@@ -37,7 +37,7 @@
                                 }
                             </div>
                         </div>
-
+                        }
                         <!-- Email -->
                         <div class="col-md-6">
                             <div class="form-floating">
@@ -52,7 +52,7 @@
                             </div>
                         </div>
 
-                        @if(idUsuario != null){
+                        @if(idUsuario != null) {
                         <!-- Dirección, Provincia, Municipio, Código Postal, País -->
                         <div class="col-12">
                             <h5 class="mt-4 mb-3 fw-bold">Dirección y Ubicación</h5>
@@ -147,9 +147,8 @@
                         }
                         <!-- Botón de Crear -->
                         <div class="col-12 d-flex justify-content-center mt-4">
-                            <button type="submit" class="btn btn-primary px-5 py-2">Crear</button>
+                            <button type="submit" class="btn btn-primary px-5 py-2">{{ idUsuario ? 'Actualizar Usuario' : 'Crear Usuario' }}</button>
                         </div>
-
                     </div>
                 </form>
             </div>

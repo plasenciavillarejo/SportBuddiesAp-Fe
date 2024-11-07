@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { environment } from '../../../environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { TokenService } from '../../services/token.service';
@@ -7,6 +7,7 @@ import { CookieService } from 'ngx-cookie-service';
 import * as CryptoJS from 'crypto-js';
 import { ServicioCompartidoService } from '../../services/servicio-compartido.service';
 import { AuthService } from '../../services/auth.service';
+import { Observable } from 'rxjs';
 
 const CHARACTERS = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
 
@@ -40,13 +41,16 @@ export class HeaderComponent implements OnInit {
     code_challenge_method: environment.code_challenge_method,
   }
 
+  idUsuario!: number;
+
   constructor(private tokenService: TokenService,
     private servicioCompartido: ServicioCompartidoService,
-    private authService : AuthService
+    private authService : AuthService,
+    private activatedRoute: ActivatedRoute
     ) {}
 
   ngOnInit(): void {
-    this.initSesionEmit();
+    this.initSesionEmit();    
   }
 
   /* Al utilizar la API Web Crypto al ser asíncrono tenemos que convertir el login de forma asíncrona, de lo contrario cuando se intente 
@@ -158,6 +162,13 @@ export class HeaderComponent implements OnInit {
         },2000);
       }
     })
+  }
+
+  /**
+   * 
+   */
+  idUser(): Observable<number> {
+    return this.servicioCompartido.obtainIdUserGenericObservable();
   }
 
 }

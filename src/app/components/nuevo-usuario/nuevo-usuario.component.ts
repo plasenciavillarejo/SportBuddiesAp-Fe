@@ -15,13 +15,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class NuevoUsuarioComponent implements OnInit {
 
   usuario: Usuario = new Usuario();
-  
+
   errorUsuario!: boolean;
-  
+
   errorPassword!: boolean;
-  
+
   errorEmail!: boolean;
-  
+
   errorMunicipio!: boolean;
 
   errorCodigoPostal!: boolean;
@@ -42,6 +42,7 @@ export class NuevoUsuarioComponent implements OnInit {
     // Capturamos el IdUsuario para validar si se acceder para crear un usuario o para actualizarlo
     this.activatedRoute.params.subscribe(params => {
       this.idUsuario = params['idUsuario'];
+      this.obtainUserComplet(this.idUsuario);
     });
 
   }
@@ -50,27 +51,32 @@ export class NuevoUsuarioComponent implements OnInit {
    * Función encargada de crear un nuevo usuario para acceder a la aplicación que retornara a la página de inicio una vez que ha sido creado
    * @param usuario 
    */
-  createNewUser(usuario: Usuario) {
-    this.validarCampos(usuario);
-
-    this.usuarioServicio.createUser(usuario).subscribe({
-      next: response => {
-        Swal.fire(
-          'Usuario creado exitosamente',
-          'Se ha registrado correctamente el cliente para la aplicación',
-          'success'
-        );
-        this.router.navigate(['/usuarios']);
-      }, error: error => {
-        Swal.fire(
-          'Error en la creación',
-          error.error.mensaje,
-          'error'
-        );
-      }
-    });
-  }
+  createOrUpdateUser(usuario: Usuario) {
+    
+    if(this.idUsuario == null) {
+      this.validarCampos(usuario);
+      this.usuarioServicio.createUser(usuario).subscribe({
+        next: response => {
+          Swal.fire(
+            'Usuario creado exitosamente',
+            'Se ha registrado correctamente el cliente para la aplicación',
+            'success'
+          );
+          this.router.navigate(['/usuarios']);
+        }, error: error => {
+          Swal.fire(
+            'Error en la creación',
+            error.error.mensaje,
+            'error'
+          );
+        }
+      });
   
+    } else {
+      console.log('Falta crear el servicio para llamar al BE');
+    }
+  }
+
   /**
    * Función encargada de validar los campos de texto
    * @param usuario 
@@ -79,9 +85,29 @@ export class NuevoUsuarioComponent implements OnInit {
     this.errorUsuario = usuario.nombreUsuario === undefined || usuario.nombreUsuario.trim() === '';
     this.errorPassword = usuario.password === undefined || usuario.password.trim() === '';
     this.errorEmail = usuario.email === undefined || usuario.email.trim() === '';
-    if(this.errorUsuario || this.errorPassword || this.errorEmail) {
+    if (this.errorUsuario || this.errorPassword || this.errorEmail) {
       throw new Error;
     }
   }
+
+  /**
+   * Función encargada de recibir un idUsuario y cargar el usuario completo
+   * @param idUsuario 
+   * @returns 
+   */
+  private obtainUserComplet(idUsuario: number): Usuario {
+    this.usuarioServicio.obtainUserDto(idUsuario).subscribe({
+      next: response => {
+        if(response != null) {
+          this.usuario = response;
+        }
+      }, error: error => {
+        throw new error;
+      }
+    });
+    return this.usuario;
+  }
+
+
 
 }

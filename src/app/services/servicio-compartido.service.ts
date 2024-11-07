@@ -93,7 +93,8 @@ export class ServicioCompartidoService {
      * */
   validateActivityUserInscrit(): Observable<number[]> {
     return new Observable<number[]>((observer) => {
-      const idUsuario = this.tokenService.obtainIdUser(); // Obtén el id del usuario
+      // Obtenemos el id del usuario
+      const idUsuario = this.tokenService.obtainIdUser();
       this.usuarioService.listActivityRegistered(idUsuario).subscribe({
         next: response => {
           if (response.length > 0) {
@@ -152,6 +153,17 @@ export class ServicioCompartidoService {
     setTimeout(() => {
       object;
     }, 2000);
-
   }
+  /**
+   * Funcion para devovler el id del usuario
+   * @returns 
+   */
+  obtainIdUserGeneric(): number {
+    return this.tokenService.obtainIdUser();
+  }
+
+  obtainIdUserGenericObservable(): Observable<number> {
+    return this.tokenService.obtainIdUserObservable();
+  }
+
 }

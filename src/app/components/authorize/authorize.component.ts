@@ -12,7 +12,7 @@ import { ServicioCompartidoService } from '../../services/servicio-compartido.se
 })
 export class AuthorizeComponent implements OnInit {
 
-  code = '';
+  code: string = '';
 
   constructor(private activatedRoute: ActivatedRoute,
     private authService: AuthService,

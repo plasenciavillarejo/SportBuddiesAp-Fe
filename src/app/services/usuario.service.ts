@@ -18,6 +18,7 @@ export class UsuarioService {
   private url_validate_activity = environment.hostname_port_local_gtw + '/api/main/reservaActividad/validarActividad/';
   private url_delete_activity = environment.hostname_port_local_gtw + '/api/main/reservaUsuario/eliminar/';
   private url_crete_user = environment.hostname_port_local_gtw + "/api/main/usuario/crear"
+  private url_user_dto = environment.hostname_port_local_gtw + "/api/main/usuario/buscarUsuarioId"
 
   constructor(private http: HttpClient) { }
 
@@ -49,5 +50,11 @@ export class UsuarioService {
   createUser(usuario: Usuario): Observable<void> {
     return this.http.post<void>(this.url_crete_user, usuario);
   }
+
+  obtainUserDto(idUsuario: number): Observable<any> {
+    const params = new HttpParams().set('idUsuario', idUsuario);
+    return this.http.get<any>(this.url_user_dto, {params});
+  }
+
 
 }

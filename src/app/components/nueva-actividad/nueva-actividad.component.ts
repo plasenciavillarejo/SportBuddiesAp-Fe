@@ -135,7 +135,6 @@ export class NuevaActividadComponent {
     this.primeraCarga = true;
     this.crearActividadRequest.requerimientos = this.requerimientos;
     this.crearActividadRequest.idUsuarioActividadDto = this.tokenService.obtainIdUser();
-    console.log('CLiente recibido: ', crearActividad);
     this.clientCrearActividad.createNewActividad(crearActividad).subscribe({
       next: next => {
           Swal.fire(

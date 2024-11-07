@@ -38,6 +38,7 @@
                     @if (admin()) {
                       <li><a class="dropdown-item" [routerLink]="['/nuevo-cliente-oauth']">Nuevo Cliente Aplicación</a></li>
                     }
+                    <li><a class="dropdown-item" [routerLink]="['/nuevo-usuario/',idUser()]">Mi cuenta</a></li>
                     <li><a class="dropdown-item" [routerLink]="['/mis-reservas']">Mis reservas inscritas</a></li>
                     <li><a class="dropdown-item" [routerLink]="['/historial-reservas']">Historial reservas</a></li>
                     <li class="mt-3 mx-3 mb-3">

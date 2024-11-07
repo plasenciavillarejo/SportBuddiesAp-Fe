@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import * as CryptoJS from 'crypto-js';
+import { Observable } from 'rxjs';
 
 const ACCES_TOKEN = 'access_token';
 const REFRESH_TOKEN = 'refresh_token';
@@ -142,5 +143,17 @@ export class TokenService {
     return new Date().getTime() / 1000 > exp ? true : false;
   }
 
+
+  obtainIdUserObservable() : Observable<any> {
+    const token = this.getAccesToken();
+
+    // El token se contiene en tres partes, la segunda parte es donde viene la información de los claims
+    const payload = token!.split(".")[1];
+
+    // Decodificamos el Payload
+    const payloadDecoded = atob(payload);
+    const values = JSON.parse(payloadDecoded);
+    return values.idusuario;
+  }
 
 }

@@ -35,6 +35,7 @@ export class MisReservasComponent implements OnInit {
   cancelarPago!: boolean;
 
   ngOnInit(): void {
+
     this.listReservation(this.tokenService.obtainIdUser(), '');
     this.servicioCompartido.validateActivityUserInscrit().subscribe({
       next: response => {
