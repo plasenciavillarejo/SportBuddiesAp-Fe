@@ -32,11 +32,7 @@ export class NuevaActividadComponent {
   formularioActividadResponse: FormularioActividadResponse[] = [];
 
   constructor(private usuarioService: UsuarioService,
-    private tokenService: TokenService,
-    private paypalService: PaypalService,
-    private activatedRoute: ActivatedRoute,
-    private router: Router,
-    private servicioCompartido: ServicioCompartidoService,
+    private tokenService: TokenService,    
     private clientCrearActividad: CrearActividadService
   ) { }
 

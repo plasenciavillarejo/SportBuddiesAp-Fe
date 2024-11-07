@@ -14,4 +14,16 @@ export class Usuario {
 
     password!: string;
     
+    direccion!: string;
+
+    provincia!: string;
+
+    municipio!: string;
+
+    codigoPostal!: string;
+
+    pais!: string;
+
+    numeroTelefono!: string;
+
 }

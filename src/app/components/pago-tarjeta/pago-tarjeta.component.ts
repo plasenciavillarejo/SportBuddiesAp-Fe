@@ -74,6 +74,14 @@ export class PagoTarjetaComponent implements OnInit {
       card: this.cardElement,
       billing_details: {
         name: pagoTarjetaRequest.nombreTitular,
+        /*phone: pagoTarjetaRequest.nombreTitular,
+        email: 'plasenciavillarejo@gmail.com',
+        address: {
+          line1: 'Calle Nueva', // Línea principal de la dirección.
+          city: 'Ciudad Ejemplo', // Ciudad.
+          postal_code: '12345', // Código postal.
+          country: 'ES' // Código de país en formato ISO (como 'ES' para España).
+        }*/
       },
     }).then((result) => {
       if (result.error) {

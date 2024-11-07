@@ -69,6 +69,10 @@ export const routes: Routes = [
     },
     {
         path: 'nuevo-usuario',
+        component: NuevoUsuarioComponent
+    },
+    {
+        path: 'nuevo-usuario/:idUsuario',
         component: NuevoUsuarioComponent,
         canActivate: [authGuard]
     },
