@@ -158,7 +158,7 @@ export class UsuariosComponent implements OnInit {
   loadComboInitial(): void {
     this.usuarioService.loadComboInit().subscribe({
       next: (response) => {
-        this.listaDeportes = response.listadoDeportes;
+        this.listaDeportes = response.listadoDeportes;        
         this.listaProvincias = response.listaProvincias;
       }, error: (error) => {
         throw new error;

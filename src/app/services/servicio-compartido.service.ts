@@ -165,5 +165,5 @@ export class ServicioCompartidoService {
   obtainIdUserGenericObservable(): Observable<number> {
     return this.tokenService.obtainIdUserObservable();
   }
-
+  
 }

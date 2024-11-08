@@ -12,15 +12,17 @@
                         <!-- Nombre Usuario -->
                         <div class="col-md-6">
                             <div class="form-floating">
-                                <input type="text" class="form-control" id="nombreUsuario" required
+                                <input type="text" class="form-control" id="nombreUsuario" required nombreUsuario
                                     #nombreUsuario="ngModel" placeholder="nombre-prueba"
                                     [(ngModel)]="usuario.nombreUsuario" name="nombreUsuario"
                                     [disabled]="idUsuario != null">
                                 <label for="nombreUsuario">Nombre</label>
-                                @if(errorUsuario){
-                                <div class="text-danger mt-1">
-                                    El nombre no puede estar vacío o contener solo espacios en blanco.
-                                </div>
+                                @if(nombreUsuario.invalid && (nombreUsuario.dirty || nombreUsuario.touched || formSubmit)){
+                                    @if(nombreUsuario.errors?.['required']){
+                                        <div class="text-danger mt-1">
+                                            El nombre no puede estar vacío o contener solo espacios en blanco.
+                                        </div>
+                                    }        
                                 }
                             </div>
                         </div>
@@ -51,13 +53,20 @@
                         <!-- Email -->
                         <div class="col-md-6">
                             <div class="form-floating">
-                                <input type="email" class="form-control" id="email" required #email="ngModel"
+                                <input type="email" class="form-control" id="email" required email #email="ngModel"
                                     placeholder="name@example.com" [(ngModel)]="usuario.email" name="email">
                                 <label for="email">Email</label>
-                                @if(errorEmail){
-                                <div class="text-danger mt-1">
-                                    El email no puede estar vacío o contener solo espacios en blanco.
-                                </div>
+                                @if(email.invalid && (email.dirty || email.touched || formSubmit)) {
+                                    @if(email.errors?.['required']){
+                                    <div class="text-danger mt-1">
+                                        El email no puede estar vacío o contener solo espacios en blanco.
+                                    </div>
+                                    }
+                                    @if(email.errors?.['email']){
+                                    <div class="text-danger mt-1">
+                                        El email introducido no es correcto.
+                                    </div>
+                                    }
                                 }
                             </div>
                         </div>
@@ -71,13 +80,15 @@
                         <!-- Dirección -->
                         <div class="col-md-6">
                             <div class="form-floating">
-                                <input type="text" class="form-control" id="direccion" required #direccion="ngModel"
+                                <input type="text" class="form-control" id="direccion" required direccion #direccion="ngModel"
                                     placeholder="direccion" [(ngModel)]="usuario.direccion" name="direccion">
                                 <label for="direccion">Dirección</label>
-                                @if(errorDireccion){
-                                <div class="text-danger mt-1">
-                                    La dirección no puede estar vacía o contener solo espacios en blanco.
-                                </div>
+                                @if(direccion.invalid && (direccion.dirty || direccion.touched || formSubmit)) {
+                                    @if(direccion.errors?.['required']){
+                                    <div class="text-danger mt-1">
+                                        La dirección no puede estar vacía o contener solo espacios en blanco.
+                                    </div>
+                                    }
                                 }
                             </div>
                         </div>
@@ -85,13 +96,15 @@
                         <!-- Provincia -->
                         <div class="col-md-6">
                             <div class="form-floating">
-                                <input type="text" class="form-control" id="provincia" required #provincia="ngModel"
+                                <input type="text" class="form-control" id="provincia" required provincia #provincia="ngModel"
                                     placeholder="provincia" [(ngModel)]="usuario.provincia" name="provincia">
                                 <label for="provincia">Provincia</label>
-                                @if(errorProvincia){
-                                <div class="text-danger mt-1">
-                                    La provincia no puede estar vacía o contener solo espacios en blanco.
-                                </div>
+                                @if(provincia.invalid && (provincia.dirty || provincia.touched || formSubmit)) {
+                                    @if(provincia.errors?.['required']){
+                                    <div class="text-danger mt-1">
+                                        La provincia no puede estar vacía o contener solo espacios en blanco.
+                                    </div>
+                                    }
                                 }
                             </div>
                         </div>
@@ -99,13 +112,15 @@
                         <!-- Municipio -->
                         <div class="col-md-6">
                             <div class="form-floating">
-                                <input type="text" class="form-control" id="municipio" required #municipio="ngModel"
+                                <input type="text" class="form-control" id="municipio" required municipio #municipio="ngModel"
                                     placeholder="municipio" [(ngModel)]="usuario.municipio" name="municipio">
                                 <label for="municipio">Municipio</label>
-                                @if(errorMunicipio){
-                                <div class="text-danger mt-1">
-                                    El municipio no puede estar vacío o contener solo espacios en blanco.
-                                </div>
+                                @if(municipio.invalid && (municipio.dirty || municipio.touched || formSubmit)) {
+                                    @if(municipio.errors?.['required']){
+                                    <div class="text-danger mt-1">
+                                        El municipio no puede estar vacío o contener solo espacios en blanco.
+                                    </div>
+                                    }
                                 }
                             </div>
                         </div>
@@ -113,14 +128,16 @@
                         <!-- Código Postal -->
                         <div class="col-md-6">
                             <div class="form-floating">
-                                <input type="text" class="form-control" id="codigoPostal" required
+                                <input type="text" class="form-control" id="codigoPostal" required codigoPostal
                                     #codigoPostal="ngModel" placeholder="codigoPostal"
                                     [(ngModel)]="usuario.codigoPostal" name="codigoPostal">
                                 <label for="codigoPostal">Código Postal</label>
-                                @if(errorCodigoPostal){
-                                <div class="text-danger mt-1">
-                                    El código postal no puede estar vacío o contener solo espacios en blanco.
-                                </div>
+                                @if(codigoPostal.invalid && (codigoPostal.dirty || codigoPostal.touched || formSubmit)) {
+                                    @if(codigoPostal.errors?.['required']){
+                                    <div class="text-danger mt-1">
+                                        El código postal no puede estar vacío o contener solo espacios en blanco.
+                                    </div>
+                                    }
                                 }
                             </div>
                         </div>
@@ -128,13 +145,15 @@
                         <!-- País -->
                         <div class="col-md-6">
                             <div class="form-floating">
-                                <input type="text" class="form-control" id="pais" required #pais="ngModel"
+                                <input type="text" class="form-control" id="pais" required pais #pais="ngModel"
                                     placeholder="pais" [(ngModel)]="usuario.pais" name="pais">
                                 <label for="pais">País</label>
-                                @if(errorPais){
-                                <div class="text-danger mt-1">
-                                    El país no puede estar vacío o contener solo espacios en blanco.
-                                </div>
+                                @if(pais.invalid && (pais.dirty || pais.touched || formSubmit)) {
+                                    @if(pais.errors?.['required']){
+                                    <div class="text-danger mt-1">
+                                        El país no puede estar vacío o contener solo espacios en blanco.
+                                    </div>
+                                    }
                                 }
                             </div>
                         </div>
@@ -142,23 +161,23 @@
                         <!-- Número de Teléfono -->
                         <div class="col-md-6">
                             <div class="form-floating">
-                                <input type="text" class="form-control" id="numeroTelefono" required
+                                <input type="text" class="form-control" id="numeroTelefono" required numeroTelefono
                                     #numeroTelefono="ngModel" placeholder="numeroTelefono"
                                     [(ngModel)]="usuario.numeroTelefono" name="numeroTelefono">
                                 <label for="numeroTelefono">Número de Teléfono</label>
-                                @if(errorTelefono){
-                                <div class="text-danger mt-1">
-                                    El número de teléfono no puede estar vacío o contener solo espacios en blanco.
-                                </div>
+                                @if(numeroTelefono.invalid && (numeroTelefono.dirty || numeroTelefono.touched || formSubmit)) {
+                                    @if(numeroTelefono.errors?.['required']){
+                                    <div class="text-danger mt-1">
+                                        El número de teléfono no puede estar vacío o contener solo espacios en blanco.
+                                    </div>
+                                    }
                                 }
                             </div>
                         </div>
-
                         }
                         <!-- Botón de Crear -->
                         <div class="col-12 d-flex justify-content-center mt-4">
-                            <button type="submit" class="btn btn-primary px-5 py-2"
-                            >{{ idUsuario ? 'Actualizar Usuario'
+                            <button type="submit" class="btn btn-primary px-5 py-2">{{ idUsuario ? 'Actualizar Usuario'
                                 : 'Crear Usuario' }}</button>
                         </div>
                     </div>

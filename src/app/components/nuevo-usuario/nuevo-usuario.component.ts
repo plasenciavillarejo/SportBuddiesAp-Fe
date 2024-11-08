@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Usuario } from '../../models/usuario';
-import { FormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, Validators } from '@angular/forms';
 import { UsuarioService } from '../../services/usuario.service';
 import Swal from 'sweetalert2';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -16,34 +16,34 @@ declare var bootstrap: any
 })
 export class NuevoUsuarioComponent implements OnInit {
 
-  usuario: Usuario = new Usuario();
-
-  errorUsuario!: boolean;
+  usuario: Usuario = new Usuario(); 
 
   errorPassword!: boolean;
 
-  errorEmail!: boolean;
-
-  errorDireccion!: boolean;
-
-  errorProvincia!: boolean;
-
-  errorMunicipio!: boolean;
-
-  errorCodigoPostal!: boolean;
-
-  errorPais!: boolean;
-
-  errorTelefono!: boolean;
-
   idUsuario!: number;
+
+  formSubmit!: boolean;
 
   passwordRequired!: boolean;
 
+  form: FormGroup;
+
   constructor(private usuarioServicio: UsuarioService,
     private router: Router,
-    private activatedRoute: ActivatedRoute
-  ) { }
+    private activatedRoute: ActivatedRoute,
+    private formBuilder: FormBuilder
+  ) { 
+    this.form = this.formBuilder.group({
+      nombreUsuario: ['', Validators.required], // Campo obligatorio
+      email: ['', [Validators.required, Validators.email]], 
+      direccion: ['', Validators.required],
+      provincia: ['', Validators.required],
+      municipio: ['', Validators.required],
+      codigoPostal: ['', Validators.required],
+      pais: ['', Validators.required],
+      numeroTelefono: ['', Validators.required]
+    });
+  }
 
   ngOnInit(): void {
     // Capturamos el IdUsuario para validar si se acceder para crear un usuario o para actualizarl
@@ -78,6 +78,14 @@ export class NuevoUsuarioComponent implements OnInit {
    * @param usuario 
    */
   createOrUpdateUser(usuario: Usuario) {
+    this.formSubmit = true;
+    
+    // Validacion formulario reactivo
+    if(this.form.invalid) {
+      // En caso de que haya algun error, bloqueams el envio
+      return;
+    }
+
     this.validarCampos(usuario);
     if (this.idUsuario === undefined) {
       this.usuarioServicio.createUser(usuario).subscribe({
@@ -124,29 +132,15 @@ export class NuevoUsuarioComponent implements OnInit {
   }
 
   /**
-   * Función encargada de validar los campos de texto
+   * Función encargada de validar los criterios de la contraseña
    * @param usuario 
    */
   private validarCampos(usuario: Usuario): void {
-    this.errorUsuario = usuario.nombreUsuario === undefined || usuario.nombreUsuario.trim() === '';
     this.errorPassword = usuario.password === undefined || usuario.password.trim() === '';
-    this.errorEmail = usuario.email === undefined || usuario.email.trim() === '';
-    this.errorDireccion = usuario.direccion === undefined || usuario.direccion.trim() === '';
-    this.errorProvincia = usuario.provincia === undefined || usuario.provincia.trim() === '';
-    this.errorMunicipio = usuario.municipio === undefined || usuario.municipio.trim() === '';
-    this.errorCodigoPostal = usuario.codigoPostal === undefined || usuario.codigoPostal.trim() === '';
-    this.errorPais = usuario.pais === undefined || usuario.pais.trim() === '';
-    this.errorTelefono = usuario.numeroTelefono === undefined || usuario.numeroTelefono.trim() === '';
-
     if(this.idUsuario === undefined) {
-      if (this.errorUsuario || this.errorEmail) {
-        throw new Error;
-      } else if(!this.validateLengthPassword(this.usuario.password) || this.errorPassword) {
+      if (!this.validateCriteriaPassword(this.usuario.password) || this.errorPassword) {
         throw new Error;
       }
-    } else if (this.errorUsuario || this.errorEmail || this.errorDireccion || this.errorProvincia || this.errorMunicipio || this.errorCodigoPostal
-      || this.errorPais || this.errorTelefono) {
-        throw new Error;
     }    
   }
 
@@ -173,7 +167,7 @@ export class NuevoUsuarioComponent implements OnInit {
    * @param password 
    * @returns 
    */
-  validateLengthPassword(password: any): boolean {
+  validateCriteriaPassword(password: any): boolean {
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
     const idPopoverPassword = document.getElementById('popover-password');
     /*const passwordValue = password.target.value;
@@ -207,6 +201,5 @@ export class NuevoUsuarioComponent implements OnInit {
     }
     return this.passwordRequired;
   }
-
 
 }
