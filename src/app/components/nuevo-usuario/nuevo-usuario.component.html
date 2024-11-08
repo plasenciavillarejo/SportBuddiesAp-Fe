@@ -96,9 +96,9 @@
                         <!-- Provincia -->
                         <div class="col-md-6">
                             <div class="form-floating">                                
-                                <!--(change)="loadMunicipaliti($event)"-->
                                 <select class="form-select" id="provincia" required provincia #provincia="ngModel" placeholder="provincia"
-                                    [(ngModel)]="usuario.provincia" name="provincia">
+                                    [(ngModel)]="usuario.provincia" name="provincia"
+                                    (change)="loadMunicipaliti($event)">
                                     <option value="" disabled selected>Seleccione una Provincia</option>
                                     @for (provincia of listaProvincias; track $index) {
                                     <option [value]="provincia">{{provincia}}</option>
@@ -118,8 +118,13 @@
                         <!-- Municipio -->
                         <div class="col-md-6">
                             <div class="form-floating">
-                                <input type="text" class="form-control" id="municipio" required municipio #municipio="ngModel"
-                                    placeholder="municipio" [(ngModel)]="usuario.municipio" name="municipio">
+                                <select id="municipio" class="form-select" required municipio #municipio="ngModel" placeholder="municipio"
+                                    [(ngModel)]="usuario.municipio" name="municipio">
+                                    <option value="" disabled selected>Seleccione un Municipio</option>
+                                    @for (municipio of listaMunicipos; track $index) {
+                                    <option [value]="municipio">{{municipio}}</option>
+                                    }
+                                </select>
                                 <label for="municipio">Municipio</label>
                                 @if(municipio.invalid && (municipio.dirty || municipio.touched || formSubmit)) {
                                     @if(municipio.errors?.['required']){

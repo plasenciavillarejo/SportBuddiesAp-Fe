@@ -19,16 +19,14 @@ export class NuevoUsuarioComponent implements OnInit {
   usuario: Usuario = new Usuario(); 
 
   errorPassword!: boolean;
-
   idUsuario!: number;
-
   formSubmit!: boolean;
-
   passwordRequired!: boolean;
 
   form: FormGroup;
 
   listaProvincias: any[] = [];
+  listaMunicipos: string[] = []
 
   constructor(private usuarioService: UsuarioService,
     private router: Router,
@@ -217,5 +215,20 @@ export class NuevoUsuarioComponent implements OnInit {
       }
     });
   }
+
+    /**
+   * Función encargada de cargar los municipos asociados a una provincia
+   * @param event 
+   */
+    loadMunicipaliti(event: any): void {
+      const municipio: string = event.target.value.toString();
+      this.usuarioService.loadMunic(municipio).subscribe({
+        next: (response) => {
+          this.listaMunicipos = response;
+        }, error: (error) => {
+          throw new error;
+        }
+      });
+    }
 
 }

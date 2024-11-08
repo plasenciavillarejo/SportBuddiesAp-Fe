@@ -167,7 +167,7 @@ export class UsuariosComponent implements OnInit {
   }
 
   /**
-   * Funciçon encargada de cargar los municipos asociados a una provincia
+   * Función encargada de cargar los municipos asociados a una provincia
    * @param event 
    */
   loadMunicipaliti(event: any): void {
