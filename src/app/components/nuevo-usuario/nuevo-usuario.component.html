@@ -95,9 +95,15 @@
 
                         <!-- Provincia -->
                         <div class="col-md-6">
-                            <div class="form-floating">
-                                <input type="text" class="form-control" id="provincia" required provincia #provincia="ngModel"
-                                    placeholder="provincia" [(ngModel)]="usuario.provincia" name="provincia">
+                            <div class="form-floating">                                
+                                <!--(change)="loadMunicipaliti($event)"-->
+                                <select class="form-select" id="provincia" required provincia #provincia="ngModel" placeholder="provincia"
+                                    [(ngModel)]="usuario.provincia" name="provincia">
+                                    <option value="" disabled selected>Seleccione una Provincia</option>
+                                    @for (provincia of listaProvincias; track $index) {
+                                    <option [value]="provincia">{{provincia}}</option>
+                                    }
+                                </select>
                                 <label for="provincia">Provincia</label>
                                 @if(provincia.invalid && (provincia.dirty || provincia.touched || formSubmit)) {
                                     @if(provincia.errors?.['required']){

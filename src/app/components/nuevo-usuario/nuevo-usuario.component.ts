@@ -28,7 +28,9 @@ export class NuevoUsuarioComponent implements OnInit {
 
   form: FormGroup;
 
-  constructor(private usuarioServicio: UsuarioService,
+  listaProvincias: any[] = [];
+
+  constructor(private usuarioService: UsuarioService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private formBuilder: FormBuilder
@@ -53,6 +55,7 @@ export class NuevoUsuarioComponent implements OnInit {
         this.obtainUserComplet(this.idUsuario);
       }
     });
+    this.loadProvince();
   }
 
   /**
@@ -88,7 +91,7 @@ export class NuevoUsuarioComponent implements OnInit {
 
     this.validarCampos(usuario);
     if (this.idUsuario === undefined) {
-      this.usuarioServicio.createUser(usuario).subscribe({
+      this.usuarioService.createUser(usuario).subscribe({
         next: response => {
           Swal.fire(
             'Usuario creado exitosamente',
@@ -115,7 +118,7 @@ export class NuevoUsuarioComponent implements OnInit {
         confirmButtonText: "Sí, actualizar!"
       }).then((result) => {
         if (result.isConfirmed) {
-          this.usuarioServicio.updateUser(usuario).subscribe({
+          this.usuarioService.updateUser(usuario).subscribe({
             next: response => {
               Swal.fire(
                 'Usuario actualizao exitosamente',
@@ -150,7 +153,7 @@ export class NuevoUsuarioComponent implements OnInit {
    * @returns 
    */
   private obtainUserComplet(idUsuario: number): Usuario {
-    this.usuarioServicio.obtainUserDto(idUsuario).subscribe({
+    this.usuarioService.obtainUserDto(idUsuario).subscribe({
       next: response => {
         if (response != null) {
           this.usuario = response;
@@ -200,6 +203,19 @@ export class NuevoUsuarioComponent implements OnInit {
       }
     }
     return this.passwordRequired;
+  }
+
+  /**
+   * Función encargada de cargar los datos necesarios cuando carga la página inicial
+   */
+  loadProvince(): void {
+    this.usuarioService.loadComboInit(true).subscribe({
+      next: (response) => {
+        this.listaProvincias = response.listaProvincias;
+      }, error: (error) => {
+        throw new error;
+      }
+    });
   }
 
 }

@@ -43,7 +43,7 @@ export class NuevaActividadComponent {
    * Función encargada de cargar los datos necesarios cuando carga la página inicial
    */
    loadComboInitial(): void {
-    this.usuarioService.loadComboInit().subscribe({
+    this.usuarioService.loadComboInit(false).subscribe({
       next: (response) => {
         this.listaDeportes = response.listadoDeportes;
         this.listaProvincias = response.listaProvincias;

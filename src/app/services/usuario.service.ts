@@ -23,8 +23,9 @@ export class UsuarioService {
 
   constructor(private http: HttpClient) { }
 
-  loadComboInit(): Observable<any>  {
-    return this.http.get<any>(this.url_combo);
+  loadComboInit(provinc: boolean): Observable<any>  {
+    const params = new HttpParams().set('provincias', provinc);
+    return this.http.get<any>(this.url_combo, {params});
   }
 
   loadMunic(municipio: string): Observable<any> {
