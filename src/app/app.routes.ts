@@ -72,7 +72,7 @@ export const routes: Routes = [
         component: NuevoUsuarioComponent
     },
     {
-        path: 'nuevo-usuario/:idUsuario',
+        path: 'mi-cuenta/:idUsuario',
         component: NuevoUsuarioComponent,
         canActivate: [authGuard]
     },

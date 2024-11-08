@@ -6,7 +6,7 @@
                 <h3 class="mb-4">Nuevo Usuario</h3>
             </div>
             <div class="card-body">
-                <form class="container" (ngSubmit)="createOrUpdateUser(usuario)">
+                <form #form="ngForm" class="container" (ngSubmit)="createOrUpdateUser(usuario)">
                     <div class="row g-4"> <!-- Usamos g-4 para más espacio entre filas -->
 
                         <!-- Nombre Usuario -->
@@ -24,18 +24,28 @@
                                 }
                             </div>
                         </div>
-                        @if(idUsuario == null) {
                         <!-- Password -->
+                        @if(idUsuario == null) {
                         <div class="col-md-6">
                             <div class="form-floating">
                                 <input type="password" class="form-control" id="password" required #password="ngModel"
-                                    placeholder="Password" [(ngModel)]="usuario.password" name="password">
+                                    placeholder="Password" [(ngModel)]="usuario.password" name="password"
+                                    (input)="validateLengthPassword($event)">
                                 <label for="password">Password</label>
                                 @if(errorPassword){
                                 <div class="text-danger mt-1">
                                     El password no puede estar vacío o contener solo espacios en blanco.
                                 </div>
+                                }@else if (usuario.password !== undefined && !passwordRequired) {
+                                <div class="text-danger mt-1">
+                                    El password no cumple con los requisitos mínimos.
+                                </div>
                                 }
+                                <a id="popover-password" tabindex="0" role="button" class="popover-trigger"
+                                    data-bs-toggle="popover" data-bs-placement="top" data-bs-trigger="focus"
+                                    data-bs-title="Más Información">
+                                    Requerimientos a cumplir.
+                                </a>
                             </div>
                         </div>
                         }
@@ -65,7 +75,7 @@
                                 <input type="text" class="form-control" id="direccion" required #direccion="ngModel"
                                     placeholder="direccion" [(ngModel)]="usuario.direccion" name="direccion">
                                 <label for="direccion">Dirección</label>
-                                @if(null){
+                                @if(errorDireccion){
                                 <div class="text-danger mt-1">
                                     La dirección no puede estar vacía o contener solo espacios en blanco.
                                 </div>
@@ -79,7 +89,7 @@
                                 <input type="text" class="form-control" id="provincia" required #provincia="ngModel"
                                     placeholder="provincia" [(ngModel)]="usuario.provincia" name="provincia">
                                 <label for="provincia">Provincia</label>
-                                @if(null){
+                                @if(errorProvincia){
                                 <div class="text-danger mt-1">
                                     La provincia no puede estar vacía o contener solo espacios en blanco.
                                 </div>
@@ -148,7 +158,9 @@
                         }
                         <!-- Botón de Crear -->
                         <div class="col-12 d-flex justify-content-center mt-4">
-                            <button type="submit" class="btn btn-primary px-5 py-2">{{ idUsuario ? 'Actualizar Usuario' : 'Crear Usuario' }}</button>
+                            <button type="submit" class="btn btn-primary px-5 py-2"
+                            >{{ idUsuario ? 'Actualizar Usuario'
+                                : 'Crear Usuario' }}</button>
                         </div>
                     </div>
                 </form>
