@@ -38,6 +38,8 @@ export class NuevoUsuarioComponent implements OnInit {
 
   idUsuario!: number;
 
+  passwordRequired!: boolean;
+
   constructor(private usuarioServicio: UsuarioService,
     private router: Router,
     private activatedRoute: ActivatedRoute
@@ -51,7 +53,6 @@ export class NuevoUsuarioComponent implements OnInit {
         this.obtainUserComplet(this.idUsuario);
       }
     });
-
   }
 
   /**
@@ -166,8 +167,6 @@ export class NuevoUsuarioComponent implements OnInit {
     });
     return this.usuario;
   }
-
-  passwordRequired!: boolean;
 
   /**
    * Función encargada de validar los requerimientos de la contraseña

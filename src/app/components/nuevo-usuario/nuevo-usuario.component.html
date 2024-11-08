@@ -35,7 +35,7 @@
                                 <div class="text-danger mt-1">
                                     El password no puede estar vacío o contener solo espacios en blanco.
                                 </div>
-                                }@else if (usuario.password !== undefined && !passwordRequired) {
+                                }@else if (usuario.password !== undefined && !passwordRequired && !errorPassword) {
                                 <div class="text-danger mt-1">
                                     El password no cumple con los requisitos mínimos.
                                 </div>
