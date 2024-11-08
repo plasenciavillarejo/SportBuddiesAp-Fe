@@ -177,7 +177,8 @@ export class NuevoUsuarioComponent implements OnInit {
   validateLengthPassword(password: any): boolean {
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
     const idPopoverPassword = document.getElementById('popover-password');
-    //const passwordValue = password.target.value;
+    /*const passwordValue = password.target.value;
+    (passwordValue !== undefined && !passwordRegex.test(passwordValue) && passwordValue !== '' )*/
     if (!passwordRegex.test(password) && password !== '') {
       this.passwordRequired = false;
       // Activamos el Popover para que muestre la información del error con más detalle

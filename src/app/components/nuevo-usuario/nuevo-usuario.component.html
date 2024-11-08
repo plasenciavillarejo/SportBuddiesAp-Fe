@@ -29,8 +29,7 @@
                         <div class="col-md-6">
                             <div class="form-floating">
                                 <input type="password" class="form-control" id="password" required #password="ngModel"
-                                    placeholder="Password" [(ngModel)]="usuario.password" name="password"
-                                    (input)="validateLengthPassword($event)">
+                                    placeholder="Password" [(ngModel)]="usuario.password" name="password">
                                 <label for="password">Password</label>
                                 @if(errorPassword){
                                 <div class="text-danger mt-1">
