@@ -12,26 +12,46 @@
                     <div class="row mb-4">
                         <div class="col-md-2">
                             <label for="clientId" class="form-label">Client Id</label>
-                            <input type="text" class="form-control" id="clientId" [(ngModel)]="clienteOauth.clientId"
-                                name="clientId" />
+                            <input type="text" id="clientId" name="clientId" class="form-control" required
+                                [(ngModel)]="clienteOauth.clientId" #clientId="ngModel" />
+                            @if(formSubmit && this.errorClientId) {
+                            <div class="text-danger mt-1">
+                                El client Id no puede estar vacío o contener solo espacios en blanco.
+                            </div>
+                            }
                         </div>
 
                         <div class="col-md-2">
                             <label for="clientSecret" class="form-label">Client Secret</label>
                             <input type="text" class="form-control" id="clientSecret"
                                 [(ngModel)]="clienteOauth.clientSecret" name="clientSecret" />
+                            @if(formSubmit && this.errorClientSecret) {
+                            <div class="text-danger mt-1">
+                                El client secret no puede estar vacío o contener solo espacios en blanco.
+                            </div>
+                            }
                         </div>
 
                         <div class="col-md-3">
-                            <label for="clientName" class="form-label">Nombre cliente</label>
+                            <label for="clientName" class="form-label">Client name</label>
                             <input type="text" class="form-control" id="clientName"
                                 [(ngModel)]="clienteOauth.clientName" name="clientName" />
+                                @if(formSubmit && this.errorClientName) {
+                                    <div class="text-danger mt-1">
+                                        El client name no puede estar vacío o contener solo espacios en blanco.
+                                    </div>
+                                    }
                         </div>
 
                         <div class="col-md-5">
                             <label for="authenticationMethods" class="form-label">Método Autenticación</label>
                             <input type="text" class="form-control" id="authenticationMethods"
                                 [(ngModel)]="clienteOauth.authenticationMethods" name="authenticationMethods" />
+                                @if(formSubmit && this.errorAuthMethod) {
+                                    <div class="text-danger mt-1">
+                                        La autenticación no puede estar vacío o contener solo espacios en blanco.
+                                    </div>
+                                    }
                         </div>
 
                         <div class="row mt-4">
@@ -45,9 +65,14 @@
                                     <label class="form-check-label" for="{{auth.value}}">{{auth.value}}</label>
                                 </div>
                                 }
+                                @if(this.formSubmit && (this.clienteOauth.authorizationGrantTypes === undefined || this.clienteOauth.authorizationGrantTypes.length === 0)
+                                && !this.resetCheck) {
+                                    <div class="text-danger mt-1">Por favor, seleccione al menos un autenticación</div>
+                                }
                             </div>
-
+                             
                             <div class="col-md-1">
+                                
                                 <label for="scopes" class="form-label">Scopes</label>
                                 @for (scop of scopes; track $index) {
                                 <div class="form-check">
@@ -57,18 +82,33 @@
                                     <label class="form-check-label" for="{{scop.value}}">{{scop.value}}</label>
                                 </div>
                                 }
+                                @if(this.formSubmit && (this.clienteOauth.scopes === undefined || this.clienteOauth.scopes.length === 0) 
+                                && !this.resetCheck) {
+                                    <div class="text-danger mt-1">Por favor, seleccione al menos un scope</div>
+                                }
                             </div>
-
+                        
+                        
                             <div class="col-md-2">
-                                <label for="timeAccesToken" class="form-label">Tiempo Acces Token</label>
+                                <label for="timeAccesToken" class="form-label">Tiempo Access Token</label>
                                 <input type="text" class="form-control" id="timeAccesToken"
                                     [(ngModel)]="clienteOauth.timeAccesToken" name="timeAccesToken" />
+                                    @if(formSubmit && this.errorAccesToken) {
+                                        <div class="text-danger mt-1">
+                                            El token no puede estar vacío o contener solo espacios en blanco.
+                                        </div>
+                                        }
                             </div>
 
                             <div class="col-md-2">
                                 <label for="timeRefrehsToken" class="form-label">Tiempo Refresh Token</label>
                                 <input type="text" class="form-control" id="timeRefrehsToken"
                                     [(ngModel)]="clienteOauth.timeRefrehsToken" name="timeRefrehsToken" />
+                                    @if(formSubmit && this.errorRefreshToken) {
+                                        <div class="text-danger mt-1">
+                                            El refres-token no puede estar vacío o contener solo espacios en blanco.
+                                        </div>
+                                        }
                             </div>
                         </div>
 

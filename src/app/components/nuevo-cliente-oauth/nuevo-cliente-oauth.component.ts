@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ClienteOauthRequest } from '../../models/clienteOauthRequest';
-import { FormsModule } from '@angular/forms';
-import { NgFor } from '@angular/common';
+import { FormsModule, NgModel } from '@angular/forms';
+import { CommonModule, NgFor } from '@angular/common';
 import { ClienteOauthService } from '../../services/cliente-oauth.service';
 import Swal from 'sweetalert2';
 
@@ -9,7 +9,7 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-nuevo-cliente-oauth',
   standalone: true,
-  imports: [FormsModule, NgFor],
+  imports: [FormsModule, CommonModule],
   templateUrl: './nuevo-cliente-oauth.component.html'
 })
 export class NuevoClienteOauthComponent implements OnInit {
@@ -29,6 +29,28 @@ export class NuevoClienteOauthComponent implements OnInit {
   redirectUris: string[] = [''];
 
   showNextInput: boolean = false; 
+
+  formSubmit!: boolean;
+
+  errorClientId!: boolean;
+  
+  errorClientSecret!: boolean;
+  
+  errorClientName!: boolean;
+  
+  errorAuthMethod!: boolean;
+  
+  errorTipoAutorizacion!: boolean;
+  
+  errorAccesToken!: boolean;
+  
+  errorRefreshToken!: boolean;
+  
+  errorRedictUris!: boolean;
+  
+  errorPosLogoutUris!: boolean;
+
+  resetCheck!: boolean;
 
   constructor(private clientOauthServie: ClienteOauthService) {
   }
@@ -102,6 +124,10 @@ export class NuevoClienteOauthComponent implements OnInit {
    * @param clienteOauth 
    */
   createActivity(clienteOauth: ClienteOauthRequest): void {
+    this.formSubmit = true;
+    this.resetCheck = false;
+    this.validateForm(clienteOauth);
+
     this.clienteOauth.redirectUris = this.redirectUris;
     if (typeof clienteOauth.authenticationMethods === 'string') {
       // Convertirlo en un array en el caso de que solo se agregue un único valor
@@ -118,10 +144,12 @@ export class NuevoClienteOauthComponent implements OnInit {
             'Se ha registrado correctamente el cliente para la aplicación', 
             'success'
           )
+          this.clienteOauth = new ClienteOauthRequest();
+          this.resetCheckboxes();
       }, error: error => {
         Swal.fire(
           'Cliente Oauth',
-          'No se ha registrado correctamente el cliente para la aplicación.' + error.error.message, 
+           error.error.message, 
           'error'
         )
       }
@@ -129,5 +157,35 @@ export class NuevoClienteOauthComponent implements OnInit {
 
   }
 
+  validateForm(clienteOauth: ClienteOauthRequest): void {
+    this.errorClientId = clienteOauth.clientId === undefined || clienteOauth.clientId.trim() === '';
+    this.errorClientSecret = clienteOauth.clientSecret === undefined || clienteOauth.clientSecret.trim() === '';
+    this.errorClientName = clienteOauth.clientName === undefined || clienteOauth.clientName.trim() === '';
+    this.errorAuthMethod = clienteOauth.authenticationMethods === undefined;
+    this.errorAccesToken = clienteOauth.timeAccesToken === undefined || String(clienteOauth.timeAccesToken).trim() === '';
+    this.errorRefreshToken = clienteOauth.timeRefrehsToken === undefined || String(clienteOauth.timeRefrehsToken).trim() === '';
+    if(this.errorClientId || this.errorClientSecret || this.errorClientName || this.errorAuthMethod || this.errorAccesToken
+      || this.errorRefreshToken
+    )  {
+      throw new Error();
+    }
+  }
+
+  /**
+   * FUnción encargada de resetear los checks una vez que se ha creado el usuaruio
+   */
+  resetCheckboxes(): void {
+    // Restablecer los valores de checked a false
+    this.scopes.forEach(scopeItem => {
+      scopeItem.checked = false; // Desmarcar todos los checkboxes
+    });
+
+    this.autorizathion.forEach(authori => {
+      authori.checked = false;
+    });
+  
+    this.resetCheck = true;
+  
+  }
 
 }

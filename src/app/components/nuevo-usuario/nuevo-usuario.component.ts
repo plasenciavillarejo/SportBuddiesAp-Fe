@@ -1,16 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { Usuario } from '../../models/usuario';
-import { AbstractControl, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup,  ReactiveFormsModule, ValidationErrors,  Validators } from '@angular/forms';
 import { UsuarioService } from '../../services/usuario.service';
 import Swal from 'sweetalert2';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Popover } from 'bootstrap';
 declare var bootstrap: any
 
 @Component({
   selector: 'app-nuevo-usuario',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule],
+  imports: [ReactiveFormsModule],
   templateUrl: './nuevo-usuario.component.html',
   styleUrl: './nuevo-usuario.component.css'
 })

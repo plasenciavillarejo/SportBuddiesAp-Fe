@@ -9,7 +9,7 @@ export class ClienteOauthRequest {
   
     clientName!: string;
     
-    authenticationMethods = [] as string [];
+    authenticationMethods= [] as string [];
     
     authorizationGrantTypes = [] as string [];
   
