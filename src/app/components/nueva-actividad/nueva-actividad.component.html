@@ -239,10 +239,8 @@
       </div>
     </div>
   
-  
-  
-  
-    <div class="accordion-item">
+    <!--Acordeon para listar todas las actividades referentes al usuario-->
+    <div class="accordion-item mb-6">
       <h2 class="accordion-header">
         <button class="accordion-button collapsed bg-primary text-white" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" 
         aria-controls="panelsStayOpen-collapseTwo">
@@ -252,46 +250,51 @@
       <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse">
         <div class="accordion-body">
           <div class="table-responsive">
-            <table class="table table-striped table-hover align-middle mt-2 text-center shadow-sm border rounded">
-              <thead class="table-primary">
+            <table class="table table-hover align-middle mt-4 mb-4 text-center shadow-sm border-0 rounded-3">
+              <thead class="table-primary border-top border-2">
                 <tr>
                   <th hidden></th>
-                  <th class="text-uppercase fst-italic">Fecha Reserva</th>
-                  <th class="text-uppercase">Hora Reserva</th>
-                  <th class="text-uppercase">Requerimientos</th>
-                  <th class="text-uppercase">Máximo Jugadores</th>
-                  <th class="text-uppercase">Actividad</th>
-                  <th class="text-uppercase">Provincia</th>
-                  <th class="text-uppercase">Municipio</th>
-                  <th class="text-uppercase">Urgencia Inscripción</th>
-                  <th class="text-uppercase">Abono Pista</th>
+                  <th class="text-uppercase fst-italic py-3">Fecha Reserva</th>
+                  <th class="text-uppercase py-3">Hora Reserva</th>
+                  <th class="text-uppercase py-3">Requerimientos</th>
+                  <th class="text-uppercase py-3">Máximo Jugadores</th>
+                  <th class="text-uppercase py-3">Actividad</th>
+                  <th class="text-uppercase py-3">Provincia</th>
+                  <th class="text-uppercase py-3">Municipio</th>
+                  <th class="text-uppercase py-3">Urgencia Inscripción</th>
+                  <th class="text-uppercase py-3">Abono Pista</th>
                 </tr>
               </thead>
-              <tbody class="table-light">
+              <tbody class="bg-white text-dark">
                 <!-- Iteración de las reservas -->
                 @for (reserva of formularioActividadResponse; track $index) {
-                <tr>
+                <tr class="border-bottom border-2 border-light">
                   <td hidden>{{reserva.idReservaActividad}}</td>
-                  <td>{{reserva.fechaReserva | date:'dd-MM-yyyy'}}</td>
-                  <td>{{reserva.horaInicio}} - {{reserva.horaFin}}</td>
-                  <td>
+                  <td class="py-3">{{reserva.fechaReserva | date:'dd-MM-yyyy'}}</td>
+                  <td class="py-3">{{reserva.horaInicio}} - {{reserva.horaFin}}</td>
+                  <td class="py-3">
                     <ul class="list-unstyled mb-0">
                       <!-- Iteración de requerimientos dentro de la reserva -->
                       @for (requi of reserva.requerimientos; track $index) {
-                        <li>{{requi}}</li>
+                        <li class="text-muted small">{{requi}}</li>
                       }
                     </ul>
                   </td>
-                  <td>{{reserva.usuariosMaxRequeridos}}</td>
-                  <td>{{reserva.actividad}}</td>
-                  <td>{{reserva.provincia}}</td>
-                  <td>{{reserva.municipio}}</td>
-                  <td>{{reserva.urgencia}}</td>
-                  <td>{{reserva.abonoPista}}</td>
+                  <td class="py-3">{{reserva.usuariosMaxRequeridos}}</td>
+                  <td class="py-3">{{reserva.actividad}}</td>
+                  <td class="py-3">{{reserva.provincia}}</td>
+                  <td class="py-3">{{reserva.municipio}}</td>
+                  <td class="py-3">
+                    <span class="badge rounded-pill text-bg-{{ reserva.urgencia == 'Alta' ? 'danger' : reserva.urgencia == 'Media' ? 'warning' : 'success' }}">
+                      {{reserva.urgencia}}
+                    </span>
+                  </td>
+                  <td class="py-3">{{reserva.abonoPista}} €</td>
                 </tr>
                 }
               </tbody>
             </table>
+            
           </div>
         </div>
       </div>

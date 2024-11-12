@@ -131,7 +131,7 @@
                     <ul class="list-unstyled mb-0">
                     @for (requi of formActi.requerimientos; track $index) {
                         <li>
-                            <span [attr.data-bs-toggle]="$index === 0 ? 'tooltip' : null" title="{{requi}}">
+                            <span  class="text-muted small" [attr.data-bs-toggle]="$index === 0 ? 'tooltip' : null" title="{{requi}}">
                                 {{requi}}
                             </span>
                         </li>
@@ -140,10 +140,9 @@
                 </td>
                 <td class="text-center">{{formActi.usuariosMaxRequeridos}}</td>
                 <td>
-                    <span
-                        [ngClass]="{'text-danger': formActi.urgencia === 'Alta', 'text-warning': formActi.urgencia === 'Media', 'text-success': formActi.urgencia === 'Baja'}">
+                    <span  class="badge rounded-pill text-bg-{{ formActi.urgencia == 'Alta' ? 'danger' : formActi.urgencia == 'Media' ? 'warning' : 'success' }}">
                         {{formActi.urgencia}}
-                    </span>
+                      </span>
                 </td>
                 <td>{{formActi.abonoPista}} €</td>
                 <td>

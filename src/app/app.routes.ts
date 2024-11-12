@@ -11,9 +11,7 @@ import { HistorialReservasComponent } from './components/historial-reservas/hist
 import { PaypalComponent } from './components/paypal/paypal.component';
 import { PaypalCancelComponent } from './components/paypal-cancel/paypal-cancel.component';
 import { NuevoUsuarioComponent } from './components/nuevo-usuario/nuevo-usuario.component';
-import { ReservasCreadasComponent } from './components/reservas-creadas/reservas-creadas.component';
 import { PagoTarjetaComponent } from './components/pago-tarjeta/pago-tarjeta.component';
-import { SpinnerModalComponent } from './components/spinner-modal/spinner-modal.component';
 
 export const routes: Routes = [
     /**Por defecto si el path es vació nos redigira a usuarios */
@@ -74,11 +72,6 @@ export const routes: Routes = [
     {
         path: 'mi-cuenta/:idUsuario',
         component: NuevoUsuarioComponent,
-        canActivate: [authGuard]
-    },
-    {
-        path: 'reservas-creadas',
-        component: ReservasCreadasComponent,
         canActivate: [authGuard]
     },
     {

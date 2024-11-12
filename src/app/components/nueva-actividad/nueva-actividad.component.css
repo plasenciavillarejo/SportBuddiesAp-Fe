@@ -5,3 +5,6 @@
     background-color: #f8f9fa;  /* Color de fondo opcional para que resalte */
 }
 
+.mb-6 {
+    margin-bottom: 6rem !important;
+}
