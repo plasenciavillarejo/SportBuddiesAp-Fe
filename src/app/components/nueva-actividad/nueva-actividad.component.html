@@ -1,229 +1,302 @@
 <div class="container py-4">
-  <div class="row justify-content-center">
-    <div class="col-lg-30">
-      <!-- Damos una sombra al card utilizando shadow-lg -->
-      <div class="card shadow-lg border-0">
-        <div class="card-header bg-primary text-white text-center">
-          <h3>Crear Actividad</h3>
-        </div>
-        <div class="card-body">
-          <form [formGroup]="validateForm" class="form-control border-0" (ngSubmit)="createActivity()">
-            <div class="row mb-3">
-              <div class="col-md-3">
-                <label for="fechaReserva" class="form-label">Fecha de la Actividad</label>
-                <div class="input-group">
-                  <span class="input-group-text bg-light icon-border">
-                    <i class="bi bi-calendar"></i>
-                  </span>
-                  <input type="date" class="form-control" id="fechaReserva" required  formControlName="fechaReserva" name="fechaReserva">
-                  @if(((this.validateForm.get('fechaReserva')?.invalid &&
-                    this.validateForm.get('fechaReserva')?.touched) || formSubmit) &&
-                    (!this.validateForm.get('fechaReserva')?.value?.trim())) {
-                    <div class="text-danger mt-1">
-                        La fecha reserva no puede estar vacío o contener solo espacios en blanco.
+  <div class="accordion" id="accordionPanelsStayOpenExample">
+    <div class="accordion-item">
+      <h2 class="accordion-header ">
+        <button class="accordion-button bg-primary text-white" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+          Crear Actividad
+        </button>
+      </h2>
+      <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show">
+        <div class="accordion-body">
+          <div class="row justify-content-center">
+            <div class="col-lg-30">
+              <!-- Damos una sombra al card utilizando shadow-lg -->
+              <div class="card shadow-lg border-0">
+                <!--
+                <div class="card-header bg-primary text-white text-center">
+                  <h3>Crear Actividad</h3>
+                </div>
+                -->
+                <div class="card-body">
+                  <form [formGroup]="validateForm" class="form-control border-0" (ngSubmit)="createActivity()">
+                    <div class="row mb-3">
+                      <div class="col-md-3">
+                        <label for="fechaReserva" class="form-label">Fecha de la Actividad</label>
+                        <div class="input-group">
+                          <span class="input-group-text bg-light icon-border">
+                            <i class="bi bi-calendar"></i>
+                          </span>
+                          <input type="date" class="form-control" id="fechaReserva" required  formControlName="fechaReserva" name="fechaReserva">
+                          @if(((this.validateForm.get('fechaReserva')?.invalid &&
+                            this.validateForm.get('fechaReserva')?.touched) || formSubmit) &&
+                            (!this.validateForm.get('fechaReserva')?.value?.trim())) {
+                            <div class="text-danger mt-1">
+                                La fecha reserva no puede estar vacío o contener solo espacios en blanco.
+                            </div>
+                            }
+                        </div>
+                      </div>
+                      
+                      <div class="col-md-3">
+                        <label for="horaInicio" class="form-label">Hora de Inicio</label>
+                        <div class="input-group">
+                          <span class="input-group-text bg-light icon-border">
+                            <i class="bi bi-clock"></i>
+                          </span>
+                          <input type="time" class="form-control" id="horaInicio" required formControlName="horaInicio" name="horaInicio">
+                          @if(((this.validateForm.get('horaInicio')?.invalid &&
+                            this.validateForm.get('horaInicio')?.touched) || formSubmit) &&
+                            (!this.validateForm.get('horaInicio')?.value?.trim())) {
+                            <div class="text-danger mt-1">
+                              La hora inicio no puede estar vacia.
+                            </div>
+                            }
+                        </div>
+                      </div>
+        
+                      <div class="col-md-3">
+                        <label for="horaFin" class="form-label">Hora de Fin</label>
+                        <div class="input-group">
+                          <span class="input-group-text bg-light icon-border">
+                            <i class="bi bi-clock"></i>
+                          </span>
+                          <input type="time" class="form-control" id="horaFin" required formControlName="horaFin" name="horaFin">
+                          @if(((this.validateForm.get('horaFin')?.invalid &&
+                            this.validateForm.get('horaFin')?.touched) || formSubmit) &&
+                            (!this.validateForm.get('horaFin')?.value?.trim())) {
+                            <div class="text-danger mt-1">
+                              La Hora fin no puede estar vacia.
+                            </div>
+                            }
+                        </div>
+                      </div>
                     </div>
-                    }
-                </div>
-              </div>
-              
-              <div class="col-md-3">
-                <label for="horaInicio" class="form-label">Hora de Inicio</label>
-                <div class="input-group">
-                  <span class="input-group-text bg-light icon-border">
-                    <i class="bi bi-clock"></i>
-                  </span>
-                  <input type="time" class="form-control" id="horaInicio" required formControlName="horaInicio" name="horaInicio">
-                  @if(((this.validateForm.get('horaInicio')?.invalid &&
-                    this.validateForm.get('horaInicio')?.touched) || formSubmit) &&
-                    (!this.validateForm.get('horaInicio')?.value?.trim())) {
-                    <div class="text-danger mt-1">
-                      La hora inicio no puede estar vacia.
+        
+                    <div class="row mb-3">
+                      <div class="col-9 mt-2">
+                        <label for="requerimientos" class="form-label">Requerimientos</label>
+        
+                        <!-- Div principal que contiene el primer input y el botón -->
+                        <div id="requerimientos">
+                          <div class="d-flex align-items-center">
+                            <!-- Primer input con botón alineado a la derecha -->
+                            <input type="text" class="form-control me-2 w-100" required formControlName="requerimientos"
+                              (blur)="updateRequerimientos(0, this.validateForm.get('requerimientos')?.value)" name="requerimientos" />
+                            <!-- Botón alineado con el primer input -->
+                            <button type="button" class="btn btn-primary ms-2" (click)="nuevoRequerimientos()">
+                              <i class="bi bi-plus-lg"></i>
+                            </button>
+                          </div>
+                        </div>
+        
+                        <!-- Inputs adicionales que se muestran uno debajo del otro -->
+                        @for (i of requerimientos.slice(1); track $index) {
+                        <div class="mt-2 d-flex align-items-center">
+                          <input type="text" class="form-control" 
+                            (blur)="changeInputRequired($index + 1, $event)"
+                            name="requerimientosInput{{i + 1}}" />
+                          <button type="button" class="btn btn-primary ms-2" (click)="removeInput($index + 1)">
+                            <i class="bi bi-x-circle"></i>
+                          </button>
+                        </div>
+                        }
+                      </div>
                     </div>
-                    }
-                </div>
-              </div>
-
-              <div class="col-md-3">
-                <label for="horaFin" class="form-label">Hora de Fin</label>
-                <div class="input-group">
-                  <span class="input-group-text bg-light icon-border">
-                    <i class="bi bi-clock"></i>
-                  </span>
-                  <input type="time" class="form-control" id="horaFin" required formControlName="horaFin" name="horaFin">
-                  @if(((this.validateForm.get('horaFin')?.invalid &&
-                    this.validateForm.get('horaFin')?.touched) || formSubmit) &&
-                    (!this.validateForm.get('horaFin')?.value?.trim())) {
-                    <div class="text-danger mt-1">
-                      La Hora fin no puede estar vacia.
-                    </div>
-                    }
-                </div>
-              </div>
-            </div>
-
-            <div class="row mb-3">
-              <div class="col-9 mt-2">
-                <label for="requerimientos" class="form-label">Requerimientos</label>
-
-                <!-- Div principal que contiene el primer input y el botón -->
-                <div id="requerimientos">
-                  <div class="d-flex align-items-center">
-                    <!-- Primer input con botón alineado a la derecha -->
-                    <input type="text" class="form-control me-2 w-100" required formControlName="requerimientos"
-                      (blur)="updateRequerimientos(0, this.validateForm.get('requerimientos')?.value)" name="requerimientos" />
-                    <!-- Botón alineado con el primer input -->
-                    <button type="button" class="btn btn-primary ms-2" (click)="nuevoRequerimientos()">
-                      <i class="bi bi-plus-lg"></i>
-                    </button>
-                  </div>
-                </div>
-
-                <!-- Inputs adicionales que se muestran uno debajo del otro -->
-                @for (i of requerimientos.slice(1); track $index) {
-                <div class="mt-2 d-flex align-items-center">
-                  <input type="text" class="form-control" 
-                    (blur)="changeInputRequired($index + 1, $event)"
-                    name="requerimientosInput{{i + 1}}" />
-                  <button type="button" class="btn btn-primary ms-2" (click)="removeInput($index + 1)">
-                    <i class="bi bi-x-circle"></i>
-                  </button>
-                </div>
-                }
-              </div>
-            </div>
-
-            <div class="row mb-3">
-              <div class="col-md-3">
-                <label for="actividad" class="form-label">Actividad</label>
-                <select class="form-select" id="actividad" required formControlName="actividad" name="actividad" (change)="checkActivity($event)">
-                  <option disabled selected>Seleccione una Actividad</option>
-                  @for (deporte of listaDeportes; track $index) {
-                  <option id="{{deporte.idDeporte}}" [value]="deporte.actividad">
-                    {{deporte.actividad}}
-                  </option>
-                  }
-                </select>
-                @if(((this.validateForm.get('actividad')?.invalid &&
-                    this.validateForm.get('actividad')?.touched) || formSubmit) &&
-                    (!this.validateForm.get('actividad')?.value?.trim())) {
-                    <div class="text-danger mt-1">
-                      Seleccione una actividad.
-                    </div>
-                  }
-              </div>
-
-              <div class="col-md-3">
-                <label for="usuariosMaxRequeridos" class="form-label">Usuarios Maximos Requeridos</label>
-                <input type="number" min="1" maxLength="2" class="form-control" id="usuariosMaxRequeridos" required
-                formControlName="usuariosMaxRequeridos" name="usuariosMaxRequeridos">
-                @if(validateForm.get('usuariosMaxRequeridos')?.errors?.['whitespaceNumeric']
-                 && (validateForm.get('usuariosMaxRequeridos')?.touched || formSubmit)) {
-                <div class="text-danger mt-1">
-                  Indique un minimo de usuarios.
-                </div>
-                }
-              </div>
+        
+                    <div class="row mb-3">
+                      <div class="col-md-3">
+                        <label for="actividad" class="form-label">Actividad</label>
+                        <select class="form-select" id="actividad" required formControlName="actividad" name="actividad" (change)="checkActivity($event)">
+                          <option disabled selected>Seleccione una Actividad</option>
+                          @for (deporte of listaDeportes; track $index) {
+                          <option id="{{deporte.idDeporte}}" [value]="deporte.actividad">
+                            {{deporte.actividad}}
+                          </option>
+                          }
+                        </select>
+                        @if(((this.validateForm.get('actividad')?.invalid &&
+                            this.validateForm.get('actividad')?.touched) || formSubmit) &&
+                            (!this.validateForm.get('actividad')?.value?.trim())) {
+                            <div class="text-danger mt-1">
+                              Seleccione una actividad.
+                            </div>
+                          }
+                      </div>
+        
+                      <div class="col-md-3">
+                        <label for="usuariosMaxRequeridos" class="form-label">Usuarios Maximos Requeridos</label>
+                        <input type="number" min="1" maxLength="2" class="form-control" id="usuariosMaxRequeridos" required
+                        formControlName="usuariosMaxRequeridos" name="usuariosMaxRequeridos">
+                        @if(validateForm.get('usuariosMaxRequeridos')?.errors?.['whitespaceNumeric']
+                         && (validateForm.get('usuariosMaxRequeridos')?.touched || formSubmit)) {
+                        <div class="text-danger mt-1">
+                          Indique un minimo de usuarios.
+                        </div>
+                        }
+                      </div>
+                   
+                      <div class="col-md-3">
+                        <label for="provincia" class="form-label">Provincia:</label>
+                        <select class="form-select" id="provincia" required formControlName="provincia"
+                           name="provincia" (change)="loadMunicipaliti($event)">
+                          <option value="" disabled selected>Seleccione una Provincia</option>
+                          @for (provincia of listaProvincias; track $index) {
+                          <option [value]="provincia">{{provincia}}</option>
+                          }
+                        </select>
+                        @if(((this.validateForm.get('provincia')?.invalid &&
+                        this.validateForm.get('provincia')?.touched) || formSubmit) &&
+                        (!this.validateForm.get('provincia')?.value?.trim())) {
+                        <div class="text-danger mt-1">
+                          Seleccione una provincia.
+                        </div>
+                        }
+                      </div>
            
-              <div class="col-md-3">
-                <label for="provincia" class="form-label">Provincia:</label>
-                <select class="form-select" id="provincia" required formControlName="provincia"
-                   name="provincia" (change)="loadMunicipaliti($event)">
-                  <option value="" disabled selected>Seleccione una Provincia</option>
-                  @for (provincia of listaProvincias; track $index) {
-                  <option [value]="provincia">{{provincia}}</option>
-                  }
-                </select>
-                @if(((this.validateForm.get('provincia')?.invalid &&
-                this.validateForm.get('provincia')?.touched) || formSubmit) &&
-                (!this.validateForm.get('provincia')?.value?.trim())) {
-                <div class="text-danger mt-1">
-                  Seleccione una provincia.
+                      <div class="col-md-3">
+                        <label for="municipio" class="form-label">Municipio:</label>
+                        <select class="form-select" id="municipio" required formControlName="municipio" name="municipio">
+                          <option value="" disabled selected>Seleccione un Municipio</option>
+                          @for (municipio of listaMunicipos; track $index) {
+                          <option [value]="municipio">{{municipio}}</option>
+                          }
+                        </select>
+                        @if(((this.validateForm.get('municipio')?.invalid &&
+                        this.validateForm.get('municipio')?.touched) || formSubmit) &&
+                        (!this.validateForm.get('municipio')?.value?.trim())) {
+                        <div class="text-danger mt-1">
+                          Seleccione un municipio.
+                        </div>
+                        }
+                      </div>
+                      
+                    </div>
+        
+                    <div class="row mb-3">
+                      
+                      <div class="col-md-2">
+                        <label for="codigoPostal" class="form-label">Codigo Postal:</label>
+                        <input type="text" maxlength="5" (input)="validarCodigoPostal($event)"
+                          class="form-control" id="codigoPostal" required formControlName="codigoPostal" name="codigoPostal">
+                          @if((validateForm.get('codigoPostal')?.errors?.['whitespaceNumeric'] && 
+                          (validateForm.get('codigoPostal')?.touched || formSubmit))) {                
+                        <div class="text-danger mt-1">
+                          El codigo postal no puede estar vacio.
+                        </div>
+                        }
+                      </div>
+        
+                      <div class="col-md-3">
+                        <label for="direccion" class="form-label">Dirección:</label>
+                        <input type="text" class="form-control" id="direccion" required formControlName="direccion" name="direccion">
+                        @if(validateForm.get('direccion')?.errors?.['whitespace'] && ((validateForm.get('direccion')?.touched) || formSubmit)) {
+                        <div class="text-danger mt-1">
+                          Indique una dirección de la actividad.
+                        </div>
+                        }
+                      </div>
+        
+                      <div class="col-md-3">
+                        <label for="urgencia" class="form-label">Urgencia:</label>
+                        <select class="form-select" id="urgencia" required formControlName="urgencia" name="urgencia">
+                          <option value="" disabled selected>Seleccione un nivel de urgencia</option>
+                          <option value="baja">Baja</option>
+                          <option value="media">Media</option>
+                          <option value="alta">Alta</option>
+                        </select>
+                        @if(((this.validateForm.get('urgencia')?.invalid &&
+                        this.validateForm.get('urgencia')?.touched) || formSubmit) &&
+                        (!this.validateForm.get('urgencia')?.value?.trim())) {
+                        <div class="text-danger mt-1">
+                          Indique el nivel de urgencia.
+                        </div>
+                        }
+                      </div>
+        
+                      <div class="col-md-2">
+                        <label for="abonoPista" class="form-label">Abono Pista:</label>
+                        <div class="input-group">
+                          <span class="input-group-text icon-border">€</span>
+                          <input type="text" (input)="validarDecimales($event)" class="form-control"
+                            id="abonoPista" required formControlName="abonoPista" name="abonoPista">
+                        </div>
+                        @if(((validateForm.get('abonoPista')?.errors?.['whitespaceNumeric']
+                        || validateForm.get('abonoPista')?.errors?.['decimalValidator'])
+                        && (validateForm.get('abonoPista')?.touched || formSubmit))) {
+                        <div class="text-danger mt-1">
+                          Indique la cantidad a abonar por cada usuario que se desea asistir en la actividad.
+                        </div>
+                        }
+                      </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Crear Reserva</button>
+                  </form>
                 </div>
-                }
               </div>
-   
-              <div class="col-md-3">
-                <label for="municipio" class="form-label">Municipio:</label>
-                <select class="form-select" id="municipio" required formControlName="municipio" name="municipio">
-                  <option value="" disabled selected>Seleccione un Municipio</option>
-                  @for (municipio of listaMunicipos; track $index) {
-                  <option [value]="municipio">{{municipio}}</option>
-                  }
-                </select>
-                @if(((this.validateForm.get('municipio')?.invalid &&
-                this.validateForm.get('municipio')?.touched) || formSubmit) &&
-                (!this.validateForm.get('municipio')?.value?.trim())) {
-                <div class="text-danger mt-1">
-                  Seleccione un municipio.
-                </div>
-                }
-              </div>
-              
             </div>
-
-            <div class="row mb-3">
-              
-              <div class="col-md-2">
-                <label for="codigoPostal" class="form-label">Codigo Postal:</label>
-                <input type="text" maxlength="5" (input)="validarCodigoPostal($event)"
-                  class="form-control" id="codigoPostal" required formControlName="codigoPostal" name="codigoPostal">
-                  @if((validateForm.get('codigoPostal')?.errors?.['whitespaceNumeric'] && 
-                  (validateForm.get('codigoPostal')?.touched || formSubmit))) {                
-                <div class="text-danger mt-1">
-                  El codigo postal no puede estar vacio.
-                </div>
-                }
-              </div>
-
-              <div class="col-md-3">
-                <label for="direccion" class="form-label">Dirección:</label>
-                <input type="text" class="form-control" id="direccion" required formControlName="direccion" name="direccion">
-                @if(validateForm.get('direccion')?.errors?.['whitespace'] && ((validateForm.get('direccion')?.touched) || formSubmit)) {
-                <div class="text-danger mt-1">
-                  Indique una dirección de la actividad.
-                </div>
-                }
-              </div>
-
-              <div class="col-md-3">
-                <label for="urgencia" class="form-label">Urgencia:</label>
-                <select class="form-select" id="urgencia" required formControlName="urgencia" name="urgencia">
-                  <option value="" disabled selected>Seleccione un nivel de urgencia</option>
-                  <option value="baja">Baja</option>
-                  <option value="media">Media</option>
-                  <option value="alta">Alta</option>
-                </select>
-                @if(((this.validateForm.get('urgencia')?.invalid &&
-                this.validateForm.get('urgencia')?.touched) || formSubmit) &&
-                (!this.validateForm.get('urgencia')?.value?.trim())) {
-                <div class="text-danger mt-1">
-                  Indique el nivel de urgencia.
-                </div>
-                }
-              </div>
-
-              <div class="col-md-2">
-                <label for="abonoPista" class="form-label">Abono Pista:</label>
-                <div class="input-group">
-                  <span class="input-group-text icon-border">€</span>
-                  <input type="text" (input)="validarDecimales($event)" class="form-control"
-                    id="abonoPista" required formControlName="abonoPista" name="abonoPista">
-                </div>
-                @if(((validateForm.get('abonoPista')?.errors?.['whitespaceNumeric']
-                || validateForm.get('abonoPista')?.errors?.['decimalValidator'])
-                && (validateForm.get('abonoPista')?.touched || formSubmit))) {
-                <div class="text-danger mt-1">
-                  Indique la cantidad a abonar por cada usuario que se desea asistir en la actividad.
-                </div>
-                }
-              </div>
-              
-            </div>
-
-            <button type="submit" class="btn btn-primary">Crear Reserva</button>
-          </form>
+          </div>        
         </div>
       </div>
     </div>
+  
+  
+  
+  
+    <div class="accordion-item">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed bg-primary text-white" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" 
+        aria-controls="panelsStayOpen-collapseTwo">
+          Listar Actividades Creadas
+        </button>
+      </h2>
+      <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse">
+        <div class="accordion-body">
+          <div class="table-responsive">
+                <table class="tabletable-striped mt-2 text-center">
+                    <thead class="table-light">
+                        <tr>
+                          <tr>
+                            <th hidden></th>
+                            <th class="bg-primary text-white">Fecha Reserva</th>
+                            <th class="bg-primary text-white">Hora Reserva</th>
+                            <th class="bg-primary text-white">Requerimientos</th>
+                            <th class="bg-primary text-white">Máximo Jugadores</th>
+                            <th class="bg-primary text-white">Actividad</th>
+                            <th class="bg-primary text-white">Provincia</th>
+                            <th class="bg-primary text-white">Municipio</th>
+                            <th class="bg-primary text-white">Urgencia Inscripción</th>
+                            <th class="bg-primary text-white">Abono Pista</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                      @for (reserva of formularioActividadResponse; track $index) {
+                      <tr>
+                        <td hidden>{{reserva.idReservaActividad}}</td>
+                        <td>{{reserva.fechaReserva | date:'dd-MM-yyyy'}}</td>
+                        <td>{{reserva.horaInicio}} - {{reserva.horaFin}}</td>
+                        <td> @for (requi of reserva.requerimientos; track $index) {
+                          <span>
+                              {{requi}}<br>
+                          </span> <br>
+                          }</td>
+                        <td>{{reserva.usuariosMaxRequeridos}}</td>
+                        <td>{{reserva.actividad}}</td>
+                        <td>{{reserva.provincia}}</td>
+                        <td>{{reserva.municipio}}</td>
+                        <td>{{reserva.urgencia}}</td>
+                        <td>{{reserva.abonoPista}}</td>
+                      </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+
+
+        </div>
+      </div>
+    </div>
+  
   </div>
 </div>
+
+

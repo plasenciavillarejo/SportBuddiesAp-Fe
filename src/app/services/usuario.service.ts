@@ -34,7 +34,15 @@ export class UsuarioService {
   }
 
   loadReservationList(formularioActividad: BusquedaActividadRequest) : Observable<any> {
-    return this.http.post<any>(this.url_listing_reservation, formularioActividad);
+    const fechaReservaString = formularioActividad.fechaReserva 
+    ? new Date(formularioActividad.fechaReserva).toISOString().split('T')[0]  // 'YYYY-MM-DD' format
+    : '';
+    const params = new HttpParams()
+    .set('fechaReserva', fechaReservaString)
+    .set('actividad', formularioActividad.actividad)
+    .set('provincia', formularioActividad.provincia)
+    .set('municipio', formularioActividad.municipio);
+    return this.http.get<any>(this.url_listing_reservation, {params});
   }
 
   registrationReservation(inscripcionReserva: InscripcionReservaActividad): Observable<any>{
@@ -62,4 +70,9 @@ export class UsuarioService {
     return this.http.post<void>(this.url_update_user, usuario);
   }
 
+  loadReservationListForIdUser(idUsuario: number): Observable<any>  {
+    const params = new HttpParams()
+    .set('idUsuario', idUsuario);
+    return this.http.get<any>(this.url_listing_reservation, {params});
+  }
 }

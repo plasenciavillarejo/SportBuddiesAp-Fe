@@ -7,11 +7,12 @@ import { AbstractControl, FormBuilder, FormControl, FormGroup, FormsModule, Reac
 import { CrearActividadService } from '../../services/crear-actividad.service';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-nueva-actividad',
   standalone: true,
-  imports: [ReactiveFormsModule, FormsModule],
+  imports: [ReactiveFormsModule, FormsModule, CommonModule],
   templateUrl: './nueva-actividad.component.html',
   styleUrl: './nueva-actividad.component.css'
 })
@@ -41,6 +42,7 @@ export class NuevaActividadComponent {
   ngOnInit(): void {
     this.loadComboInitial();
     this.initFormReactiveActivity();
+    this.listReservation();
   }
 
   private initFormReactiveActivity(): void {
@@ -220,6 +222,25 @@ export class NuevaActividadComponent {
       const isValid = /^\d+(\.\d{1,2})?$/.test(value.toString());
       return isValid ? null : { invalidDecimal: true };
     };
+  }
+
+  /**
+   * Función encargada de cargar todas las actividades referentes a un usuario
+   */
+  listReservation(): void {
+    this.usuarioService.loadReservationListForIdUser(this.tokenService.obtainIdUser()).subscribe({
+      next: (response) => {
+        if(response != null){
+          this.formularioActividadResponse = response;
+          this.formularioActividadResponse.forEach(res => {
+            res.horaInicio = res.horaInicio.split(':').slice(0, 2).join(':');
+            res.horaFin = res.horaFin.split(':').slice(0, 2).join(':');
+          });
+        }
+      }, error: (error) => {
+        throw new error;
+      }
+    });
   }
 
 }
