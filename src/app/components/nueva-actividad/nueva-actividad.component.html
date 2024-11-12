@@ -7,7 +7,7 @@
           <h3>Crear Actividad</h3>
         </div>
         <div class="card-body">
-          <form class="form-control border-0" #miFormulario="ngForm" (ngSubmit)="createActivity(crearActividadRequest)">
+          <form [formGroup]="validateForm" class="form-control border-0" (ngSubmit)="createActivity()">
             <div class="row mb-3">
               <div class="col-md-3">
                 <label for="fechaReserva" class="form-label">Fecha de la Actividad</label>
@@ -15,29 +15,31 @@
                   <span class="input-group-text bg-light icon-border">
                     <i class="bi bi-calendar"></i>
                   </span>
-                  <input type="date" class="form-control" id="fechaReserva" required #fechaReserva="ngModel"
-                    [(ngModel)]="crearActividadRequest.fechaReserva" name="fechaReserva">
-                  @if(crearActividadRequest.fechaReserva === undefined && primeraCarga){
-                  <div class="text-danger mt-1">
-                    La fecha reserva no puede estar vacia.
-                  </div>
-                  }
+                  <input type="date" class="form-control" id="fechaReserva" required  formControlName="fechaReserva" name="fechaReserva">
+                  @if(((this.validateForm.get('fechaReserva')?.invalid &&
+                    this.validateForm.get('fechaReserva')?.touched) || formSubmit) &&
+                    (!this.validateForm.get('fechaReserva')?.value?.trim())) {
+                    <div class="text-danger mt-1">
+                        La fecha reserva no puede estar vacío o contener solo espacios en blanco.
+                    </div>
+                    }
                 </div>
               </div>
-
+              
               <div class="col-md-3">
                 <label for="horaInicio" class="form-label">Hora de Inicio</label>
                 <div class="input-group">
                   <span class="input-group-text bg-light icon-border">
                     <i class="bi bi-clock"></i>
                   </span>
-                  <input type="time" class="form-control" id="horaInicio" required #horaInicio="ngModel"
-                    [(ngModel)]="crearActividadRequest.horaInicio" name="horaInicio">
-                  @if(crearActividadRequest.horaInicio === undefined && primeraCarga){
-                  <div class="text-danger mt-1">
-                    La hora inicio no puede estar vacia.
-                  </div>
-                  }
+                  <input type="time" class="form-control" id="horaInicio" required formControlName="horaInicio" name="horaInicio">
+                  @if(((this.validateForm.get('horaInicio')?.invalid &&
+                    this.validateForm.get('horaInicio')?.touched) || formSubmit) &&
+                    (!this.validateForm.get('horaInicio')?.value?.trim())) {
+                    <div class="text-danger mt-1">
+                      La hora inicio no puede estar vacia.
+                    </div>
+                    }
                 </div>
               </div>
 
@@ -47,13 +49,14 @@
                   <span class="input-group-text bg-light icon-border">
                     <i class="bi bi-clock"></i>
                   </span>
-                  <input type="time" class="form-control" id="horaFin" required #horaFin="ngModel"
-                    [(ngModel)]="crearActividadRequest.horaFin" name="horaFin">
-                  @if(crearActividadRequest.horaFin === undefined && primeraCarga){
-                  <div class="text-danger mt-1">
-                    La Hora fin no puede estar vacia.
-                  </div>
-                  }
+                  <input type="time" class="form-control" id="horaFin" required formControlName="horaFin" name="horaFin">
+                  @if(((this.validateForm.get('horaFin')?.invalid &&
+                    this.validateForm.get('horaFin')?.touched) || formSubmit) &&
+                    (!this.validateForm.get('horaFin')?.value?.trim())) {
+                    <div class="text-danger mt-1">
+                      La Hora fin no puede estar vacia.
+                    </div>
+                    }
                 </div>
               </div>
             </div>
@@ -66,9 +69,8 @@
                 <div id="requerimientos">
                   <div class="d-flex align-items-center">
                     <!-- Primer input con botón alineado a la derecha -->
-                    <input type="text" class="form-control me-2 w-100" [(ngModel)]="requerimientos[0]"
-                      (blur)="updateRequerimientos(0, requerimientos[0])" name="requerimientos0" />
-
+                    <input type="text" class="form-control me-2 w-100" required formControlName="requerimientos"
+                      (blur)="updateRequerimientos(0, this.validateForm.get('requerimientos')?.value)" name="requerimientos" />
                     <!-- Botón alineado con el primer input -->
                     <button type="button" class="btn btn-primary ms-2" (click)="nuevoRequerimientos()">
                       <i class="bi bi-plus-lg"></i>
@@ -79,13 +81,12 @@
                 <!-- Inputs adicionales que se muestran uno debajo del otro -->
                 @for (i of requerimientos.slice(1); track $index) {
                 <div class="mt-2 d-flex align-items-center">
-                  <input type="text" class="form-control" [(ngModel)]="requerimientos[$index + 1]"
-                    (blur)="updateRequerimientos($index + 1, requerimientos[$index + 1])"
-                    name="requerimientos{{i + 1}}" />
+                  <input type="text" class="form-control" 
+                    (blur)="changeInputRequired($index + 1, $event)"
+                    name="requerimientosInput{{i + 1}}" />
                   <button type="button" class="btn btn-primary ms-2" (click)="removeInput($index + 1)">
                     <i class="bi bi-x-circle"></i>
                   </button>
-
                 </div>
                 }
               </div>
@@ -94,8 +95,7 @@
             <div class="row mb-3">
               <div class="col-md-3">
                 <label for="actividad" class="form-label">Actividad</label>
-                <select class="form-select" id="actividad" required #actividad="ngModel"
-                  [(ngModel)]="crearActividadRequest.actividad" name="actividad" (change)="checkActivity($event)">
+                <select class="form-select" id="actividad" required formControlName="actividad" name="actividad" (change)="checkActivity($event)">
                   <option disabled selected>Seleccione una Actividad</option>
                   @for (deporte of listaDeportes; track $index) {
                   <option id="{{deporte.idDeporte}}" [value]="deporte.actividad">
@@ -103,65 +103,72 @@
                   </option>
                   }
                 </select>
-                @if(crearActividadRequest.actividad === undefined && primeraCarga){
-                <div class="text-danger mt-1">
-                  La actividad no puede estar vacia.
-                </div>
-                }
+                @if(((this.validateForm.get('actividad')?.invalid &&
+                    this.validateForm.get('actividad')?.touched) || formSubmit) &&
+                    (!this.validateForm.get('actividad')?.value?.trim())) {
+                    <div class="text-danger mt-1">
+                      Seleccione una actividad.
+                    </div>
+                  }
               </div>
 
               <div class="col-md-3">
                 <label for="usuariosMaxRequeridos" class="form-label">Usuarios Maximos Requeridos</label>
-                <input type="number" min="1" class="form-control" id="usuariosMaxRequeridos" required
-                  #usuariosMaxRequeridos="ngModel" [(ngModel)]="crearActividadRequest.usuariosMaxRequeridos"
-                  name="usuariosMaxRequeridos">
-                @if(crearActividadRequest.usuariosMaxRequeridos === undefined && primeraCarga){
+                <input type="number" min="1" maxLength="2" class="form-control" id="usuariosMaxRequeridos" required
+                formControlName="usuariosMaxRequeridos" name="usuariosMaxRequeridos">
+                @if(validateForm.get('usuariosMaxRequeridos')?.errors?.['whitespaceNumeric']
+                 && (validateForm.get('usuariosMaxRequeridos')?.touched || formSubmit)) {
                 <div class="text-danger mt-1">
-                  Los usuarios maximos no puede estar vacio.
+                  Indique un minimo de usuarios.
                 </div>
                 }
               </div>
-
+           
               <div class="col-md-3">
                 <label for="provincia" class="form-label">Provincia:</label>
-                <select class="form-select" id="provincia" required #provincia="ngModel"
-                  [(ngModel)]="crearActividadRequest.provincia" name="provincia" (change)="loadMunicipaliti($event)">
+                <select class="form-select" id="provincia" required formControlName="provincia"
+                   name="provincia" (change)="loadMunicipaliti($event)">
                   <option value="" disabled selected>Seleccione una Provincia</option>
                   @for (provincia of listaProvincias; track $index) {
                   <option [value]="provincia">{{provincia}}</option>
                   }
                 </select>
-                @if(crearActividadRequest.provincia === undefined && primeraCarga){
+                @if(((this.validateForm.get('provincia')?.invalid &&
+                this.validateForm.get('provincia')?.touched) || formSubmit) &&
+                (!this.validateForm.get('provincia')?.value?.trim())) {
                 <div class="text-danger mt-1">
-                  La provincia no puede estar vacia.
+                  Seleccione una provincia.
                 </div>
                 }
               </div>
-
+   
               <div class="col-md-3">
                 <label for="municipio" class="form-label">Municipio:</label>
-                <select class="form-select" id="municipio" required #municipio="ngModel"
-                  [(ngModel)]="crearActividadRequest.municipio" name="municipio">
+                <select class="form-select" id="municipio" required formControlName="municipio" name="municipio">
                   <option value="" disabled selected>Seleccione un Municipio</option>
                   @for (municipio of listaMunicipos; track $index) {
                   <option [value]="municipio">{{municipio}}</option>
                   }
                 </select>
-                @if(crearActividadRequest.municipio === undefined && primeraCarga){
+                @if(((this.validateForm.get('municipio')?.invalid &&
+                this.validateForm.get('municipio')?.touched) || formSubmit) &&
+                (!this.validateForm.get('municipio')?.value?.trim())) {
                 <div class="text-danger mt-1">
-                  El municipio no puede estar vacio.
+                  Seleccione un municipio.
                 </div>
                 }
               </div>
+              
             </div>
 
             <div class="row mb-3">
+              
               <div class="col-md-2">
-                <label for="codigoPostal" class="form-label">Codigo Postal</label>
-                <input type="text" pattern="^\d{5}$" maxlength="5" (input)="validarCodigoPostal($event)"
-                  class="form-control" id="codigoPostal" required #codigoPostal="ngModel"
-                  [(ngModel)]="crearActividadRequest.codigoPostal" name="codigoPostal">
-                @if(crearActividadRequest.codigoPostal === undefined && primeraCarga){
+                <label for="codigoPostal" class="form-label">Codigo Postal:</label>
+                <input type="text" maxlength="5" (input)="validarCodigoPostal($event)"
+                  class="form-control" id="codigoPostal" required formControlName="codigoPostal" name="codigoPostal">
+                  @if((validateForm.get('codigoPostal')?.errors?.['whitespaceNumeric'] && 
+                  (validateForm.get('codigoPostal')?.touched || formSubmit))) {                
                 <div class="text-danger mt-1">
                   El codigo postal no puede estar vacio.
                 </div>
@@ -169,45 +176,48 @@
               </div>
 
               <div class="col-md-3">
-                <label for="direccion" class="form-label">Dirección</label>
-                <input type="text" class="form-control" id="direccion" required #direccion="ngModel"
-                  [(ngModel)]="crearActividadRequest.direccion" name="direccion">
-                @if(crearActividadRequest.direccion === undefined && primeraCarga){
+                <label for="direccion" class="form-label">Dirección:</label>
+                <input type="text" class="form-control" id="direccion" required formControlName="direccion" name="direccion">
+                @if(validateForm.get('direccion')?.errors?.['whitespace'] && ((validateForm.get('direccion')?.touched) || formSubmit)) {
                 <div class="text-danger mt-1">
-                  La direccion no puede estar vacia.
+                  Indique una dirección de la actividad.
                 </div>
                 }
               </div>
+
               <div class="col-md-3">
-                <label for="urgencia" class="form-label">Urgencia</label>
-                <select class="form-select" id="urgencia" required #urgencia="ngModel"
-                  [(ngModel)]="crearActividadRequest.urgencia" name="urgencia">
+                <label for="urgencia" class="form-label">Urgencia:</label>
+                <select class="form-select" id="urgencia" required formControlName="urgencia" name="urgencia">
                   <option value="" disabled selected>Seleccione un nivel de urgencia</option>
                   <option value="baja">Baja</option>
                   <option value="media">Media</option>
                   <option value="alta">Alta</option>
                 </select>
-                @if(crearActividadRequest.urgencia === undefined && primeraCarga){
+                @if(((this.validateForm.get('urgencia')?.invalid &&
+                this.validateForm.get('urgencia')?.touched) || formSubmit) &&
+                (!this.validateForm.get('urgencia')?.value?.trim())) {
                 <div class="text-danger mt-1">
-                  La Urgencia no puede estar vacia.
+                  Indique el nivel de urgencia.
                 </div>
                 }
               </div>
 
               <div class="col-md-2">
-                <label for="abonoPista" class="form-label">Abono Pista</label>
+                <label for="abonoPista" class="form-label">Abono Pista:</label>
                 <div class="input-group">
                   <span class="input-group-text icon-border">€</span>
-                  <input type="text" pattern="^\d+(\.\d{1,2})?$" (input)="validarDecimales($event)" class="form-control"
-                    id="abonoPista" required #abonoPista="ngModel" [(ngModel)]="crearActividadRequest.abonoPista"
-                    name="abonoPista">
+                  <input type="text" (input)="validarDecimales($event)" class="form-control"
+                    id="abonoPista" required formControlName="abonoPista" name="abonoPista">
                 </div>
-                @if(crearActividadRequest.abonoPista === undefined && primeraCarga){
+                @if(((validateForm.get('abonoPista')?.errors?.['whitespaceNumeric']
+                || validateForm.get('abonoPista')?.errors?.['decimalValidator'])
+                && (validateForm.get('abonoPista')?.touched || formSubmit))) {
                 <div class="text-danger mt-1">
-                  Abono Pista no puede estar vacia.
+                  Indique la cantidad a abonar por cada usuario que se desea asistir en la actividad.
                 </div>
                 }
               </div>
+              
             </div>
 
             <button type="submit" class="btn btn-primary">Crear Reserva</button>

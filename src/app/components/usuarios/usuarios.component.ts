@@ -20,7 +20,7 @@ declare var bootstrap: any
 @Component({
   selector: 'app-usuarios',
   standalone: true,
-  imports: [RouterOutlet, HeaderComponent, FormsModule, CommonModule, SpinnerModalComponent],
+  imports: [FormsModule, CommonModule, SpinnerModalComponent],
   templateUrl: './usuarios.component.html',
   styleUrl: './usuarios.component.css'
 })

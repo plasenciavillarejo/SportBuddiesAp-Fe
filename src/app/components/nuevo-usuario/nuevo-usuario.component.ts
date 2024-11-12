@@ -21,7 +21,7 @@ export class NuevoUsuarioComponent implements OnInit {
   idUsuario!: number;
   passwordRequired!: boolean;
 
-  validateForm!: FormGroup
+  validateForm!: FormGroup;
   formSubmit!: boolean;
 
   listaProvincias: any[] = [];

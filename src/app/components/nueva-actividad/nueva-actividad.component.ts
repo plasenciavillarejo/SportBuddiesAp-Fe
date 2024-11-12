@@ -1,20 +1,17 @@
 import { Component } from '@angular/core';
 import { UsuarioService } from '../../services/usuario.service';
 import { TokenService } from '../../services/token.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { PaypalService } from '../../services/paypal.service';
-import { ServicioCompartidoService } from '../../services/servicio-compartido.service';
 import { CrearActividadRequest } from '../../models/crearActividadRequest';
 import { FormularioActividadResponse } from '../../models/formularioActividadResponse';
-import { FormsModule } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { CrearActividadService } from '../../services/crear-actividad.service';
 import Swal from 'sweetalert2';
-
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-nueva-actividad',
   standalone: true,
-  imports: [FormsModule],
+  imports: [ReactiveFormsModule, FormsModule],
   templateUrl: './nueva-actividad.component.html',
   styleUrl: './nueva-actividad.component.css'
 })
@@ -24,21 +21,50 @@ export class NuevaActividadComponent {
   listaProvincias: string[] = [];
   listaMunicipos: string[] = [];
   requerimientos: string[] = [''];
-  primeraCarga = false;
-
   actividadSeleccionada = new Map<number, string>();
 
   crearActividadRequest: CrearActividadRequest = new CrearActividadRequest();
   formularioActividadResponse: FormularioActividadResponse[] = [];
 
+  validateForm!: FormGroup;
+  formSubmit!: boolean;
+
+  requerimientosAdicionales: string[] = [];
+
   constructor(private usuarioService: UsuarioService,
     private tokenService: TokenService,    
-    private clientCrearActividad: CrearActividadService
+    private clientCrearActividad: CrearActividadService,
+    private formBuilder: FormBuilder,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
     this.loadComboInitial();
+    this.initFormReactiveActivity();
   }
+
+  private initFormReactiveActivity(): void {
+    this.validateForm = this.formBuilder.group({
+      idUsuarioActividadDto: [''],
+      fechaReserva: ['', [Validators.required]],
+      horaInicio: ['', [Validators.required]],
+      horaFin: ['', [Validators.required]],       
+      requerimientos: [''],
+      actividad: ['', [Validators.required]],       
+      usuariosMaxRequeridos: ['', [Validators.required, this.noWhitespaceValidatorNumeric]],
+      provincia: ['', [Validators.required]],
+      municipio: ['', [Validators.required]],
+      codigoPostal: ['', [Validators.required, Validators.pattern('[0-9]{5}$'), this.noWhitespaceValidatorNumeric]],
+      direccion: ['', [Validators.required, this.noWhitespaceValidator]],
+      urgencia: ['', [Validators.required]],
+      abonoPista: ['', [Validators.required, this.decimalValidator, this.noWhitespaceValidatorNumeric]]
+    });
+  }
+
+  createRequerimientoControl(): FormControl  {
+    return this.formBuilder.control('', Validators.required);
+  }
+
    /**
    * Función encargada de cargar los datos necesarios cuando carga la página inicial
    */
@@ -54,7 +80,7 @@ export class NuevaActividadComponent {
   }
 
   /**
-   * Funciçon encargada de cargar los municipos asociados a una provincia
+   * Función encargada de cargar los municipos asociados a una provincia
    * @param event 
    */
   loadMunicipaliti(event: any): void {
@@ -87,14 +113,17 @@ export class NuevaActividadComponent {
   * @param value 
   */
   updateRequerimientos(index: number, value: string): void {
-    this.requerimientos[index] = value;
+    this.requerimientos[index] = value 
+  }
+
+  changeInputRequired(index: number, event: any): void {;
+    this.requerimientos[index] = event.target.value.toString();
   }
 
   /**
    * Funcion encargada de agregar un nuevo input vacío dentro de 'requerimientos'
    */
   nuevoRequerimientos(): void {
-    console.log(this.requerimientos);
     this.requerimientos.push('');
   }
 
@@ -131,25 +160,66 @@ export class NuevaActividadComponent {
    * Función encargada de enviar el formulario para crear un nuevo clientes para el acceso de la apliación
    * @param clienteOauth 
    */
-  createActivity(crearActividad: CrearActividadRequest): void {
-    this.primeraCarga = true;
-    this.crearActividadRequest.requerimientos = this.requerimientos;
-    this.crearActividadRequest.idUsuarioActividadDto = this.tokenService.obtainIdUser();
+  createActivity(): void {
+    this.formSubmit = true;
+    
+    if(this.validateForm.invalid) {
+      return;
+    }
+    
+    // Transformamos el formulario reactivo en un objeto Actividad
+    const crearActividad: CrearActividadRequest = this.validateForm.value as CrearActividadRequest;
+    crearActividad.requerimientos = this.requerimientos;
+
+    crearActividad.idUsuarioActividadDto = this.tokenService.obtainIdUser();
     this.clientCrearActividad.createNewActividad(crearActividad).subscribe({
       next: next => {
           Swal.fire(
-            'Cliente CrearActividad',
-            'Se ha registrado correctamente la actividad', 
+            'Actividad Registrada',
+            'Se ha registrado exitosamente', 
             'success'
           )
+          this.router.navigate(['/'], { replaceUrl: true });
       }, error: error => {
         Swal.fire(
-          'Cliente CrearActividad',
+          'Error Actividad',
           error.error.mensaje, 
           'error'
         )
       }
     });
-
   }
+
+
+  /**
+   * Función de validación personalizada para verificar que el valor no esté vacío y no contenga solo espacios
+   * en un input numérico
+   * @param control 
+   * @returns 
+   */
+  noWhitespaceValidatorNumeric(control: AbstractControl) {
+    const isWhitespace = (control.value || '').toString().trim().length === 0;
+    const isValid = !isWhitespace && Number(control.value) > 0;
+    return isValid ? null : { whitespaceNumeric: true };
+  }
+
+  noWhitespaceValidator(control: AbstractControl) {
+    const isWhitespace = (control.value || '').toString().trim().length === 0;
+    const isValid = !isWhitespace;
+    return isValid ? null : { whitespace: true };
+  }
+
+
+  /**
+   * Función encargada de validar 
+   * @returns 
+   */
+  decimalValidator(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const value = control.value;
+      const isValid = /^\d+(\.\d{1,2})?$/.test(value.toString());
+      return isValid ? null : { invalidDecimal: true };
+    };
+  }
+
 }
