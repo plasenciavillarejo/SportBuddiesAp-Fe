@@ -200,9 +200,9 @@
                         <label for="urgencia" class="form-label">Urgencia:</label>
                         <select class="form-select" id="urgencia" required formControlName="urgencia" name="urgencia">
                           <option value="" disabled selected>Seleccione un nivel de urgencia</option>
-                          <option value="baja">Baja</option>
-                          <option value="media">Media</option>
-                          <option value="alta">Alta</option>
+                          <option value="Baja">Baja</option>
+                          <option value="Media">Media</option>
+                          <option value="Alta">Alta</option>
                         </select>
                         @if(((this.validateForm.get('urgencia')?.invalid &&
                         this.validateForm.get('urgencia')?.touched) || formSubmit) &&
@@ -252,48 +252,50 @@
       <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse">
         <div class="accordion-body">
           <div class="table-responsive">
-                <table class="tabletable-striped mt-2 text-center">
-                    <thead class="table-light">
-                        <tr>
-                          <tr>
-                            <th hidden></th>
-                            <th class="bg-primary text-white">Fecha Reserva</th>
-                            <th class="bg-primary text-white">Hora Reserva</th>
-                            <th class="bg-primary text-white">Requerimientos</th>
-                            <th class="bg-primary text-white">Máximo Jugadores</th>
-                            <th class="bg-primary text-white">Actividad</th>
-                            <th class="bg-primary text-white">Provincia</th>
-                            <th class="bg-primary text-white">Municipio</th>
-                            <th class="bg-primary text-white">Urgencia Inscripción</th>
-                            <th class="bg-primary text-white">Abono Pista</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                      @for (reserva of formularioActividadResponse; track $index) {
-                      <tr>
-                        <td hidden>{{reserva.idReservaActividad}}</td>
-                        <td>{{reserva.fechaReserva | date:'dd-MM-yyyy'}}</td>
-                        <td>{{reserva.horaInicio}} - {{reserva.horaFin}}</td>
-                        <td> @for (requi of reserva.requerimientos; track $index) {
-                          <span>
-                              {{requi}}<br>
-                          </span> <br>
-                          }</td>
-                        <td>{{reserva.usuariosMaxRequeridos}}</td>
-                        <td>{{reserva.actividad}}</td>
-                        <td>{{reserva.provincia}}</td>
-                        <td>{{reserva.municipio}}</td>
-                        <td>{{reserva.urgencia}}</td>
-                        <td>{{reserva.abonoPista}}</td>
-                      </tr>
-                    }
-                    </tbody>
-                </table>
-            </div>
-
-
+            <table class="table table-striped table-hover align-middle mt-2 text-center shadow-sm border rounded">
+              <thead class="table-primary">
+                <tr>
+                  <th hidden></th>
+                  <th class="text-uppercase fst-italic">Fecha Reserva</th>
+                  <th class="text-uppercase">Hora Reserva</th>
+                  <th class="text-uppercase">Requerimientos</th>
+                  <th class="text-uppercase">Máximo Jugadores</th>
+                  <th class="text-uppercase">Actividad</th>
+                  <th class="text-uppercase">Provincia</th>
+                  <th class="text-uppercase">Municipio</th>
+                  <th class="text-uppercase">Urgencia Inscripción</th>
+                  <th class="text-uppercase">Abono Pista</th>
+                </tr>
+              </thead>
+              <tbody class="table-light">
+                <!-- Iteración de las reservas -->
+                @for (reserva of formularioActividadResponse; track $index) {
+                <tr>
+                  <td hidden>{{reserva.idReservaActividad}}</td>
+                  <td>{{reserva.fechaReserva | date:'dd-MM-yyyy'}}</td>
+                  <td>{{reserva.horaInicio}} - {{reserva.horaFin}}</td>
+                  <td>
+                    <ul class="list-unstyled mb-0">
+                      <!-- Iteración de requerimientos dentro de la reserva -->
+                      @for (requi of reserva.requerimientos; track $index) {
+                        <li>{{requi}}</li>
+                      }
+                    </ul>
+                  </td>
+                  <td>{{reserva.usuariosMaxRequeridos}}</td>
+                  <td>{{reserva.actividad}}</td>
+                  <td>{{reserva.provincia}}</td>
+                  <td>{{reserva.municipio}}</td>
+                  <td>{{reserva.urgencia}}</td>
+                  <td>{{reserva.abonoPista}}</td>
+                </tr>
+                }
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
+      
     </div>
   
   </div>

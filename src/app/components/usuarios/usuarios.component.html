@@ -128,11 +128,15 @@
                 <td>{{formActi.fechaReserva | date:'dd-MM-yyyy'}}</td>
                 <td>{{formActi.horaInicio}} - {{formActi.horaFin}}</td>
                 <td>
+                    <ul class="list-unstyled mb-0">
                     @for (requi of formActi.requerimientos; track $index) {
-                    <span [attr.data-bs-toggle]="$index === 0 ? 'tooltip' : null" title="{{requi}}">
-                        {{requi}}<br>
-                    </span> <br>
+                        <li>
+                            <span [attr.data-bs-toggle]="$index === 0 ? 'tooltip' : null" title="{{requi}}">
+                                {{requi}}
+                            </span>
+                        </li>
                     }
+                    </ul>
                 </td>
                 <td class="text-center">{{formActi.usuariosMaxRequeridos}}</td>
                 <td>
