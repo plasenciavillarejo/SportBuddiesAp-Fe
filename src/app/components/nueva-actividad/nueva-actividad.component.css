@@ -8,3 +8,25 @@
 .mb-6 {
     margin-bottom: 6rem !important;
 }
+/*
+.accordion-button {
+    background-color: #0d9dfd;
+    color: white;
+}
+
+.accordion-button:not(.collapsed){
+	background-color: #0d6efd;
+	color: white;
+	box-shadow: 0 0 0 2px #045ce18e;
+}*/
+
+.accordion-button.collapsed {
+    background-color: #0d6efd;
+	color: white;
+	box-shadow: 0 0 0 2px #045ce18e;
+}
+
+.accordion-button.collapsed:hover {
+    background-color: #0d9dfd;
+    color: white;
+}
