@@ -3,7 +3,11 @@
         <!-- Card con sombra y bordes redondeados -->
         <div class="card shadow-lg border-0 rounded-lg">
             <div class="card-header bg-primary text-white text-center">
-                <h3 class="mb-4">Nuevo Usuario</h3>
+                @if (idUsuario == null) {
+                    <h3 class="mb-4">Nuevo Usuario</h3>
+                }@else {
+                    <h3 class="mb-4">Actualizar Usuario</h3>
+                }
             </div>
             <div class="card-body">
                 <form [formGroup]="validateForm" class="container" (ngSubmit)="createOrUpdateUser()">

@@ -289,7 +289,9 @@ export class UsuariosComponent implements OnInit {
               next: response =>  {
                 this.listaIdInscripcion = response;
               }
-            }); 
+            });
+            // Volvemos a cargar el listado para actualizar los datos
+            this.consultListReservations();
           }, error: error => {
             Swal.fire(
               'Error en la inscripción',

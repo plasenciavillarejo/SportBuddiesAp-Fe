@@ -171,6 +171,9 @@ export class NuevaActividadComponent {
     
     // Transformamos el formulario reactivo en un objeto Actividad
     const crearActividad: CrearActividadRequest = this.validateForm.value as CrearActividadRequest;
+    
+    // Cuando se crea una activida, las plazas restantes son igual a los usuarios maximos requeridos
+    crearActividad.plazasRestantes = crearActividad.usuariosMaxRequeridos;
     crearActividad.requerimientos = this.requerimientos;
 
     crearActividad.idUsuarioActividadDto = this.tokenService.obtainIdUser();

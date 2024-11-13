@@ -9,6 +9,8 @@ export class CrearActividadRequest {
     requerimientos = [] as string [];
 
     usuariosMaxRequeridos!: number;
+    
+    plazasRestantes!: number;
 
     idUsuarioActividadDto!: number;
 

@@ -20,6 +20,8 @@ export class FormularioActividadResponse {
 
     usuariosMaxRequeridos!: number;
 
+    plazasRestantes!: number;
+
     requerimientos: string [] = [];
 
     urgencia!: string;

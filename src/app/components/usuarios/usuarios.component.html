@@ -115,7 +115,8 @@
                 <th class="bg-primary text-white">Fecha Reserva</th>
                 <th class="bg-primary text-white">Hora Reserva</th>
                 <th class="bg-primary text-white">Requerimientos</th>
-                <th class="bg-primary text-white">Máximo Jugadores</th>
+                <th class="bg-primary text-white">Vacantes Disponibles</th>
+                <th class="bg-primary text-white">Vacantes Restantes</th>
                 <th class="bg-primary text-white">Urgencia Inscripción</th>
                 <th class="bg-primary text-white">Abono Pista</th>
                 <th class="bg-primary text-white"></th>
@@ -139,6 +140,16 @@
                     </ul>
                 </td>
                 <td class="text-center">{{formActi.usuariosMaxRequeridos}}</td>
+                <!--
+                @if(formActi.plazasRestantes > 0){
+                    <td class="text-center">{{formActi.plazasRestantes}}</td>
+                }@else if (formActi.plazasRestantes == 0) {
+                }-->
+                <td class="text-center">
+                <span  class="badge rounded-pill text-bg-{{ formActi.plazasRestantes > 0  && formActi.plazasRestantes != 1 ? 'success' : formActi.plazasRestantes === 1 ? 'warning' : 'danger'}}">
+                    {{formActi.plazasRestantes}} 
+                  </span>
+                </td>
                 <td>
                     <span  class="badge rounded-pill text-bg-{{ formActi.urgencia == 'Alta' ? 'danger' : formActi.urgencia == 'Media' ? 'warning' : 'success' }}">
                         {{formActi.urgencia}}
@@ -146,15 +157,20 @@
                 </td>
                 <td>{{formActi.abonoPista}} €</td>
                 <td>
-                    @if(!listaIdInscripcion.includes(formActi.idReservaActividad) && isAuthenticate()){
+                    @if(!isAuthenticate()) {
+                        <span class="badge bg-danger rounded-pill">Debe loguearse para realizar la reserva</span>
+                    }
+                    @if(!listaIdInscripcion.includes(formActi.idReservaActividad) && isAuthenticate() && formActi.plazasRestantes >= 1){
                     <button type="submit" class="btn btn-outline-primary btn-sm rounded-pill"
                         (click)="makeReservationActivity(formActi)">
                         Reservar
                     </button>
-                    } @else if(isAuthenticate()) {
-                    <span class="badge bg-success rounded-pill">Reservado</span>
+                    } @else if(listaIdInscripcion.includes(formActi.idReservaActividad)) {
+                        <span class="badge bg-success rounded-pill">Reservado</span>
                     } @else {
-                        <span class="badge bg-danger rounded-pill">Debe loguearse para realizar la reserva</span>
+                        <span  class="badge rounded-pill text-bg-danger">
+                            Sin plazas
+                        </span>
                     }
                 </td>
             </tr>
