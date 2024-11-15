@@ -167,7 +167,7 @@
                     </button>
                     } @else if(listaIdInscripcion.includes(formActi.idReservaActividad)) {
                         <span class="badge bg-success rounded-pill">Reservado</span>
-                    } @else {
+                    } @else if(isAuthenticate()) {
                         <span  class="badge rounded-pill text-bg-danger">
                             Sin plazas
                         </span>
