@@ -22,6 +22,9 @@ export class ServicioCompartidoService {
 
   private _redirectHeaderEventEmitter = new EventEmitter();
 
+  private _numberPageEventEmitter = new EventEmitter<number>();
+
+
   inscripcionReserva: InscripcionReservaActividad = new InscripcionReservaActividad();
 
   actividadSeleccionada = new Map<number, string>();
@@ -36,6 +39,15 @@ export class ServicioCompartidoService {
 
   get redirectHeaderEventEmitter() {
     return this._redirectHeaderEventEmitter;
+  }
+
+  get numberPageEventEmitter() {
+    return this._numberPageEventEmitter;
+  }
+
+  // Método para emitir un cambio de página
+  cambiarPagina(pagina: number): void {
+    this._numberPageEventEmitter.emit(pagina);
   }
 
   /**

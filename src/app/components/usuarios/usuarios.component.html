@@ -7,7 +7,7 @@
                     <h3>{{title}}</h3>
                 </div>
                 <div class="card-body">
-                    <form class="form-control border-0" #miFormulario="ngForm" (ngSubmit)="consultListReservations()">
+                    <form class="form-control border-0" #miFormulario="ngForm" (ngSubmit)="consultListReservations(true)">
                         <div class="row g-3">
                             <!-- Fecha Reserva -->
                             <div class="col-md-6">
@@ -177,6 +177,43 @@
             }
         </tbody>
     </table>
+
+    <div class="d-flex justify-content-center">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+    
+                <li class="{{ !this.paginador.inicio ? 'page-item' : 'page-item disabled' }}">
+                    <button class="page-link"
+                        (click)="cambiarPagina(1); $event.preventDefault()"
+                        aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </button>
+                </li>
+    
+                @for (item of this.getPageRange(); track $index) {
+                    <li class="{{ item === this.paginador.paginaActual ? 'page-item disabled' :'page-item' }}">
+                        <button class="page-link"
+                          (click)="cambiarPagina(item); $event.preventDefault()">
+                          {{item}}
+                        </button>
+                      </li>
+                }
+                <li class="{{ !this.paginador.fin ? 'page-item' : 'page-item disabled' }}">
+                    <button class="page-link"
+                        (click)="cambiarPagina(this.paginador.paginas); $event.preventDefault()" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </button>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- Paginador 
+    <app-paginador [inicio]="this.paginador.inicio" [fin]= "this.paginador.fin"
+    [paginaActual]="this.paginador.paginaActual" [totalPaginas]="this.paginador.paginas"
+    [numeroRegistros]="this.paginador.registros"
+    [tamanioPagina]= "this.paginador.tamanioPagina"
+    (paginaCambiada)="cambiarPagina($event)"></app-paginador>-->
 }
 </div>
 

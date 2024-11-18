@@ -14,12 +14,14 @@ import { ServicioCompartidoService } from '../../services/servicio-compartido.se
 import { BusquedaActividadRequest } from '../../models/busquedaActividadRequest';
 import { CommonModule } from '@angular/common';
 import { SpinnerModalComponent } from '../spinner-modal/spinner-modal.component';
+import { Paginador } from '../../models/paginador';
+import { PaginadorComponent } from '../paginador/paginador.component';
 declare var bootstrap: any
 
 @Component({
   selector: 'app-usuarios',
   standalone: true,
-  imports: [FormsModule, CommonModule, SpinnerModalComponent],
+  imports: [FormsModule, CommonModule, SpinnerModalComponent, PaginadorComponent],
   templateUrl: './usuarios.component.html',
   styleUrl: './usuarios.component.css'
 })
@@ -27,7 +29,7 @@ declare var bootstrap: any
 export class UsuariosComponent implements OnInit {
 
   title: string = 'Realizar Busqueda';
-  
+
   usuario: Usuario[] = [];
   reserva: Reserva[] = [];
   listaDeportes: any[] = [];
@@ -38,16 +40,18 @@ export class UsuariosComponent implements OnInit {
   formSubmitted = false;
 
   actividadSeleccionada = new Map<number, string>();
-  
+
   idUsuario!: number;
 
   paymentId: string = '';
   payerId: string = '';
   idReserva!: number;
-  
+
   busquedadActividadRequest: BusquedaActividadRequest = new BusquedaActividadRequest();
   formularioActividadResponse: FormularioActividadResponse[] = [];
   inscripcionReserva: InscripcionReservaActividad = new InscripcionReservaActividad();
+
+  paginador: Paginador = new Paginador();
 
   constructor(private usuarioService: UsuarioService,
     private tokenService: TokenService,
@@ -59,19 +63,19 @@ export class UsuariosComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadComboInitial();
-    
+
     // Activa los ToolTips
     const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
     tooltipTriggerList.forEach(tooltipTriggerEl => {
       new bootstrap.Tooltip(tooltipTriggerEl);
     });
-    
+
 
     this.servicioCompartido.validateActivityUserInscrit().subscribe({
       next: response => {
-        this.listaIdInscripcion  = response;
+        this.listaIdInscripcion = response;
       }
-    }); 
+    });
 
     /* ##########################################################################
        Respuesta de Paypal para validar que ha ido todo correctamente en el pago
@@ -157,7 +161,7 @@ export class UsuariosComponent implements OnInit {
   loadComboInitial(): void {
     this.usuarioService.loadComboInit(false).subscribe({
       next: (response) => {
-        this.listaDeportes = response.listadoDeportes;        
+        this.listaDeportes = response.listadoDeportes;
         this.listaProvincias = response.listaProvincias;
       }, error: (error) => {
         throw new error;
@@ -179,23 +183,36 @@ export class UsuariosComponent implements OnInit {
       }
     });
   }
-  
+
   /**
    * Función encargada de visualizar las actividades en la página principal
    */
-  consultListReservations(): void {    
+  consultListReservations(listInitial: boolean): void {
     this.formSubmitted = true;
     // Valida el formulario
     this.validateForm();
 
+    if(listInitial) {
+      this.busquedadActividadRequest.pagina = 1;
+      this.busquedadActividadRequest.tamanioPagina = 5;
+      this.busquedadActividadRequest.campoOrden = 'horaInicio';
+      this.busquedadActividadRequest.orden = 1;
+    } else {
+      this.busquedadActividadRequest.pagina = this.paginador.paginaActual
+    }
+
+    this.busquedadActividadRequest.idUsuario = 0
     this.usuarioService.loadReservationList(this.busquedadActividadRequest).subscribe({
       next: (response) => {
-        if (response.length >= 1) {
-          this.formularioActividadResponse = response;
+        if (response.listActividad.length >= 1) {
+          this.formularioActividadResponse = response.listActividad;
+          this.paginador = response.paginador;
           this.formularioActividadResponse.forEach(res => {
             res.horaInicio = res.horaInicio.split(':').slice(0, 2).join(':');
             res.horaFin = res.horaFin.split(':').slice(0, 2).join(':');
           });
+          // Obtenemos el rango de botones
+          this.getPageRange();
         } else {
           this.formularioActividadResponse = [];
           Swal.fire(
@@ -240,9 +257,9 @@ export class UsuariosComponent implements OnInit {
   checkActivity(event: any) {
     const selectElement = event.target as HTMLSelectElement;
     const selectedOption = selectElement.selectedOptions[0];
-    if(this.actividadSeleccionada.size >= 1) {
+    if (this.actividadSeleccionada.size >= 1) {
       this.actividadSeleccionada = new Map<number, string>();
-    } 
+    }
     this.actividadSeleccionada.set(Number(selectedOption.id), selectedOption.value);
   }
 
@@ -286,12 +303,12 @@ export class UsuariosComponent implements OnInit {
               'success'
             )
             this.servicioCompartido.validateActivityUserInscrit().subscribe({
-              next: response =>  {
+              next: response => {
                 this.listaIdInscripcion = response;
               }
             });
             // Volvemos a cargar el listado para actualizar los datos
-            this.consultListReservations();
+            this.consultListReservations(false);
           }, error: error => {
             Swal.fire(
               'Error en la inscripción',
@@ -315,14 +332,38 @@ export class UsuariosComponent implements OnInit {
     const year = date.getFullYear();
     // Los meses van de 0 a 11
     const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');    
+    const day = String(date.getDate()).padStart(2, '0');
     return `${year}-${month}-${day}`;
-}
+  }
 
   isAuthenticate(): boolean {
     return this.tokenService.isAuthenticate();
   }
 
-
+  getPageRange(): number[] {
+    const inicio = Math.floor((this.paginador.paginaActual - 1) / this.paginador.tamanioPagina) * this.paginador.tamanioPagina + 1;
+    const fin = Math.min(inicio + this.paginador.tamanioPagina - 1, this.paginador.paginas);
   
+    const rango = [];
+    for (let i = inicio; i <= fin; i++) {
+      rango.push(i);
+    }
+    return rango;
+  }
+
+  /**
+   * Función encargada de obtener la pagina al que se ha pulsado para cargar de nuevo el listado de las actividades
+   * @param pagina 
+   */
+  cambiarPagina(pagina: number): void {
+    this.paginador.paginaActual = pagina;
+    if (pagina > 0 && pagina <= this.paginador.tamanioPagina) {
+      this.paginador.paginaActual = pagina;
+      // Emitimos el cambio de la pagina para que lo detecte el componente padre, en este caso, usuarios.components.html
+      this.servicioCompartido.cambiarPagina(pagina);
+      console.log(`Página cambiada a: ${pagina}`);
+      this.consultListReservations(false);
+    }
+  }
+
 }

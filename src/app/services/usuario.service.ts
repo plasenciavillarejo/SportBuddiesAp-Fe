@@ -41,7 +41,12 @@ export class UsuarioService {
     .set('fechaReserva', fechaReservaString)
     .set('actividad', formularioActividad.actividad)
     .set('provincia', formularioActividad.provincia)
-    .set('municipio', formularioActividad.municipio);
+    .set('municipio', formularioActividad.municipio)
+    .set('idUsuario',formularioActividad.idUsuario)
+    .set('pagina',formularioActividad.pagina)
+    .set('tamanioPagina',formularioActividad.tamanioPagina)
+    .set('campoOrden',formularioActividad.campoOrden)
+    .set('orden',formularioActividad.orden);
     return this.http.get<any>(this.url_listing_reservation, {params});
   }
 

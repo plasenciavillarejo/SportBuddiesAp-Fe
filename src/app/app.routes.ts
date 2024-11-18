@@ -12,6 +12,7 @@ import { PaypalComponent } from './components/paypal/paypal.component';
 import { PaypalCancelComponent } from './components/paypal-cancel/paypal-cancel.component';
 import { NuevoUsuarioComponent } from './components/nuevo-usuario/nuevo-usuario.component';
 import { PagoTarjetaComponent } from './components/pago-tarjeta/pago-tarjeta.component';
+import { PaginadorComponent } from './components/paginador/paginador.component';
 
 export const routes: Routes = [
     /**Por defecto si el path es vació nos redigira a usuarios */
@@ -79,5 +80,4 @@ export const routes: Routes = [
         component: PagoTarjetaComponent,
         canActivate: [authGuard]
     }
-
 ];

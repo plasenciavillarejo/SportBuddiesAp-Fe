@@ -26,6 +26,6 @@ export class FormularioActividadResponse {
 
     urgencia!: string;
 
-    abonoPista!: number;
-
+    abonoPista!: number;    
+    
 }
