@@ -341,13 +341,19 @@ export class UsuariosComponent implements OnInit {
   }
 
   getPageRange(): number[] {
-    const inicio = Math.floor((this.paginador.paginaActual - 1) / this.paginador.tamanioPagina) * this.paginador.tamanioPagina + 1;
-    const fin = Math.min(inicio + this.paginador.tamanioPagina - 1, this.paginador.paginas);
-  
+    let inicio = Math.max(1, this.paginador.paginaActual - Math.floor(this.paginador.tamanioPagina / 2));
+    let fin = Math.min(this.paginador.paginas, inicio + this.paginador.tamanioPagina -1);
+    // Ajustar el inicio si el fin se extiende más allá del total de páginas
+    
+    /*if (fin - inicio + 1 < this.paginador.paginaActual && inicio > 1) {
+      inicio = Math.max(1, fin - this.paginador.paginaActual + 1);
+    }*/
     const rango = [];
-    for (let i = inicio; i <= fin; i++) {
-      rango.push(i);
-    }
+    if (this.paginador.tamanioPagina > 0) {
+      for (let i = inicio; i <= fin; i++) {
+        rango.push(i);
+      }
+  }
     return rango;
   }
 
@@ -357,13 +363,13 @@ export class UsuariosComponent implements OnInit {
    */
   cambiarPagina(pagina: number): void {
     this.paginador.paginaActual = pagina;
-    if (pagina > 0 && pagina <= this.paginador.tamanioPagina) {
+    //if (pagina > 0 && pagina <= this.paginador.tamanioPagina) {
       this.paginador.paginaActual = pagina;
       // Emitimos el cambio de la pagina para que lo detecte el componente padre, en este caso, usuarios.components.html
       this.servicioCompartido.cambiarPagina(pagina);
       console.log(`Página cambiada a: ${pagina}`);
       this.consultListReservations(false);
-    }
+    //}
   }
 
 }
