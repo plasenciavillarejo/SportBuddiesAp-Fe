@@ -140,11 +140,6 @@
                     </ul>
                 </td>
                 <td class="text-center">{{formActi.usuariosMaxRequeridos}}</td>
-                <!--
-                @if(formActi.plazasRestantes > 0){
-                    <td class="text-center">{{formActi.plazasRestantes}}</td>
-                }@else if (formActi.plazasRestantes == 0) {
-                }-->
                 <td class="text-center">
                 <span  class="badge rounded-pill text-bg-{{ formActi.plazasRestantes > 0  && formActi.plazasRestantes != 1 ? 'success' : formActi.plazasRestantes === 1 ? 'warning' : 'danger'}}">
                     {{formActi.plazasRestantes}} 
@@ -178,7 +173,7 @@
         </tbody>
     </table>
 
-    <!-- -->
+    <!-- PLASENCIA - MEJORAR CON EL PAGINADOR UTILIZANDO UNO GENERAL, FALTA SOLO CONFIGURAR LAS LLAMADAS DE LAS PAGINAS -->
     <div class="d-flex justify-content-center">
         <nav aria-label="Page navigation example">
             <ul class="pagination">

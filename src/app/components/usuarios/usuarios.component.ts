@@ -70,12 +70,13 @@ export class UsuariosComponent implements OnInit {
       new bootstrap.Tooltip(tooltipTriggerEl);
     });
 
-
-    this.servicioCompartido.validateActivityUserInscrit().subscribe({
-      next: response => {
-        this.listaIdInscripcion = response;
-      }
-    });
+    if(this.tokenService.isAuthenticate()){
+      this.servicioCompartido.validateActivityUserInscrit().subscribe({
+        next: response => {
+          this.listaIdInscripcion = response;
+        }
+      });  
+    }
 
     /* ##########################################################################
        Respuesta de Paypal para validar que ha ido todo correctamente en el pago

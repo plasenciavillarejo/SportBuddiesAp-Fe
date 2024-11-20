@@ -36,7 +36,6 @@ export class TokenService {
     localStorage.removeItem(REFRESH_TOKEN);
   }
 
-
   isAuthenticate(): boolean {
     if(localStorage.getItem(ACCES_TOKEN) != null) {
       return true;
