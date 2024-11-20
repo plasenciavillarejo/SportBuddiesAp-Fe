@@ -3,24 +3,26 @@
         <ul class="pagination">
 
             <li class="{{ !this.inicio ? 'page-item' : 'page-item disabled' }}">
-                <a class="page-link" (click)="cambiarPagina()" aria-label="Previous">
+                <button class="page-link"
+                    (click)="cambiarPagina(1); $event.preventDefault()"
+                    aria-label="Previous">
                     <span aria-hidden="true">&laquo;</span>
-                </a>
+                </button>
             </li>
 
             @for (item of this.getPageRange(); track $index) {
-                <li class="{{ item === this.paginaActual ? 'page-item disabled' :
-                 'page-item' }}">
-                    <a class="page-link" href="#" disabled>
-                        {{item}}
-                    </a>
-                </li>
+                <li class="{{ item === this.paginaActual ? 'page-item disabled' :'page-item' }}">
+                    <button class="page-link"
+                      (click)="cambiarPagina(item); $event.preventDefault()">
+                      {{item}}
+                    </button>
+                  </li>
             }
-            
             <li class="{{ !this.fin ? 'page-item' : 'page-item disabled' }}">
-                <a class="page-link" (click)="cambiarPagina()" aria-label="Next">
+                <button class="page-link"
+                    (click)="cambiarPagina(this.totalPaginas); $event.preventDefault()" aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>
-                </a>
+                </button>
             </li>
         </ul>
     </nav>

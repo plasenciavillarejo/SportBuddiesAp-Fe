@@ -202,7 +202,7 @@ export class UsuariosComponent implements OnInit {
     }
 
     this.busquedadActividadRequest.idUsuario = 0
-    this.usuarioService.loadReservationList(this.busquedadActividadRequest).subscribe({
+    this.servicioCompartido.listActivityReservation(this.busquedadActividadRequest).subscribe({
       next: (response) => {
         if (response.listActividad.length >= 1) {
           this.formularioActividadResponse = response.listActividad;
@@ -212,7 +212,7 @@ export class UsuariosComponent implements OnInit {
             res.horaFin = res.horaFin.split(':').slice(0, 2).join(':');
           });
           // Obtenemos el rango de botones
-          this.getPageRange();
+          //this.getPageRange();
         } else {
           this.formularioActividadResponse = [];
           Swal.fire(
@@ -225,6 +225,30 @@ export class UsuariosComponent implements OnInit {
         throw new error;
       }
     })
+    /*this.usuarioService.loadReservationList(this.busquedadActividadRequest).subscribe({
+      next: (response) => {
+        if (response.listActividad.length >= 1) {
+          this.formularioActividadResponse = response.listActividad;
+          this.paginador = response.paginador;
+          this.formularioActividadResponse.forEach(res => {
+            res.horaInicio = res.horaInicio.split(':').slice(0, 2).join(':');
+            res.horaFin = res.horaFin.split(':').slice(0, 2).join(':');
+          });
+          // Obtenemos el rango de botones
+          //this.getPageRange();
+        } else {
+          this.formularioActividadResponse = [];
+          Swal.fire(
+            'Resultado vacío',
+            'No existen datos para dichas características',
+            'info'
+          )
+        }
+      }, error: (error) => {
+        throw new error;
+      }
+    })
+    */
   }
 
   /**
@@ -343,8 +367,8 @@ export class UsuariosComponent implements OnInit {
   getPageRange(): number[] {
     let inicio = Math.max(1, this.paginador.paginaActual - Math.floor(this.paginador.tamanioPagina / 2));
     let fin = Math.min(this.paginador.paginas, inicio + this.paginador.tamanioPagina -1);
-    // Ajustar el inicio si el fin se extiende más allá del total de páginas
     
+    // Ajustar el inicio si el fin se extiende más allá del total de páginas    
     /*if (fin - inicio + 1 < this.paginador.paginaActual && inicio > 1) {
       inicio = Math.max(1, fin - this.paginador.paginaActual + 1);
     }*/
@@ -363,13 +387,9 @@ export class UsuariosComponent implements OnInit {
    */
   cambiarPagina(pagina: number): void {
     this.paginador.paginaActual = pagina;
-    //if (pagina > 0 && pagina <= this.paginador.tamanioPagina) {
-      this.paginador.paginaActual = pagina;
-      // Emitimos el cambio de la pagina para que lo detecte el componente padre, en este caso, usuarios.components.html
-      this.servicioCompartido.cambiarPagina(pagina);
-      console.log(`Página cambiada a: ${pagina}`);
-      this.consultListReservations(false);
-    //}
+    // Emitimos el cambio de la pagina para que lo detecte el componente padre, en este caso, usuarios.components.html
+    this.servicioCompartido.cambiarPagina(pagina);
+    this.consultListReservations(false);
   }
 
 }

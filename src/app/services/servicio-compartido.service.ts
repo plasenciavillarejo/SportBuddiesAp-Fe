@@ -4,6 +4,9 @@ import { UsuarioService } from './usuario.service';
 import { Observable } from 'rxjs';
 import { TokenService } from './token.service';
 import { InscripcionReservaActividad } from '../models/inscripcionReservaActividad';
+import { FormularioActividadResponse } from '../models/formularioActividadResponse';
+import { Paginador } from '../models/paginador';
+import { BusquedaActividadRequest } from '../models/busquedaActividadRequest';
 
 @Injectable({
   providedIn: 'root'
@@ -48,6 +51,24 @@ export class ServicioCompartidoService {
   // Método para emitir un cambio de página
   cambiarPagina(pagina: number): void {
     this._numberPageEventEmitter.emit(pagina);
+  }
+
+
+  listActivityReservation(busquedadActividadRequest: BusquedaActividadRequest): Observable<any> {
+    return new Observable<void>((observer) => {
+      this.usuarioService.loadReservationList(busquedadActividadRequest).subscribe({
+        next: (response) => {
+          // Emitimos el resultado
+          observer.next(response);
+          // Completamos la suscripción
+          observer.complete();
+        },
+        error: (error) => {
+          // Emitimos el error si ocurre
+          observer.error(error);
+        }
+      });
+    });
   }
 
   /**

@@ -1,5 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ServicioCompartidoService } from '../../services/servicio-compartido.service';
+import { UsuarioService } from '../../services/usuario.service';
+import { BusquedaActividadRequest } from '../../models/busquedaActividadRequest';
 
 @Component({
   selector: 'app-paginador',
@@ -24,45 +26,47 @@ export class PaginadorComponent implements OnInit {
 
   @Output() paginaCambiada = new EventEmitter<number>();
 
-  constructor(private servicioCompartido: ServicioCompartidoService) {
+  @Input() busquedaActividadRequest = new BusquedaActividadRequest();
+
+  constructor(private servicioCompartido: ServicioCompartidoService,
+    private usuarioService: UsuarioService 
+  ) {
 
   }
 
   ngOnInit(): void {
-    this.paginator();
+    this.getPageRange();
     this.paginaCambiada.emit(this.paginaActual); 
   }
 
-  public paginator() {
-    console.log(this.inicio);
-    console.log(this.fin);
-    console.log(this.paginaActual);
-    console.log(this.totalPaginas);
-    console.log(this.numeroRegistros);
-    const intervalos = []
-    for (let pagina = 1; pagina <= this.totalPaginas; pagina++) {
-      intervalos.push(pagina);
-    }
-
-    return intervalos;
-  }
-
   getPageRange(): number[] {
-    const inicio = Math.floor((this.paginaActual - 1) / this.tamanioPagina) * this.tamanioPagina + 1;
-    const fin = Math.min(inicio + this.tamanioPagina - 1, this.totalPaginas);
-  
+    console.log(this.paginaActual);
+    console.log(this.busquedaActividadRequest);
+    let inicio = Math.max(1, this.paginaActual - Math.floor(this.tamanioPagina / 2));
+    let fin = Math.min(this.totalPaginas, inicio + this.tamanioPagina -1);
+    
+    // Ajustar el inicio si el fin se extiende más allá del total de páginas    
+    /*if (fin - inicio + 1 < this.paginador.paginaActual && inicio > 1) {
+      inicio = Math.max(1, fin - this.paginador.paginaActual + 1);
+    }*/
     const rango = [];
-    for (let i = inicio; i <= fin; i++) {
-      rango.push(i);
-    }
+    if (this.tamanioPagina > 0) {
+      for (let i = inicio; i <= fin; i++) {
+        rango.push(i);
+      }
+  }
     return rango;
   }
 
-  cambiarPagina(): void {
-      // Obtenemos por el emmiter el cambio de pagina
-      this.servicioCompartido.numberPageEventEmitter.subscribe(pagina => {
-        this.paginaActual = pagina;
-      });          
+  /**
+   * Función encargada de obtener la pagina al que se ha pulsado para cargar de nuevo el listado de las actividades
+   * @param pagina 
+   */
+  cambiarPagina(pagina: number): void {
+    this.paginaActual = pagina;
+    // Emitimos el cambio de la pagina para que lo detecte el componente padre, en este caso, usuarios.components.html
+    this.servicioCompartido.cambiarPagina(pagina);
+    //this.consultListReservations(false);
   }
   
 }
