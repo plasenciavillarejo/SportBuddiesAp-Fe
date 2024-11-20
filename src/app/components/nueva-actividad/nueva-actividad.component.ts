@@ -8,6 +8,7 @@ import { CrearActividadService } from '../../services/crear-actividad.service';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { Paginador } from '../../models/paginador';
 
 @Component({
   selector: 'app-nueva-actividad',
@@ -32,6 +33,8 @@ export class NuevaActividadComponent {
 
   requerimientosAdicionales: string[] = [];
 
+  paginador: Paginador = new Paginador();
+
   constructor(private usuarioService: UsuarioService,
     private tokenService: TokenService,    
     private clientCrearActividad: CrearActividadService,
@@ -42,7 +45,7 @@ export class NuevaActividadComponent {
   ngOnInit(): void {
     this.loadComboInitial();
     this.initFormReactiveActivity();
-    this.listReservation();
+    this.listReservation(true);
   }
 
   private initFormReactiveActivity(): void {
@@ -230,11 +233,13 @@ export class NuevaActividadComponent {
   /**
    * Función encargada de cargar todas las actividades referentes a un usuario
    */
-  listReservation(): void {
-    this.usuarioService.loadReservationListForIdUser(this.tokenService.obtainIdUser()).subscribe({
+  listReservation(listInitial: boolean): void {
+    this.usuarioService.loadReservationListForIdUser(listInitial,this.tokenService.obtainIdUser(),
+    this.paginador).subscribe({
       next: (response) => {
         if(response != null){
-          this.formularioActividadResponse = response;
+          this.formularioActividadResponse = response.listActividad;
+          this.paginador = response.paginador;
           this.formularioActividadResponse.forEach(res => {
             res.horaInicio = res.horaInicio.split(':').slice(0, 2).join(':');
             res.horaFin = res.horaFin.split(':').slice(0, 2).join(':');
@@ -244,6 +249,32 @@ export class NuevaActividadComponent {
         throw new error;
       }
     });
+  }
+
+  getPageRange(): number[] {
+    let inicio = Math.max(1, this.paginador.paginaActual - Math.floor(this.paginador.tamanioPagina / 2));
+    let fin = Math.min(this.paginador.paginas, inicio + this.paginador.tamanioPagina -1);
+    
+    // Ajustar el inicio si el fin se extiende más allá del total de páginas    
+    /*if (fin - inicio + 1 < this.paginador.paginaActual && inicio > 1) {
+      inicio = Math.max(1, fin - this.paginador.paginaActual + 1);
+    }*/
+    const rango = [];
+    if (this.paginador.tamanioPagina > 0) {
+      for (let i = inicio; i <= fin; i++) {
+        rango.push(i);
+      }
+  }
+    return rango;
+  }
+
+  /**
+   * Función encargada de obtener la pagina al que se ha pulsado para cargar de nuevo el listado de las actividades
+   * @param pagina 
+   */
+  cambiarPagina(pagina: number): void {
+    this.paginador.paginaActual = pagina;
+    this.listReservation(false);
   }
 
 }

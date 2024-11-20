@@ -5,6 +5,7 @@ import { environment } from '../../environments/environment';
 import { InscripcionReservaActividad } from '../models/inscripcionReservaActividad';
 import { Usuario } from '../models/usuario';
 import { BusquedaActividadRequest } from '../models/busquedaActividadRequest';
+import { Paginador } from '../models/paginador';
 
 @Injectable({
   providedIn: 'root'
@@ -75,9 +76,15 @@ export class UsuarioService {
     return this.http.post<void>(this.url_update_user, usuario);
   }
 
-  loadReservationListForIdUser(idUsuario: number): Observable<any>  {
+  loadReservationListForIdUser(listInitial: boolean, idUsuario: number,
+    paginador: Paginador
+  ): Observable<any>  {
     const params = new HttpParams()
-    .set('idUsuario', idUsuario);
+    .set('idUsuario', idUsuario)
+    .set('pagina', listInitial ? 1 : paginador.paginaActual)
+    .set('tamanioPagina', 5)
+    .set('campoOrden', 'horaInicio')
+    .set('orden', 1);
     return this.http.get<any>(this.url_listing_reservation, {params});
   }
 }

@@ -212,7 +212,7 @@ export class UsuariosComponent implements OnInit {
             res.horaFin = res.horaFin.split(':').slice(0, 2).join(':');
           });
           // Obtenemos el rango de botones
-          //this.getPageRange();
+          this.getPageRange();
         } else {
           this.formularioActividadResponse = [];
           Swal.fire(
@@ -225,30 +225,6 @@ export class UsuariosComponent implements OnInit {
         throw new error;
       }
     })
-    /*this.usuarioService.loadReservationList(this.busquedadActividadRequest).subscribe({
-      next: (response) => {
-        if (response.listActividad.length >= 1) {
-          this.formularioActividadResponse = response.listActividad;
-          this.paginador = response.paginador;
-          this.formularioActividadResponse.forEach(res => {
-            res.horaInicio = res.horaInicio.split(':').slice(0, 2).join(':');
-            res.horaFin = res.horaFin.split(':').slice(0, 2).join(':');
-          });
-          // Obtenemos el rango de botones
-          //this.getPageRange();
-        } else {
-          this.formularioActividadResponse = [];
-          Swal.fire(
-            'Resultado vacío',
-            'No existen datos para dichas características',
-            'info'
-          )
-        }
-      }, error: (error) => {
-        throw new error;
-      }
-    })
-    */
   }
 
   /**
