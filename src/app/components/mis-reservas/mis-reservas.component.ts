@@ -8,6 +8,7 @@ import { ServicioCompartidoService } from '../../services/servicio-compartido.se
 
 import { CommonModule } from '@angular/common';
 import { SpinnerModalComponent } from '../spinner-modal/spinner-modal.component';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-mis-reservas',
@@ -81,9 +82,6 @@ export class MisReservasComponent implements OnInit {
         // Volvemos a consultar el servicio donde se obtiene los id de las actividades inscritas
         this.listReservation(this.tokenService.obtainIdUser(), '');
         this.validateActivityUser();
-      },
-      error: error => {
-        console.error("Error al eliminar la actividad:", error);
       }
     });
   }

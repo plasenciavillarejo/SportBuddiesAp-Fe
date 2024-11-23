@@ -188,13 +188,17 @@ export class ServicioCompartidoService {
     }, 2000);
   }
   /**
-   * Funcion para devovler el id del usuario
+   * Funcion para devolver el id del usuario
    * @returns 
    */
   obtainIdUserGeneric(): number {
     return this.tokenService.obtainIdUser();
   }
 
+  /**
+   * Función encargada para devolver el id del usuario utilizando un observable
+   * @returns 
+   */
   obtainIdUserGenericObservable(): Observable<number> {
     return this.tokenService.obtainIdUserObservable();
   }

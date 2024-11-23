@@ -1,16 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { environment } from '../../../environments/environment';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpParams } from '@angular/common/http';
 import { TokenService } from '../../services/token.service';
-import { CookieService } from 'ngx-cookie-service';
-import * as CryptoJS from 'crypto-js';
 import { ServicioCompartidoService } from '../../services/servicio-compartido.service';
 import { AuthService } from '../../services/auth.service';
 import { Observable } from 'rxjs';
 
 const CHARACTERS = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-
 
 @Component({
   selector: 'app-navbar',
@@ -165,7 +162,8 @@ export class HeaderComponent implements OnInit {
   }
 
   /**
-   * 
+   * Devuelve el id del usuario de forma asícrona una vez que el usuario ha sido registrado
+   * @returns 
    */
   idUser(): Observable<number> {
     return this.servicioCompartido.obtainIdUserGenericObservable();

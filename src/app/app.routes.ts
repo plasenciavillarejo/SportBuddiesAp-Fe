@@ -13,6 +13,7 @@ import { PaypalCancelComponent } from './components/paypal-cancel/paypal-cancel.
 import { NuevoUsuarioComponent } from './components/nuevo-usuario/nuevo-usuario.component';
 import { PagoTarjetaComponent } from './components/pago-tarjeta/pago-tarjeta.component';
 import { PaginadorComponent } from './components/paginador/paginador.component';
+import { ConfirmarAsistenciaComponent } from './components/confirmar-asistencia/confirmar-asistencia.component';
 
 export const routes: Routes = [
     /**Por defecto si el path es vació nos redigira a usuarios */
@@ -78,6 +79,11 @@ export const routes: Routes = [
     {
         path: 'pago-tarjeta/:idReservaUsuario/:nombreActividad/:precioActividad',
         component: PagoTarjetaComponent,
+        canActivate: [authGuard]
+    },
+    {
+        path: 'confirmar-asitencia/:idUsuario',
+        component: ConfirmarAsistenciaComponent,
         canActivate: [authGuard]
     }
 ];
