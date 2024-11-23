@@ -103,11 +103,7 @@
     </div>
 </div>
 <div class="container py-4">
-@if (formularioActividadResponse.length == 0 ) {
-<div class="container alert alert-info d-flex justify-content-center text-center w-auto p-2 mt-4">
-    <span>Actualmente no se realizado ninguna busqueda, para ello, rellene los campos de arriba</span>
-</div>
-} @else {
+@if (formularioActividadResponse.length != 0 ){
     <table class="table table-hover mt-2 text-center border border-3 shadow-lg">
         <thead class="table-info">
             <tr>
