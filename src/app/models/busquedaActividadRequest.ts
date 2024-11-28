@@ -17,5 +17,7 @@ export class BusquedaActividadRequest {
     campoOrden!: string;
 
     orden!: number;
+
+    paginaInicio!: boolean;
     
 }

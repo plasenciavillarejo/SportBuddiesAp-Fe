@@ -201,8 +201,8 @@ export class UsuariosComponent implements OnInit {
     } else {
       this.busquedadActividadRequest.pagina = this.paginador.paginaActual
     }
-
-    this.busquedadActividadRequest.idUsuario = 0
+    this.busquedadActividadRequest.paginaInicio = true;
+    this.busquedadActividadRequest.idUsuario = this.tokenService.isAuthenticate() ? this.tokenService.obtainIdUser() : 0;
     this.servicioCompartido.listActivityReservation(this.busquedadActividadRequest).subscribe({
       next: (response) => {
         if (response.listActividad.length >= 1) {

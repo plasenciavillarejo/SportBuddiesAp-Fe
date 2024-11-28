@@ -47,7 +47,8 @@ export class UsuarioService {
     .set('pagina',formularioActividad.pagina)
     .set('tamanioPagina',formularioActividad.tamanioPagina)
     .set('campoOrden',formularioActividad.campoOrden)
-    .set('orden',formularioActividad.orden);
+    .set('orden',formularioActividad.orden)
+    .set('paginaInicio',formularioActividad.paginaInicio ? formularioActividad.paginaInicio : false);
     return this.http.get<any>(this.url_listing_reservation, {params});
   }
 
@@ -84,7 +85,8 @@ export class UsuarioService {
     .set('pagina', listInitial ? 1 : paginador.paginaActual)
     .set('tamanioPagina', 5)
     .set('campoOrden', 'horaInicio')
-    .set('orden', 1);
+    .set('orden', 1)
+    .set('paginaInicio', false);
     return this.http.get<any>(this.url_listing_reservation, {params});
   }
 }
