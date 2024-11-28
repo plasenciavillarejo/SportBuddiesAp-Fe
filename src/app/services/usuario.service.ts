@@ -44,10 +44,10 @@ export class UsuarioService {
     .set('provincia', formularioActividad.provincia)
     .set('municipio', formularioActividad.municipio)
     .set('idUsuario',formularioActividad.idUsuario)
-    .set('pagina',formularioActividad.pagina)
-    .set('tamanioPagina',formularioActividad.tamanioPagina)
-    .set('campoOrden',formularioActividad.campoOrden)
-    .set('orden',formularioActividad.orden)
+    .set('caracteristicasPaginacion.pagina',formularioActividad.caracteristicasPaginacion.pagina)
+    .set('caracteristicasPaginacion.tamanioPagina',formularioActividad.caracteristicasPaginacion.tamanioPagina)
+    .set('caracteristicasPaginacion.campoOrden',formularioActividad.caracteristicasPaginacion.campoOrden)
+    .set('caracteristicasPaginacion.orden',formularioActividad.caracteristicasPaginacion.orden)
     .set('paginaInicio',formularioActividad.paginaInicio ? formularioActividad.paginaInicio : false);
     return this.http.get<any>(this.url_listing_reservation, {params});
   }
@@ -82,10 +82,10 @@ export class UsuarioService {
   ): Observable<any>  {
     const params = new HttpParams()
     .set('idUsuario', idUsuario)
-    .set('pagina', listInitial ? 1 : paginador.paginaActual)
-    .set('tamanioPagina', 5)
-    .set('campoOrden', 'horaInicio')
-    .set('orden', 1)
+    .set('caracteristicasPaginacion.pagina', listInitial ? 1 : paginador.paginaActual)
+    .set('caracteristicasPaginacion.tamanioPagina', 5)
+    .set('caracteristicasPaginacion.campoOrden', 'horaInicio')
+    .set('caracteristicasPaginacion.orden', 1)
     .set('paginaInicio', false);
     return this.http.get<any>(this.url_listing_reservation, {params});
   }

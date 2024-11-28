@@ -194,12 +194,12 @@ export class UsuariosComponent implements OnInit {
     this.validateForm();
 
     if(listInitial) {
-      this.busquedadActividadRequest.pagina = 1;
-      this.busquedadActividadRequest.tamanioPagina = 5;
-      this.busquedadActividadRequest.campoOrden = 'horaInicio';
-      this.busquedadActividadRequest.orden = 1;
+      this.busquedadActividadRequest.caracteristicasPaginacion.pagina = 1;
+      this.busquedadActividadRequest.caracteristicasPaginacion.tamanioPagina = 5;
+      this.busquedadActividadRequest.caracteristicasPaginacion.campoOrden = 'horaInicio';
+      this.busquedadActividadRequest.caracteristicasPaginacion.orden = 1;
     } else {
-      this.busquedadActividadRequest.pagina = this.paginador.paginaActual
+      this.busquedadActividadRequest.caracteristicasPaginacion.pagina = this.paginador.paginaActual
     }
     this.busquedadActividadRequest.paginaInicio = true;
     this.busquedadActividadRequest.idUsuario = this.tokenService.isAuthenticate() ? this.tokenService.obtainIdUser() : 0;

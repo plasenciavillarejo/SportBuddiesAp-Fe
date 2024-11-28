@@ -4,11 +4,12 @@ import { ConfirmarAsistenciaResponse } from '../../models/confirmarAsistenciaRes
 import { ConfirmarAsistenciaService } from '../../services/confirmar-asistencia.service';
 import Swal from 'sweetalert2';
 import { Paginador } from '../../models/paginador';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-confirmar-asistencia',
   standalone: true,
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './confirmar-asistencia.component.html',
   styleUrl: './confirmar-asistencia.component.css'
 })
@@ -34,7 +35,7 @@ export class ConfirmarAsistenciaComponent implements OnInit{
    * @param idUsuario 
    */
   loadActivityConfirmation(idUsuario: number): void {
-    // PLASENCIA - FALTA CONFIGURAR EL PAGINADOR
+    // PLASENCIA - FALTA CONFIGURAR EL PAGINADOR (28/11/2024)
     this.confirmarAsistenciaService.listConfirmation(idUsuario).subscribe({
       next: (response) => {
         if(response != null) {

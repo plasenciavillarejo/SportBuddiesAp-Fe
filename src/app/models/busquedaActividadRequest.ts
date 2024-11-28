@@ -1,3 +1,5 @@
+import { CaracteristicasPaginacion } from "./caracteristicasPaginacion";
+
 export class BusquedaActividadRequest {
 
     fechaReserva?: Date;
@@ -10,13 +12,7 @@ export class BusquedaActividadRequest {
  
     idUsuario!: number;
 
-    pagina!: number;
-
-    tamanioPagina!: number;
-
-    campoOrden!: string;
-
-    orden!: number;
+    caracteristicasPaginacion: CaracteristicasPaginacion = new CaracteristicasPaginacion();
 
     paginaInicio!: boolean;
     

@@ -11,4 +11,5 @@ export class ConfirmarAsistenciaResponse {
     
     apellidoUsuario!: string;
 
+    idUsuario!: number;
 }

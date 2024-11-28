@@ -30,8 +30,8 @@
                     <tbody>
                         @for (confAsist of this.confirmarAsistenciaResponse ; track $index) {
                         <tr>
-                            <td hidden></td>
-                            <td>{{confAsist.fechaReserva}}</td>
+                            <td hidden>{{confAsist.idUsuario}}</td>
+                            <td>{{confAsist.fechaReserva | date:'dd-MM-yyyy'}}</td>
                             <td>{{confAsist.horaInicio}} - {{confAsist.horaFin}}</td>
                             <td>{{confAsist.nombreUsuario}} {{confAsist.apellidoUsuario}}</td>
                             <td>
