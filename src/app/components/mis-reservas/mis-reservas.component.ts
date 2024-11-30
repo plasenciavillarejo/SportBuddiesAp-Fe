@@ -8,7 +8,6 @@ import { ServicioCompartidoService } from '../../services/servicio-compartido.se
 
 import { CommonModule } from '@angular/common';
 import { SpinnerModalComponent } from '../spinner-modal/spinner-modal.component';
-import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-mis-reservas',

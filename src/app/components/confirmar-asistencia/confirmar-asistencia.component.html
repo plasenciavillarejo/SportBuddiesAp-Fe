@@ -24,6 +24,7 @@
                             <th>Fecha Reserva</th>
                             <th>Hora Reserva</th>
                             <th>Usuario Reserva</th>
+                            <th hidden> Id Reserva Actividad</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -34,11 +35,16 @@
                             <td>{{confAsist.fechaReserva | date:'dd-MM-yyyy'}}</td>
                             <td>{{confAsist.horaInicio}} - {{confAsist.horaFin}}</td>
                             <td>{{confAsist.nombreUsuario}} {{confAsist.apellidoUsuario}}</td>
+                            <td hidden>{{confAsist.idReservaActividad}}</td>
                             <td>
-                                <button type="button" class="btn btn-outline-warning btn-sm rounded-pill"
-                                (click)=null>
-                                Confirmar
-                            </button>
+                                @if(!this.listIdsConfirm.includes(confAsist.idUsuario)) {
+                                    <button type="button" class="btn btn-outline-warning btn-sm rounded-pill"
+                                    (click)=saveUserConfirmation(confAsist)>
+                                    Confirmar
+                                </button>    
+                                }@else {
+                                    <span class="badge bg-success rounded-pill">Confirmado</span>
+                                }
                             </td>
                         </tr>
                         }

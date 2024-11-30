@@ -5,6 +5,7 @@ import { ConfirmarAsistenciaService } from '../../services/confirmar-asistencia.
 import Swal from 'sweetalert2';
 import { Paginador } from '../../models/paginador';
 import { CommonModule } from '@angular/common';
+import { ConfirmarAsistenciaRequest } from '../../models/confirmarAsistenciaRequest';
 
 @Component({
   selector: 'app-confirmar-asistencia',
@@ -17,6 +18,11 @@ export class ConfirmarAsistenciaComponent implements OnInit{
 
   confirmarAsistenciaResponse: ConfirmarAsistenciaResponse[] = [];
   paginador: Paginador = new Paginador();
+  confirmarAsistenciaRequest: ConfirmarAsistenciaRequest = new ConfirmarAsistenciaRequest();
+
+  initial: boolean = false;
+
+  listIdsConfirm: any[] = [];
 
   constructor(private activatedRoute: ActivatedRoute,
     private confirmarAsistenciaService: ConfirmarAsistenciaService
@@ -26,7 +32,9 @@ export class ConfirmarAsistenciaComponent implements OnInit{
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(params => {
+      this.initial = true;
       this.loadActivityConfirmation(params['idUsuario']);
+      this.listLonUserConfirm(params['idUsuario']);
     });
   }
 
@@ -35,8 +43,16 @@ export class ConfirmarAsistenciaComponent implements OnInit{
    * @param idUsuario 
    */
   loadActivityConfirmation(idUsuario: number): void {
-    // PLASENCIA - FALTA CONFIGURAR EL PAGINADOR (28/11/2024)
-    this.confirmarAsistenciaService.listConfirmation(idUsuario).subscribe({
+    this.confirmarAsistenciaRequest.idUsuario = idUsuario;
+    if(this.initial) {
+      this.confirmarAsistenciaRequest.caracteristicasPaginacion.pagina = 1;
+      this.confirmarAsistenciaRequest.caracteristicasPaginacion.tamanioPagina = 5;
+      this.confirmarAsistenciaRequest.caracteristicasPaginacion.campoOrden = 'hora_inicio_reserva';
+      this.confirmarAsistenciaRequest.caracteristicasPaginacion.orden = 1;  
+    } else {  
+      this.confirmarAsistenciaRequest.caracteristicasPaginacion.pagina = this.paginador.paginaActual;
+    }
+    this.confirmarAsistenciaService.listConfirmation(this.confirmarAsistenciaRequest).subscribe({
       next: (response) => {
         if(response != null) {
           this.confirmarAsistenciaResponse = response.listAsistencia;
@@ -47,6 +63,39 @@ export class ConfirmarAsistenciaComponent implements OnInit{
           error.error.mensaje,
           'error'
         );
+      }
+    });
+  }
+
+  saveUserConfirmation(confirmarAsistenciaResponse: ConfirmarAsistenciaResponse) {
+    this.confirmarAsistenciaService.saveUserConfirm(confirmarAsistenciaResponse).subscribe({
+      next: (response) => {
+        Swal.fire(
+          'Usuario confirmado exitosamente',
+          'Se ha confirmado el usuario para la actividad seleccionada',
+          'success'
+        );
+        // Volvemos a cargar el listado para excluir el registro que acaba de confirmar
+        this.listLonUserConfirm(this.confirmarAsistenciaRequest.idUsuario);
+      }, error: (error) => {
+        Swal.fire(
+          'Error con la confirmación del usuario',
+          'Hubo un problema con la confirmación del usuario',
+          'error'
+        );
+      }
+    });
+  }
+
+  listLonUserConfirm(idUsuario: number) {
+    this.confirmarAsistenciaService.obtainListIdUserConfirm(idUsuario).subscribe({
+      next: (response) => {
+        if(response != null) {
+          this.listIdsConfirm = response;
+          console.log(response);
+        }
+      }, error: (error) => {
+
       }
     });
   }
