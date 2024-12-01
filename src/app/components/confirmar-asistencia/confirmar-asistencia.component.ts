@@ -6,6 +6,7 @@ import Swal from 'sweetalert2';
 import { Paginador } from '../../models/paginador';
 import { CommonModule } from '@angular/common';
 import { ConfirmarAsistenciaRequest } from '../../models/confirmarAsistenciaRequest';
+import { UsuariosConfirmadosResponse } from '../../models/usuariosConfirmadosResponse';
 
 @Component({
   selector: 'app-confirmar-asistencia',
@@ -19,6 +20,7 @@ export class ConfirmarAsistenciaComponent implements OnInit{
   confirmarAsistenciaResponse: ConfirmarAsistenciaResponse[] = [];
   paginador: Paginador = new Paginador();
   confirmarAsistenciaRequest: ConfirmarAsistenciaRequest = new ConfirmarAsistenciaRequest();
+  usuariosConfirmado: UsuariosConfirmadosResponse[] = [];
 
   initial: boolean = false;
 
@@ -91,7 +93,7 @@ export class ConfirmarAsistenciaComponent implements OnInit{
     this.confirmarAsistenciaService.obtainListIdUserConfirm(idUsuario).subscribe({
       next: (response) => {
         if(response != null) {
-          this.listIdsConfirm = response;
+          this.usuariosConfirmado = response;
           console.log(response);
         }
       }, error: (error) => {
@@ -99,5 +101,20 @@ export class ConfirmarAsistenciaComponent implements OnInit{
       }
     });
   }
+
+  /**
+   * Función encargada de validar la confirmación del usuario para poder confirmar un usuario o no.
+   * @param confAsist 
+   * @returns 
+   */
+  isConfirmed(confAsist: any): boolean {
+    return this.usuariosConfirmado?.some(usuConf => 
+      usuConf.idUsuario === confAsist.idUsuario &&
+      usuConf.fechaReserva === confAsist.fechaReserva &&
+      usuConf.horaInicio === confAsist.horaInicio &&
+      usuConf.horaFin === confAsist.horaFin
+    ) ?? false;
+  }
+  
 
 }

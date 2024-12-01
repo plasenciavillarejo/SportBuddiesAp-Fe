@@ -37,13 +37,13 @@
                             <td>{{confAsist.nombreUsuario}} {{confAsist.apellidoUsuario}}</td>
                             <td hidden>{{confAsist.idReservaActividad}}</td>
                             <td>
-                                @if(!this.listIdsConfirm.includes(confAsist.idUsuario)) {
-                                    <button type="button" class="btn btn-outline-warning btn-sm rounded-pill"
-                                    (click)=saveUserConfirmation(confAsist)>
+                                @if (this.isConfirmed(confAsist)) {
+                                <span class="badge bg-success rounded-pill">Confirmado</span>
+                                } @else {
+                                <button type="button" class="btn btn-outline-warning btn-sm rounded-pill"
+                                    (click)="saveUserConfirmation(confAsist)">
                                     Confirmar
-                                </button>    
-                                }@else {
-                                    <span class="badge bg-success rounded-pill">Confirmado</span>
+                                </button>
                                 }
                             </td>
                         </tr>
