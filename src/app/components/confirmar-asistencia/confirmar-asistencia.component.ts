@@ -58,6 +58,10 @@ export class ConfirmarAsistenciaComponent implements OnInit{
       next: (response) => {
         if(response != null) {
           this.confirmarAsistenciaResponse = response.listAsistencia;
+          this.confirmarAsistenciaResponse.forEach(res => {
+            res.horaInicio = res.horaInicio.split(':').slice(0, 2).join(':');
+            res.horaFin = res.horaFin.split(':').slice(0, 2).join(':');
+          });
           this.paginador = response.paginador;
         }
       }, error: (error) => {

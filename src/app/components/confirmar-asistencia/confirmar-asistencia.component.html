@@ -55,3 +55,56 @@
     </div>
     }
 </div>
+
+<div class="container my-4">
+    @if (this.confirmarAsistenciaResponse.length == 0) { 
+        <div class="card mt-4 border border-3 shadow-lg">
+            <div class="card-header bg-primary text-white text-center">
+                <h5 class="mb-0">Confirmar Asistencia</h5>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-info text-center">
+                    <span>No contiene ninguna actividad creada para confirmar sus participantes</span>
+                </div>
+            </div>
+        </div>
+    } @else {
+        <!-- Agrupa actividades por fecha y deporte 
+        @for (group of this.groupedActivities) {-->
+            <div class="card mt-4 border border-3 shadow-lg">
+                <div class="card-header bg-primary text-white">
+                    <div class="d-flex justify-content-between">
+                        <span>Deporte: Fútbol</span>
+                        <span>Fecha: 15-11-2024</span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-striped text-center">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Hora</th>
+                                    <th>Usuario</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!--@for (confAsist of group.actividades; track $index) {-->
+                                    <tr>
+                                        <td>15:00 - 16:00</td>
+                                        <td>José Plasencia villarejo</td>
+                                        <td>
+                                           
+                                                <span class="badge bg-success rounded-pill">Confirmado</span>
+                                           
+                                        </td>
+                                    </tr>
+                                <!--}-->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        }
+    <!--}-->
+</div>

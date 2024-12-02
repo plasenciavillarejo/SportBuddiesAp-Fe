@@ -1,6 +1,6 @@
 
 export class UsuariosConfirmadosResponse {
-    
+
     idUsuario!: number;
 
     fechaReserva!: Date;
@@ -8,5 +8,7 @@ export class UsuariosConfirmadosResponse {
     horaInicio!: string;
   
     horaFin!: string;
+
+    actividad!: string;
 
 }
