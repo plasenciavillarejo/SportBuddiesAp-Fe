@@ -7,6 +7,7 @@ import { Paginador } from '../../models/paginador';
 import { CommonModule } from '@angular/common';
 import { ConfirmarAsistenciaRequest } from '../../models/confirmarAsistenciaRequest';
 import { UsuariosConfirmadosResponse } from '../../models/usuariosConfirmadosResponse';
+import { ConfirmarAsistenciaGroup } from '../../models/confirmarAsistenciaGroup';
 
 @Component({
   selector: 'app-confirmar-asistencia',
@@ -21,6 +22,7 @@ export class ConfirmarAsistenciaComponent implements OnInit{
   paginador: Paginador = new Paginador();
   confirmarAsistenciaRequest: ConfirmarAsistenciaRequest = new ConfirmarAsistenciaRequest();
   usuariosConfirmado: UsuariosConfirmadosResponse[] = [];
+  groupedData: ConfirmarAsistenciaGroup[] = [];
 
   initial: boolean = false;
 
@@ -40,6 +42,10 @@ export class ConfirmarAsistenciaComponent implements OnInit{
     });
   }
 
+
+  dayMapHour = new Map<Date, String>();
+
+
   /**
    * Función encargada de devolver todas las actividades de un usuario para proceder a su confirmación
    * @param idUsuario 
@@ -57,11 +63,43 @@ export class ConfirmarAsistenciaComponent implements OnInit{
     this.confirmarAsistenciaService.listConfirmation(this.confirmarAsistenciaRequest).subscribe({
       next: (response) => {
         if(response != null) {
-          this.confirmarAsistenciaResponse = response.listAsistencia;
-          this.confirmarAsistenciaResponse.forEach(res => {
-            res.horaInicio = res.horaInicio.split(':').slice(0, 2).join(':');
-            res.horaFin = res.horaFin.split(':').slice(0, 2).join(':');
+          this.groupedData = Object.entries(response.listAsistencia).map(([key, usuarios]) => {
+            const [actividad, fecha] = key.split('|');
+            return {
+              key,
+              actividad,
+              fechaReserva: new Date(fecha),
+              usuarios,
+            } as ConfirmarAsistenciaGroup;
           });
+
+          /*
+          this.groupedData.forEach(gr => {
+            this.rangeHour = gr.usuarios.reduce((acc: any, curr: any) => {
+              const horaKey = `${curr.horaInicio}-${curr.horaFin}`;
+              if (!acc[horaKey]) {
+                acc[horaKey] = {
+                  horaInicio: curr.horaInicio,
+                  horaFin: curr.horaFin,
+                  usuarios: [],
+                };
+              }
+              acc[horaKey].usuarios.push({
+                nombreUsuario: curr.nombreUsuario,
+                apellidoUsuario: curr.apellidoUsuario,
+              });
+              return acc;
+            }, {});
+          });
+          */
+
+          this.groupedData.forEach(group => {
+            group.usuarios.forEach(usu => {
+              usu.horaInicio = usu.horaInicio.split(':').slice(0, 2).join(':');
+              usu.horaFin = usu.horaFin.split(':').slice(0, 2).join(':');
+            });
+          });
+
           this.paginador = response.paginador;
         }
       }, error: (error) => {
@@ -115,8 +153,8 @@ export class ConfirmarAsistenciaComponent implements OnInit{
     return this.usuariosConfirmado?.some(usuConf => 
       usuConf.idUsuario === confAsist.idUsuario &&
       usuConf.fechaReserva === confAsist.fechaReserva &&
-      usuConf.horaInicio === confAsist.horaInicio &&
-      usuConf.horaFin === confAsist.horaFin
+      usuConf.horaInicio.split(':').slice(0, 2).join(':') === confAsist.horaInicio &&
+      usuConf.horaFin.split(':').slice(0, 2).join(':') === confAsist.horaFin
     ) ?? false;
   }
   

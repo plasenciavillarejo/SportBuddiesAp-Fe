@@ -14,4 +14,6 @@ export class ConfirmarAsistenciaResponse {
     idUsuario!: number;
 
     idReservaActividad!: number;
+
+    actividad!: string;
 }

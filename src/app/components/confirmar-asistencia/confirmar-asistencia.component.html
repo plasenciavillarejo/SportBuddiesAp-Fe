@@ -1,63 +1,6 @@
-<div class="container my-4">
-    @if (this.confirmarAsistenciaResponse.length == 0 ) { 
-    <div class="card mt-4 border border-3 shadow-lg">
-        <div class="card-header bg-primary text-white text-center">
-            <h5 class="mb-0">Confirmar Asistencia</h5>
-        </div>
-        <div class="card-body">
-            <div class="container alert alert-info d-flex justify-content-center text-center w-auto p-2 mt-4">
-                <span>No contiene ninguna actividad creada para confirmar sus participantes</span>
-            </div>
-        </div>
-    </div>
-   } @else {
-    <div class="card mt-4 border border-3 shadow-lg">
-        <div class="card-header bg-primary text-white text-center">
-            <h5 class="mb-0">Confirmar Asistencia</h5>
-        </div>
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-hover table-striped mt-2 text-center">
-                    <thead class="table-light">
-                        <tr>
-                            <th hidden></th>
-                            <th>Fecha Reserva</th>
-                            <th>Hora Reserva</th>
-                            <th>Usuario Reserva</th>
-                            <th hidden> Id Reserva Actividad</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @for (confAsist of this.confirmarAsistenciaResponse ; track $index) {
-                        <tr>
-                            <td hidden>{{confAsist.idUsuario}}</td>
-                            <td>{{confAsist.fechaReserva | date:'dd-MM-yyyy'}}</td>
-                            <td>{{confAsist.horaInicio}} - {{confAsist.horaFin}}</td>
-                            <td>{{confAsist.nombreUsuario}} {{confAsist.apellidoUsuario}}</td>
-                            <td hidden>{{confAsist.idReservaActividad}}</td>
-                            <td>
-                                @if (this.isConfirmed(confAsist)) {
-                                <span class="badge bg-success rounded-pill">Confirmado</span>
-                                } @else {
-                                <button type="button" class="btn btn-outline-warning btn-sm rounded-pill"
-                                    (click)="saveUserConfirmation(confAsist)">
-                                    Confirmar
-                                </button>
-                                }
-                            </td>
-                        </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-    }
-</div>
 
 <div class="container my-4">
-    @if (this.confirmarAsistenciaResponse.length == 0) { 
+    @if (this.groupedData.length == 0) { 
         <div class="card mt-4 border border-3 shadow-lg">
             <div class="card-header bg-primary text-white text-center">
                 <h5 class="mb-0">Confirmar Asistencia</h5>
@@ -69,13 +12,13 @@
             </div>
         </div>
     } @else {
-        <!-- Agrupa actividades por fecha y deporte 
-        @for (group of this.groupedActivities) {-->
+        <!-- Agrupa actividades por fecha y deporte -->
+        @for (confAsist of this.groupedData ; track $index) {
             <div class="card mt-4 border border-3 shadow-lg">
                 <div class="card-header bg-primary text-white">
                     <div class="d-flex justify-content-between">
-                        <span>Deporte: Fútbol</span>
-                        <span>Fecha: 15-11-2024</span>
+                        <span>Deporte: {{confAsist.actividad}}</span>
+                        <span>Fecha: {{confAsist.fechaReserva | date:'dd-MM-yyyy'}}</span>
                     </div>
                 </div>
                 <div class="card-body">
@@ -89,22 +32,28 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <!--@for (confAsist of group.actividades; track $index) {-->
-                                    <tr>
-                                        <td>15:00 - 16:00</td>
-                                        <td>José Plasencia villarejo</td>
-                                        <td>
-                                           
-                                                <span class="badge bg-success rounded-pill">Confirmado</span>
-                                           
-                                        </td>
-                                    </tr>
-                                <!--}-->
+                                @for (usu of confAsist.usuarios; track $index) {
+                                <tr>
+                                    <td>{{usu.horaInicio}} - {{usu.horaFin}}</td>
+                                    <td>{{usu.nombreUsuario}} {{usu.apellidoUsuario}}</td>
+                                    <td>
+                                        @if (this.isConfirmed(usu)) {
+                                        <span class="badge bg-success rounded-pill">Confirmado</span>
+                                        } @else {
+                                        <button type="button" class="btn btn-outline-warning btn-sm rounded-pill"
+                                            (click)="saveUserConfirmation(usu)">
+                                            Confirmar
+                                        </button>
+                                        }
+                                    </td>
+                                </tr>
+                                }
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
         }
-    <!--}-->
+    }
 </div>
+
