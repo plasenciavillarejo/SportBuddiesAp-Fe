@@ -280,11 +280,11 @@ export class UsuariosComponent implements OnInit {
     Swal.fire({
       title: "¿Proceder con la reserva?",
       text: "Estás a punto de realizar una reserva. ¿Deseas continuar?",
-      icon: "warning",
+      icon: "info",
       showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Confirmar Reserva!",
+      confirmButtonColor: "#0d6efd", // Color primario (Bootstrap 'bg-primary')
+      cancelButtonColor: "#6c757d", // Color secundario (Bootstrap 'bg-secondary')
+      confirmButtonText: "Confirmar reserva",
       cancelButtonText: "Cancelar"
     }).then((result) => {
       if (result.isConfirmed) {
