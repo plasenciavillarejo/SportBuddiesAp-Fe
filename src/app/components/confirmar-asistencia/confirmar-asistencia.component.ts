@@ -8,6 +8,7 @@ import { CommonModule } from '@angular/common';
 import { ConfirmarAsistenciaRequest } from '../../models/confirmarAsistenciaRequest';
 import { UsuariosConfirmadosResponse } from '../../models/usuariosConfirmadosResponse';
 import { ConfirmarAsistenciaGroup } from '../../models/confirmarAsistenciaGroup';
+import { HoraConfirmarAsitenciaGroup } from '../../models/horaConfirmarAsitenciaGroup';
 
 @Component({
   selector: 'app-confirmar-asistencia',
@@ -63,40 +64,28 @@ export class ConfirmarAsistenciaComponent implements OnInit{
     this.confirmarAsistenciaService.listConfirmation(this.confirmarAsistenciaRequest).subscribe({
       next: (response) => {
         if(response != null) {
-          this.groupedData = Object.entries(response.listAsistencia).map(([key, usuarios]) => {
+          
+          this.groupedData = Object.entries(response.listAsistencia).map(([key, horasMap]) => {
             const [actividad, fecha] = key.split('|');
+            // Si no especificoel tipo de horasMap me dará un error.
+            const mapHorasUsuario = Object.entries(horasMap as Record<string, ConfirmarAsistenciaResponse[]>).map( ([hora, usuarios]) => ({
+              hora,
+              usuarios,
+            })) as HoraConfirmarAsitenciaGroup[];
             return {
               key,
               actividad,
               fechaReserva: new Date(fecha),
-              usuarios,
+              mapHorasUsuario,
             } as ConfirmarAsistenciaGroup;
           });
 
-          /*
-          this.groupedData.forEach(gr => {
-            this.rangeHour = gr.usuarios.reduce((acc: any, curr: any) => {
-              const horaKey = `${curr.horaInicio}-${curr.horaFin}`;
-              if (!acc[horaKey]) {
-                acc[horaKey] = {
-                  horaInicio: curr.horaInicio,
-                  horaFin: curr.horaFin,
-                  usuarios: [],
-                };
-              }
-              acc[horaKey].usuarios.push({
-                nombreUsuario: curr.nombreUsuario,
-                apellidoUsuario: curr.apellidoUsuario,
-              });
-              return acc;
-            }, {});
-          });
-          */
-
           this.groupedData.forEach(group => {
-            group.usuarios.forEach(usu => {
-              usu.horaInicio = usu.horaInicio.split(':').slice(0, 2).join(':');
-              usu.horaFin = usu.horaFin.split(':').slice(0, 2).join(':');
+            group.mapHorasUsuario.forEach(usu => {
+              usu.usuarios.forEach(usu => {
+                usu.horaInicio = usu.horaInicio.split(':').slice(0, 2).join(':');
+                usu.horaFin = usu.horaFin.split(':').slice(0, 2).join(':');  
+              })
             });
           });
 
@@ -158,5 +147,9 @@ export class ConfirmarAsistenciaComponent implements OnInit{
     ) ?? false;
   }
   
+
+  trackByFn(index: number, item: any): any {
+    return item.idUsuario; // Usa una propiedad única del objeto
+  }
 
 }

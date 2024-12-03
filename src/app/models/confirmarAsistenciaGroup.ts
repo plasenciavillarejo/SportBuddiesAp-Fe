@@ -1,4 +1,5 @@
 import { ConfirmarAsistenciaResponse } from "./confirmarAsistenciaResponse";
+import { HoraConfirmarAsitenciaGroup } from "./horaConfirmarAsitenciaGroup";
 
 export class ConfirmarAsistenciaGroup {
 
@@ -10,6 +11,6 @@ export class ConfirmarAsistenciaGroup {
     
     hora!: string;
     
-    usuarios!: ConfirmarAsistenciaResponse[];
+    mapHorasUsuario!: HoraConfirmarAsitenciaGroup[];
 
 }
