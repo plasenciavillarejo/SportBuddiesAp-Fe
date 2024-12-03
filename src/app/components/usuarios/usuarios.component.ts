@@ -278,12 +278,14 @@ export class UsuariosComponent implements OnInit {
       );
     }
     Swal.fire({
-      title: "¿Realizar Reserva?",
+      title: "¿Proceder con la reserva?",
+      text: "Estás a punto de realizar una reserva. ¿Deseas continuar?",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Sí!"
+      confirmButtonText: "Confirmar Reserva!",
+      cancelButtonText: "Cancelar"
     }).then((result) => {
       if (result.isConfirmed) {
         let deporte: string = '';

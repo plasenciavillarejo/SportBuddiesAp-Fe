@@ -101,21 +101,34 @@ export class ConfirmarAsistenciaComponent implements OnInit{
   }
 
   saveUserConfirmation(confirmarAsistenciaResponse: ConfirmarAsistenciaResponse) {
-    this.confirmarAsistenciaService.saveUserConfirm(confirmarAsistenciaResponse).subscribe({
-      next: (response) => {
-        Swal.fire(
-          'Usuario confirmado exitosamente',
-          'Se ha confirmado el usuario para la actividad seleccionada',
-          'success'
-        );
-        // Volvemos a cargar el listado para excluir el registro que acaba de confirmar
-        this.listLonUserConfirm(this.confirmarAsistenciaRequest.idUsuario);
-      }, error: (error) => {
-        Swal.fire(
-          'Error con la confirmación del usuario',
-          'Hubo un problema con la confirmación del usuario',
-          'error'
-        );
+    Swal.fire({
+      title: "Confirmación de asistencia",
+      text: "Está a punto de confirmar al usuario " + confirmarAsistenciaResponse.nombreUsuario + ". Esta acción es irreversible. ¿Desea continuar?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Confirmar Asistencia",
+      cancelButtonText: "Cancelar"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.confirmarAsistenciaService.saveUserConfirm(confirmarAsistenciaResponse).subscribe({
+          next: (response) => {
+            Swal.fire(
+              'Usuario confirmado exitosamente',
+              'Se ha confirmado el usuario para la actividad seleccionada',
+              'success'
+            );
+            // Volvemos a cargar el listado para excluir el registro que acaba de confirmar
+            this.listLonUserConfirm(this.confirmarAsistenciaRequest.idUsuario);
+          }, error: (error) => {
+            Swal.fire(
+              'Error con la confirmación del usuario',
+              'Hubo un problema con la confirmación del usuario',
+              'error'
+            );
+          }
+        });
       }
     });
   }
