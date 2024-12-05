@@ -10,11 +10,12 @@ import { UsuariosConfirmadosResponse } from '../../models/usuariosConfirmadosRes
 import { ConfirmarAsistenciaGroup } from '../../models/confirmarAsistenciaGroup';
 import { HoraConfirmarAsitenciaGroup } from '../../models/horaConfirmarAsitenciaGroup';
 import { ServicioCompartidoService } from '../../services/servicio-compartido.service';
+import { PaginadorComponent } from '../paginador/paginador.component';
 
 @Component({
   selector: 'app-confirmar-asistencia',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, PaginadorComponent],
   templateUrl: './confirmar-asistencia.component.html',
   styleUrl: './confirmar-asistencia.component.css'
 })
