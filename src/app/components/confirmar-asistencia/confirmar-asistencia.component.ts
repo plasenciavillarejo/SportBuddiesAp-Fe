@@ -9,6 +9,7 @@ import { ConfirmarAsistenciaRequest } from '../../models/confirmarAsistenciaRequ
 import { UsuariosConfirmadosResponse } from '../../models/usuariosConfirmadosResponse';
 import { ConfirmarAsistenciaGroup } from '../../models/confirmarAsistenciaGroup';
 import { HoraConfirmarAsitenciaGroup } from '../../models/horaConfirmarAsitenciaGroup';
+import { ServicioCompartidoService } from '../../services/servicio-compartido.service';
 
 @Component({
   selector: 'app-confirmar-asistencia',
@@ -30,7 +31,8 @@ export class ConfirmarAsistenciaComponent implements OnInit{
   listIdsConfirm: any[] = [];
 
   constructor(private activatedRoute: ActivatedRoute,
-    private confirmarAsistenciaService: ConfirmarAsistenciaService
+    private confirmarAsistenciaService: ConfirmarAsistenciaService,
+    private servicioCompartido: ServicioCompartidoService
   ) {
 
   }
@@ -55,7 +57,7 @@ export class ConfirmarAsistenciaComponent implements OnInit{
     this.confirmarAsistenciaRequest.idUsuario = idUsuario;
     if(this.initial) {
       this.confirmarAsistenciaRequest.caracteristicasPaginacion.pagina = 1;
-      this.confirmarAsistenciaRequest.caracteristicasPaginacion.tamanioPagina = 5;
+      this.confirmarAsistenciaRequest.caracteristicasPaginacion.tamanioPagina = 10;
       this.confirmarAsistenciaRequest.caracteristicasPaginacion.campoOrden = 'hora_inicio_reserva';
       this.confirmarAsistenciaRequest.caracteristicasPaginacion.orden = 1;  
     } else {  
@@ -160,9 +162,40 @@ export class ConfirmarAsistenciaComponent implements OnInit{
     ) ?? false;
   }
   
-
+  /**
+   * Opticimización for each
+   * @param index 
+   * @param item 
+   * @returns 
+   */
   trackByFn(index: number, item: any): any {
-    return item.idUsuario; // Usa una propiedad única del objeto
+    return item.idUsuario; 
+  }
+
+  /**
+   * Función encargada de generar el paginador
+   * @returns 
+   */
+  getPageRange(): number[] {
+    let inicio = Math.max(1, this.paginador.paginaActual - Math.floor(this.paginador.tamanioPagina / 2));
+    let fin = Math.min(this.paginador.paginas, inicio + this.paginador.tamanioPagina -1);  
+    const rango = [];
+    if (this.paginador.tamanioPagina > 0) {
+      for (let i = inicio; i <= fin; i++) {
+        rango.push(i);
+      }
+  }
+    return rango;
+  }
+
+  /**
+   * Función encargada de obtener la pagina al que se ha pulsado para cargar de nuevo el listado de las actividades
+   * @param pagina 
+   */
+  cambiarPagina(pagina: number): void {
+    this.paginador.paginaActual = pagina;
+    this.initial = false;
+    this.loadActivityConfirmation(this.confirmarAsistenciaRequest.idUsuario);
   }
 
 }

@@ -2,7 +2,8 @@
   <div class="accordion" id="accordionExample">
     <div class="accordion-item">
       <h2 class="accordion-header">
-        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
+          aria-expanded="true" aria-controls="collapseOne">
           Crear Actividad
         </button>
       </h2>
@@ -26,74 +27,77 @@
                           <span class="input-group-text bg-light icon-border">
                             <i class="bi bi-calendar"></i>
                           </span>
-                          <input type="date" class="form-control" id="fechaReserva" required  formControlName="fechaReserva" name="fechaReserva">
+                          <input type="date" class="form-control" id="fechaReserva" required
+                            formControlName="fechaReserva" name="fechaReserva">
                           @if(((this.validateForm.get('fechaReserva')?.invalid &&
-                            this.validateForm.get('fechaReserva')?.touched) || formSubmit) &&
-                            (!this.validateForm.get('fechaReserva')?.value?.trim())) {
-                            <div class="text-danger mt-1">
-                                La fecha reserva no puede estar vacío o contener solo espacios en blanco.
-                            </div>
-                            }
+                          this.validateForm.get('fechaReserva')?.touched) || formSubmit) &&
+                          (!this.validateForm.get('fechaReserva')?.value?.trim())) {
+                          <div class="text-danger mt-1">
+                            La fecha reserva no puede estar vacío o contener solo espacios en blanco.
+                          </div>
+                          }
                         </div>
                       </div>
-                      
+
                       <div class="col-md-3">
                         <label for="horaInicio" class="form-label">Hora de Inicio</label>
                         <div class="input-group">
                           <span class="input-group-text bg-light icon-border">
                             <i class="bi bi-clock"></i>
                           </span>
-                          <input type="time" class="form-control" id="horaInicio" required formControlName="horaInicio" name="horaInicio">
+                          <input type="time" class="form-control" id="horaInicio" required formControlName="horaInicio"
+                            name="horaInicio">
                           @if(((this.validateForm.get('horaInicio')?.invalid &&
-                            this.validateForm.get('horaInicio')?.touched) || formSubmit) &&
-                            (!this.validateForm.get('horaInicio')?.value?.trim())) {
-                            <div class="text-danger mt-1">
-                              La hora inicio no puede estar vacia.
-                            </div>
-                            }
+                          this.validateForm.get('horaInicio')?.touched) || formSubmit) &&
+                          (!this.validateForm.get('horaInicio')?.value?.trim())) {
+                          <div class="text-danger mt-1">
+                            La hora inicio no puede estar vacia.
+                          </div>
+                          }
                         </div>
                       </div>
-        
+
                       <div class="col-md-3">
                         <label for="horaFin" class="form-label">Hora de Fin</label>
                         <div class="input-group">
                           <span class="input-group-text bg-light icon-border">
                             <i class="bi bi-clock"></i>
                           </span>
-                          <input type="time" class="form-control" id="horaFin" required formControlName="horaFin" name="horaFin">
+                          <input type="time" class="form-control" id="horaFin" required formControlName="horaFin"
+                            name="horaFin">
                           @if(((this.validateForm.get('horaFin')?.invalid &&
-                            this.validateForm.get('horaFin')?.touched) || formSubmit) &&
-                            (!this.validateForm.get('horaFin')?.value?.trim())) {
-                            <div class="text-danger mt-1">
-                              La Hora fin no puede estar vacia.
-                            </div>
-                            }
+                          this.validateForm.get('horaFin')?.touched) || formSubmit) &&
+                          (!this.validateForm.get('horaFin')?.value?.trim())) {
+                          <div class="text-danger mt-1">
+                            La Hora fin no puede estar vacia.
+                          </div>
+                          }
                         </div>
                       </div>
                     </div>
-        
+
                     <div class="row mb-3">
                       <div class="col-9 mt-2">
                         <label for="requerimientos" class="form-label">Requerimientos</label>
-        
+
                         <!-- Div principal que contiene el primer input y el botón -->
                         <div id="requerimientos">
                           <div class="d-flex align-items-center">
                             <!-- Primer input con botón alineado a la derecha -->
                             <input type="text" class="form-control me-2 w-100" required formControlName="requerimientos"
-                              (blur)="updateRequerimientos(0, this.validateForm.get('requerimientos')?.value)" name="requerimientos" />
+                              (blur)="updateRequerimientos(0, this.validateForm.get('requerimientos')?.value)"
+                              name="requerimientos" />
                             <!-- Botón alineado con el primer input -->
                             <button type="button" class="btn btn-primary ms-2" (click)="nuevoRequerimientos()">
                               <i class="bi bi-plus-lg"></i>
                             </button>
                           </div>
                         </div>
-        
+
                         <!-- Inputs adicionales que se muestran uno debajo del otro -->
                         @for (i of requerimientos.slice(1); track $index) {
                         <div class="mt-2 d-flex align-items-center">
-                          <input type="text" class="form-control" 
-                            (blur)="changeInputRequired($index + 1, $event)"
+                          <input type="text" class="form-control" (blur)="changeInputRequired($index + 1, $event)"
                             name="requerimientosInput{{i + 1}}" />
                           <button type="button" class="btn btn-primary ms-2" (click)="removeInput($index + 1)">
                             <i class="bi bi-x-circle"></i>
@@ -102,11 +106,12 @@
                         }
                       </div>
                     </div>
-        
+
                     <div class="row mb-3">
                       <div class="col-md-3">
                         <label for="actividad" class="form-label">Actividad</label>
-                        <select class="form-select" id="actividad" required formControlName="actividad" name="actividad" (change)="checkActivity($event)">
+                        <select class="form-select" id="actividad" required formControlName="actividad" name="actividad"
+                          (change)="checkActivity($event)">
                           <option disabled selected>Seleccione una Actividad</option>
                           @for (deporte of listaDeportes; track $index) {
                           <option id="{{deporte.idDeporte}}" [value]="deporte.actividad">
@@ -115,30 +120,30 @@
                           }
                         </select>
                         @if(((this.validateForm.get('actividad')?.invalid &&
-                            this.validateForm.get('actividad')?.touched) || formSubmit) &&
-                            (!this.validateForm.get('actividad')?.value?.trim())) {
-                            <div class="text-danger mt-1">
-                              Seleccione una actividad.
-                            </div>
-                          }
+                        this.validateForm.get('actividad')?.touched) || formSubmit) &&
+                        (!this.validateForm.get('actividad')?.value?.trim())) {
+                        <div class="text-danger mt-1">
+                          Seleccione una actividad.
+                        </div>
+                        }
                       </div>
-        
+
                       <div class="col-md-3">
                         <label for="usuariosMaxRequeridos" class="form-label">Usuarios Maximos Requeridos</label>
-                        <input type="number" min="1" maxLength="2" class="form-control" id="usuariosMaxRequeridos" required
-                        formControlName="usuariosMaxRequeridos" name="usuariosMaxRequeridos">
+                        <input type="number" min="1" maxLength="2" class="form-control" id="usuariosMaxRequeridos"
+                          required formControlName="usuariosMaxRequeridos" name="usuariosMaxRequeridos">
                         @if(validateForm.get('usuariosMaxRequeridos')?.errors?.['whitespaceNumeric']
-                         && (validateForm.get('usuariosMaxRequeridos')?.touched || formSubmit)) {
+                        && (validateForm.get('usuariosMaxRequeridos')?.touched || formSubmit)) {
                         <div class="text-danger mt-1">
                           Indique un minimo de usuarios.
                         </div>
                         }
                       </div>
-                   
+
                       <div class="col-md-3">
                         <label for="provincia" class="form-label">Provincia:</label>
-                        <select class="form-select" id="provincia" required formControlName="provincia"
-                           name="provincia" (change)="loadMunicipaliti($event)">
+                        <select class="form-select" id="provincia" required formControlName="provincia" name="provincia"
+                          (change)="loadMunicipaliti($event)">
                           <option value="" disabled selected>Seleccione una Provincia</option>
                           @for (provincia of listaProvincias; track $index) {
                           <option [value]="provincia">{{provincia}}</option>
@@ -152,10 +157,11 @@
                         </div>
                         }
                       </div>
-           
+
                       <div class="col-md-3">
                         <label for="municipio" class="form-label">Municipio:</label>
-                        <select class="form-select" id="municipio" required formControlName="municipio" name="municipio">
+                        <select class="form-select" id="municipio" required formControlName="municipio"
+                          name="municipio">
                           <option value="" disabled selected>Seleccione un Municipio</option>
                           @for (municipio of listaMunicipos; track $index) {
                           <option [value]="municipio">{{municipio}}</option>
@@ -169,33 +175,35 @@
                         </div>
                         }
                       </div>
-                      
+
                     </div>
-        
+
                     <div class="row mb-3">
-                      
+
                       <div class="col-md-2">
                         <label for="codigoPostal" class="form-label">Codigo Postal:</label>
-                        <input type="text" maxlength="5" (input)="validarCodigoPostal($event)"
-                          class="form-control" id="codigoPostal" required formControlName="codigoPostal" name="codigoPostal">
-                          @if((validateForm.get('codigoPostal')?.errors?.['whitespaceNumeric'] && 
-                          (validateForm.get('codigoPostal')?.touched || formSubmit))) {                
+                        <input type="text" maxlength="5" (input)="validarCodigoPostal($event)" class="form-control"
+                          id="codigoPostal" required formControlName="codigoPostal" name="codigoPostal">
+                        @if((validateForm.get('codigoPostal')?.errors?.['whitespaceNumeric'] &&
+                        (validateForm.get('codigoPostal')?.touched || formSubmit))) {
                         <div class="text-danger mt-1">
                           El codigo postal no puede estar vacio.
                         </div>
                         }
                       </div>
-        
+
                       <div class="col-md-3">
                         <label for="direccion" class="form-label">Dirección:</label>
-                        <input type="text" class="form-control" id="direccion" required formControlName="direccion" name="direccion">
-                        @if(validateForm.get('direccion')?.errors?.['whitespace'] && ((validateForm.get('direccion')?.touched) || formSubmit)) {
+                        <input type="text" class="form-control" id="direccion" required formControlName="direccion"
+                          name="direccion">
+                        @if(validateForm.get('direccion')?.errors?.['whitespace'] &&
+                        ((validateForm.get('direccion')?.touched) || formSubmit)) {
                         <div class="text-danger mt-1">
                           Indique una dirección de la actividad.
                         </div>
                         }
                       </div>
-        
+
                       <div class="col-md-3">
                         <label for="urgencia" class="form-label">Urgencia:</label>
                         <select class="form-select" id="urgencia" required formControlName="urgencia" name="urgencia">
@@ -212,13 +220,13 @@
                         </div>
                         }
                       </div>
-        
+
                       <div class="col-md-2">
                         <label for="abonoPista" class="form-label">Abono Pista:</label>
                         <div class="input-group">
                           <span class="input-group-text icon-border">€</span>
-                          <input type="text" (input)="validarDecimales($event)" class="form-control"
-                            id="abonoPista" required formControlName="abonoPista" name="abonoPista">
+                          <input type="text" (input)="validarDecimales($event)" class="form-control" id="abonoPista"
+                            required formControlName="abonoPista" name="abonoPista">
                         </div>
                         @if(((validateForm.get('abonoPista')?.errors?.['whitespaceNumeric']
                         || validateForm.get('abonoPista')?.errors?.['decimalValidator'])
@@ -234,15 +242,16 @@
                 </div>
               </div>
             </div>
-          </div>        
+          </div>
         </div>
       </div>
     </div>
-  
+
     <!--Acordeon para listar todas las actividades referentes al usuario-->
     <div class="accordion-item mb-6 mt-2">
       <h2 class="accordion-header">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo"
+          aria-expanded="false" aria-controls="collapseTwo">
           Listar Actividades Creadas
         </button>
       </h2>
@@ -275,7 +284,7 @@
                     <ul class="list-unstyled mb-0">
                       <!-- Iteración de requerimientos dentro de la reserva -->
                       @for (requi of reserva.requerimientos; track $index) {
-                        <li class="text-muted small">{{requi}}</li>
+                      <li class="text-muted small">{{requi}}</li>
                       }
                     </ul>
                   </td>
@@ -284,7 +293,8 @@
                   <td class="py-3">{{reserva.provincia}}</td>
                   <td class="py-3">{{reserva.municipio}}</td>
                   <td class="py-3">
-                    <span class="badge rounded-pill text-bg-{{ reserva.urgencia == 'Alta' ? 'danger' : reserva.urgencia == 'Media' ? 'warning' : 'success' }}">
+                    <span
+                      class="badge rounded-pill text-bg-{{ reserva.urgencia == 'Alta' ? 'danger' : reserva.urgencia == 'Media' ? 'warning' : 'success' }}">
                       {{reserva.urgencia}}
                     </span>
                   </td>
@@ -293,42 +303,15 @@
                 }
               </tbody>
             </table>
-            <div class="d-flex justify-content-center">
-              <nav aria-label="Page navigation example">
-                  <ul class="pagination">
-          
-                      <li class="{{ !this.paginador.inicio ? 'page-item' : 'page-item disabled' }}">
-                          <button class="page-link"
-                              (click)="cambiarPagina(1); $event.preventDefault()"
-                              aria-label="Previous">
-                              <span aria-hidden="true">&laquo;</span>
-                          </button>
-                      </li>
-          
-                      @for (item of this.getPageRange(); track $index) {
-                          <li class="{{ item === this.paginador.paginaActual ? 'page-item disabled' :'page-item' }}">
-                              <button class="page-link"
-                                (click)="cambiarPagina(item); $event.preventDefault()">
-                                {{item}}
-                              </button>
-                            </li>
-                      }
-                      <li class="{{ !this.paginador.fin ? 'page-item' : 'page-item disabled' }}">
-                          <button class="page-link"
-                              (click)="cambiarPagina(this.paginador.paginas); $event.preventDefault()" aria-label="Next">
-                              <span aria-hidden="true">&raquo;</span>
-                          </button>
-                      </li>
-                  </ul>
-              </nav>
-          </div>
-            
+            <!-- Paginador -->
+            <app-paginador [inicio]="this.paginador.inicio" [fin]="this.paginador.fin"
+              [paginaActual]="this.paginador.paginaActual" [totalPaginas]="this.paginador.paginas"
+              [numeroRegistros]="this.paginador.registros"
+              [tamanioPagina]="this.paginador.tamanioPagina"></app-paginador>
           </div>
         </div>
-      </div>      
+      </div>
     </div>
-  
+
   </div>
 </div>
-
-

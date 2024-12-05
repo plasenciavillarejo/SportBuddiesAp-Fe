@@ -131,6 +131,11 @@ export class UsuariosComponent implements OnInit {
       }
     });
 
+    // Evento encargado de obtener la pagina que se ha pulsado para cambiar el paginador
+    this.servicioCompartido.numberPageEventEmitter.subscribe((pagina: number) => {
+        this.paginador.paginaActual = pagina;
+        this.consultListReservations(false);
+    });
   }
 
   /**
@@ -212,8 +217,6 @@ export class UsuariosComponent implements OnInit {
             res.horaInicio = res.horaInicio.split(':').slice(0, 2).join(':');
             res.horaFin = res.horaFin.split(':').slice(0, 2).join(':');
           });
-          // Obtenemos el rango de botones
-          this.getPageRange();
         } else {
           this.formularioActividadResponse = [];
           Swal.fire(
@@ -343,31 +346,10 @@ export class UsuariosComponent implements OnInit {
     return this.tokenService.isAuthenticate();
   }
 
-  getPageRange(): number[] {
-    let inicio = Math.max(1, this.paginador.paginaActual - Math.floor(this.paginador.tamanioPagina / 2));
-    let fin = Math.min(this.paginador.paginas, inicio + this.paginador.tamanioPagina -1);
-    
-    // Ajustar el inicio si el fin se extiende más allá del total de páginas    
-    /*if (fin - inicio + 1 < this.paginador.paginaActual && inicio > 1) {
-      inicio = Math.max(1, fin - this.paginador.paginaActual + 1);
-    }*/
-    const rango = [];
-    if (this.paginador.tamanioPagina > 0) {
-      for (let i = inicio; i <= fin; i++) {
-        rango.push(i);
-      }
-  }
-    return rango;
-  }
-
   /**
-   * Función encargada de obtener la pagina al que se ha pulsado para cargar de nuevo el listado de las actividades
-   * @param pagina 
+   * Función encargada de actualizar las caractarísticas de la paginación.
    */
-  cambiarPagina(pagina: number): void {
-    this.paginador.paginaActual = pagina;
-    // Emitimos el cambio de la pagina para que lo detecte el componente padre, en este caso, usuarios.components.html
-    this.servicioCompartido.cambiarPagina(pagina);
+  updatePagination() {
     this.consultListReservations(false);
   }
 

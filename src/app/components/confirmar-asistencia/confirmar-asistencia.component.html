@@ -63,6 +63,35 @@
                 </div>
             </div> <!-- Cierre del div col-md-4 -->
             }
+            <div class="d-flex justify-content-center mt-3">
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination">
+            
+                        <li class="{{ !this.paginador.inicio ? 'page-item' : 'page-item disabled' }}">
+                            <button class="page-link"
+                                (click)="cambiarPagina(1); $event.preventDefault()"
+                                aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </button>
+                        </li>
+            
+                        @for (item of this.getPageRange(); track $index) {
+                            <li class="{{ item === this.paginador.paginaActual ? 'page-item disabled' :'page-item' }}">
+                                <button class="page-link"
+                                  (click)="cambiarPagina(item); $event.preventDefault()">
+                                  {{item}}
+                                </button>
+                              </li>
+                        }
+                        <li class="{{ !this.paginador.fin ? 'page-item' : 'page-item disabled' }}">
+                            <button class="page-link"
+                                (click)="cambiarPagina(this.paginador.paginas); $event.preventDefault()" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </button>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
         </div> <!-- Cierre del div row -->
     }
 </div>
