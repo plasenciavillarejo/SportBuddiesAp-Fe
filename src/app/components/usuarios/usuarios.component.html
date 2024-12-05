@@ -106,12 +106,13 @@
 
     @if (formularioActividadResponse.length != 0 ){
 
-    <div class="d-flex justify-content-between align-items-center mb-3">
+    <!-- flex-wrap: Permite que los elementos se ajusten automáticamente en pantallas pequeñas, mejorando de está forma en dispositivos móviles. -->
+    <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
         <!-- Tamaño de página -->
-        <div class="col-md-2">
-            <label for="tamanioPagina" class="form-label me-2">Tamaño Página:</label>
-            <select id="tamanioPagina" class="form-select" class="col-md-3"
-                [(ngModel)]="this.busquedadActividadRequest.caracteristicasPaginacion.tamanioPagina"
+        <div class="col-md-1 mb-2">
+            <label for="tamanioPagina" class="form-label text-primary fw-bold">Tamaño Página:</label>
+            <select id="tamanioPagina" class="form-select form-select-sm"
+                [(ngModel)]="busquedadActividadRequest.caracteristicasPaginacion.tamanioPagina"
                 (change)="updatePagination()">
                 <option [value]="5">5</option>
                 <option [value]="10">10</option>
@@ -121,10 +122,10 @@
         </div>
 
         <!-- Ordenamiento -->
-        <div class="col-md-3">
-            <label for="campoOrden" class="form-label me-2">Ordenar por:</label>
-            <select id="campoOrden" class="form-select d-inline-block" class="col-md-5"
-                [(ngModel)]="this.busquedadActividadRequest.caracteristicasPaginacion.campoOrden"
+        <div class="col-md-2 mb-2">
+            <label for="campoOrden" class="form-label text-primary fw-bold">Ordenar por:</label>
+            <select id="campoOrden" class="form-select form-select-sm"
+                [(ngModel)]="busquedadActividadRequest.caracteristicasPaginacion.campoOrden"
                 (change)="updatePagination()">
                 <option value="horaInicio">Hora Inicio</option>
                 <option value="abonoPista">Precio Pista</option>
@@ -133,16 +134,16 @@
         </div>
 
         <!-- Ascendente/Descendente -->
-        <div class="col-md-3">
-            <label for="orden" class="form-label me-2">Orden:</label>
-            <select id="orden" class="form-select d-inline-block" class="col-md-5"
-                [(ngModel)]="this.busquedadActividadRequest.caracteristicasPaginacion.orden"
-                (change)="updatePagination()">
+        <div class="col-md-2 mb-2">
+            <label for="orden" class="form-label text-primary fw-bold">Orden:</label>
+            <select id="orden" class="form-select form-select-sm"
+                [(ngModel)]="busquedadActividadRequest.caracteristicasPaginacion.orden" (change)="updatePagination()">
                 <option [value]="1">Ascendente</option>
                 <option [value]="0">Descendente</option>
             </select>
         </div>
     </div>
+
 
     <table class="table table-hover mt-2 text-center border border-3 shadow-lg">
         <thead class="table-info">
