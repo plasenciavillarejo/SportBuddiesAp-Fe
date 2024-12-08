@@ -66,11 +66,11 @@
       <img src="images/sportbuddies-logo.png" alt="SportBuddies Logo" height="30" class="d-inline-block align-text-top">
     </a> -->
     <a class="navbar-brand text-white" href="#">SportBuddies</a>
-    <!-- Toggler for mobile -->
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    
+    <!-- Nueva Implementación 
+    <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#staticBackdrop" aria-controls="staticBackdrop">
+      Más Acciones
+    </button>-->
+
     <!-- Links de los Navbar -->
     <div class="collapse navbar-collapse justify-content-between" id="navbarNavDropdown">
       <ul class="navbar-nav">
@@ -105,3 +105,15 @@
     </div>
   </div>
 </nav>
+
+<div class="offcanvas offcanvas-start" data-bs-backdrop="static" tabindex="-1" id="staticBackdrop" aria-labelledby="staticBackdropLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="staticBackdropLabel">Offcanvas</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <div>
+      <a class="nav-link text-primary" [routerLink]="['/nueva-actividad']">Actividades</a>
+    </div>
+  </div>
+</div>
