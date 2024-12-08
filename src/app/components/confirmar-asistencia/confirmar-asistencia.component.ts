@@ -60,7 +60,7 @@ export class ConfirmarAsistenciaComponent implements OnInit{
     this.confirmarAsistenciaRequest.idUsuario = idUsuario;
     if(this.initial) {
       this.confirmarAsistenciaRequest.caracteristicasPaginacion.pagina = 1;
-      this.confirmarAsistenciaRequest.caracteristicasPaginacion.tamanioPagina = 10;
+      this.confirmarAsistenciaRequest.caracteristicasPaginacion.tamanioPagina = 20;
       this.confirmarAsistenciaRequest.caracteristicasPaginacion.campoOrden = 'hora_inicio_reserva';
       this.confirmarAsistenciaRequest.caracteristicasPaginacion.orden = 1;  
     } else {  

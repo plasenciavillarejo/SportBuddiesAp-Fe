@@ -9,3 +9,8 @@
         width: 25% !important;  /* Ajusta el ancho al 25% en dispositivos grandes */
     }
 }
+
+.table-hover tbody tr:hover td, .table-hover tbody tr:hover th {  
+    background-color: hsl(210, 77%, 87%) !important; /* Cambia a tu color deseado */
+  }
+

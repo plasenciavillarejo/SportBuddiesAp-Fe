@@ -1,145 +1,77 @@
 <div class="container my-4">
     @if (this.groupedData.length == 0) {
-        <div class="card mt-4 border border-3 shadow-lg">
-            <div class="card-header bg-primary text-white text-center">
-                <h5 class="mb-0">Confirmar Asistencia</h5>
-            </div>
-            <div class="card-body">
-                <div class="alert alert-info text-center">
-                    <span>No contiene ninguna actividad creada para confirmar sus participantes</span>
-                </div>
+    <div class="card mt-4 border border-3 shadow-lg">
+        <div class="card-header bg-primary text-white text-center">
+            <h5 class="mb-0">Confirmar Asistencia</h5>
+        </div>
+        <div class="card-body">
+            <div class="alert alert-info text-center">
+                <span>No contiene ninguna actividad creada para confirmar sus participantes</span>
             </div>
         </div>
+    </div>
     } @else {
-        <!-- <div class="row justify-content-center"> Agregada clase justify-content-center 
-            @for (confAsist of groupedData; track $index) {
-            <div class="col-md-4 col-sm-6 col-12 mt-4">
-                <div class="card border border-3 shadow-lg">
-                    <div class="card-header bg-primary text-white">
-                        <div class="d-flex justify-content-between">
-                            <span>Deporte: {{confAsist.actividad}}</span>
-                            <span>Fecha: {{confAsist.fechaReserva | date:'dd-MM-yyyy'}}</span>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            @for (map of confAsist.mapHorasUsuario; track $index) {
-                            <table class="table table-hover table-striped text-center">
-                                <thead class="table-light">
-                                    <tr>
-                                        <th>Hora</th>
-                                        <th>Usuario</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @for (usu of map.usuarios; track $index) {
-                                    <tr>
-                                        @if ($index === 0) {
-                                        <td [attr.rowspan]="map.usuarios.length">
-                                            <div class="centered-content">
-                                                {{ map.hora }}
-                                            </div>
-                                        </td>
-                                        }
-                                        <td>{{usu.nombreUsuario}} {{usu.apellidoUsuario}}</td>
-                                        <td>
-                                            @if (this.isConfirmed(usu)) {
-                                            <span class="badge bg-success rounded-pill">Confirmado</span>
-                                            } @else {
-                                            <button type="button" class="btn btn-outline-warning btn-sm rounded-pill"
-                                                (click)="saveUserConfirmation(usu)">
-                                                Confirmar
-                                            </button>
-                                            }
-                                        </td>
-                                    </tr>
-                                    }
-                                </tbody>
-                            </table>
-                            }
-                        </div>
-                    </div>
-                </div>
-            </div>
-            }        
-    
-Paginador -->
-        <!--</div>  Cierre del div row -->
-
-          <ul class="nav nav-tabs" role="tablist">
-            <!-- Tabs de las agrupaciones -->
-            @for (confAsist of groupedData; track $index) {
-            <li class="nav-item">
-              <a
-                class="nav-link border border-1 rounded mx-1"
-                [ngClass]="{
+    <ul class="nav nav-tabs" role="tablist">
+        <!-- Tabs de las agrupaciones -->
+        @for (confAsist of groupedData; track $index) {
+        <li class="nav-item">
+            <!-- Border redondo con grosor de 1 -->
+            <a class="nav-link border border-1 rounded mx-1" [ngClass]="{
                     'bg-primary text-white': $index === activeTab,
                     'bg-light text-primary': $index !== activeTab
-                  }"
-                [class.active]="$index === activeTab"
-                (click)="setActiveTab($index); $event.preventDefault()"
-                href="#"
-                role="tab"
-              >
+                  }" [class.active]="$index === activeTab" (click)="setActiveTab($index); $event.preventDefault()"
+                href="#" role="tab">
                 {{ confAsist.actividad }} - {{ confAsist.fechaReserva | date: 'dd-MM-yyyy' }}
-              </a>
-            </li>
-            }
-          </ul>
-          
-          <div class="tab-content mt-4 mb-5">
-            <!-- Contenido de cada tab -->
-            @for (confAsist of groupedData; track $index) {
-            <div
-              [class.active]="$index === activeTab"
-              class="tab-pane fade"
-              [class.show]="$index === activeTab"
-            >
-              <div class="row table-responsive">
+            </a>
+        </li>
+        }
+    </ul>
+
+    <div class="tab-content mt-4 mb-5">
+        <!-- Contenido de cada tab -->
+        @for (confAsist of groupedData; track $index) {
+        <div [class.active]="$index === activeTab" class="tab-pane fade" [class.show]="$index === activeTab">
+            <div class="row table-responsive">
                 @for (map of confAsist.mapHorasUsuario; track $index) {
-                <table class="table mt-2 text-center border border-3 mb-4 shadow" >
-                  <thead >
-                    <tr>
-                      <th class="bg-primary text-white border col-2" >Hora</th>
-                      <th class="bg-primary text-white border col-8" >Usuario</th>
-                      <th class="bg-primary text-white border col-2" >Estado</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    @for (usu of map.usuarios; track $index) {
-                    <tr>
-                      @if ($index === 0) {
-                      <td [attr.rowspan]="map.usuarios.length" class="align-middle border">
-                        {{ map.hora }}
-                      </td>
-                      }
-                      <td>{{ usu.nombreUsuario }} {{ usu.apellidoUsuario }}</td>
-                      <td>
-                        @if (isConfirmed(usu)) {
-                            <span class="badge bg-success rounded-pill">Confirmado</span>
-                        } @else {
-                        <button
-                          type="button"
-                          class="btn btn-outline-warning btn-sm rounded-pill"
-                          (click)="saveUserConfirmation(usu)"
-                        >
-                        <span>Confirmar</span>
-                        </button>
+                <table class="table mt-2 text-center border border-3 mb-4 shadow">
+                    <thead>
+                        <tr>
+                            <th class="bg-primary text-white border col-2">Hora</th>
+                            <th class="bg-primary text-white border col-8">Usuario</th>
+                            <th class="bg-primary text-white border col-2">Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (usu of map.usuarios; track $index) {
+                        <tr>
+                            @if ($index === 0) {
+                            <td [attr.rowspan]="map.usuarios.length" class="align-middle border">
+                                {{ map.hora }}
+                            </td>
+                            }
+                            <td>{{ usu.nombreUsuario }} {{ usu.apellidoUsuario }}</td>
+                            <td>
+                                @if (isConfirmed(usu)) {
+                                <span class="badge bg-success rounded-pill">Confirmado</span>
+                                } @else {
+                                <button type="button" class="btn btn-outline-warning btn-sm rounded-pill"
+                                    (click)="saveUserConfirmation(usu)">
+                                    <span>Confirmar</span>
+                                </button>
+                                }
+                            </td>
+                        </tr>
                         }
-                      </td>
-                    </tr>
-                    }
-                  </tbody>
+                    </tbody>
                 </table>
                 }
-              </div>
             </div>
-            }
-          </div>
-          
+        </div>
+        }
+    </div>
 
-                    <!-- Paginador 
+
+    <!-- Paginador 
     <app-paginador [inicio]="this.paginador.inicio" [fin]="this.paginador.fin"
     [paginaActual]="this.paginador.paginaActual" [totalPaginas]="this.paginador.paginas"
     [numeroRegistros]="this.paginador.registros" [tamanioPagina]="this.paginador.tamanioPagina"></app-paginador>-->

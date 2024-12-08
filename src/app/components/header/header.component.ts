@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { environment } from '../../../environments/environment';
 import { HttpParams } from '@angular/common/http';
 import { TokenService } from '../../services/token.service';
@@ -43,11 +43,12 @@ export class HeaderComponent implements OnInit {
   constructor(private tokenService: TokenService,
     private servicioCompartido: ServicioCompartidoService,
     private authService : AuthService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private router: Router
     ) {}
 
   ngOnInit(): void {
-    this.initSesionEmit();    
+    this.initSesionEmit();
   }
 
   /* Al utilizar la API Web Crypto al ser asíncrono tenemos que convertir el login de forma asíncrona, de lo contrario cuando se intente 

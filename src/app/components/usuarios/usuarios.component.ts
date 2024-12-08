@@ -53,6 +53,8 @@ export class UsuariosComponent implements OnInit {
 
   paginador: Paginador = new Paginador();
 
+  paginaInicio: boolean = false;
+
   constructor(private usuarioService: UsuarioService,
     private tokenService: TokenService,
     private paypalService: PaypalService,
@@ -62,6 +64,7 @@ export class UsuariosComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.paginaInicio = true;
     this.loadComboInitial();
 
     // Activa los ToolTips

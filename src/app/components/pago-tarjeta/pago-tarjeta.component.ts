@@ -34,6 +34,9 @@ export class PagoTarjetaComponent implements OnInit {
   nombreActividad!: string;
   precioActividad!: number;
   pagoTarjeta: boolean = false;
+  nombreTitular: string = '';
+  cargando: boolean = false;
+  mensaje: string = '';
 
   constructor(private activatedRoute: ActivatedRoute,
     private pagoTarjetaService: PagoTarjetaService,
@@ -58,10 +61,6 @@ export class PagoTarjetaComponent implements OnInit {
       });
   }
 
-  nombreTitular: string = '';
-  cargando: boolean = false;
-  mensaje: string = '';
-
   /**
    * Función encargada de realizar el pago
    * @param pagoTarjetaRequest
@@ -72,7 +71,6 @@ export class PagoTarjetaComponent implements OnInit {
       console.error('Stripe has not been initialized');
       return;
     }
-
     // Obtenemos los datos del usuario necesario para rellenar los detalles de la tarjeta
     this.usuarioService.obtainUserDto(this.tokenService.obtainIdUser()).subscribe({
       next: (response) => {
