@@ -72,7 +72,11 @@ Paginador -->
             @for (confAsist of groupedData; track $index) {
             <li class="nav-item">
               <a
-                class="nav-link"
+                class="nav-link border border-1 rounded mx-1"
+                [ngClass]="{
+                    'bg-primary text-white': $index === activeTab,
+                    'bg-light text-primary': $index !== activeTab
+                  }"
                 [class.active]="$index === activeTab"
                 (click)="setActiveTab($index); $event.preventDefault()"
                 href="#"
