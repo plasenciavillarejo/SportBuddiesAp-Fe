@@ -31,11 +31,17 @@ export class ConfirmarAsistenciaComponent implements OnInit{
 
   listIdsConfirm: any[] = [];
 
+  // Índice de la pestaña activa
+  activeTab = 0;
+
+  tabs = [];
+
+  dayMapHour = new Map<Date, String>();
+
   constructor(private activatedRoute: ActivatedRoute,
     private confirmarAsistenciaService: ConfirmarAsistenciaService,
     private servicioCompartido: ServicioCompartidoService
   ) {
-
   }
 
   ngOnInit(): void {
@@ -45,10 +51,6 @@ export class ConfirmarAsistenciaComponent implements OnInit{
       this.listLonUserConfirm(params['idUsuario']);
     });
   }
-
-
-  dayMapHour = new Map<Date, String>();
-
 
   /**
    * Función encargada de devolver todas las actividades de un usuario para proceder a su confirmación
@@ -67,10 +69,9 @@ export class ConfirmarAsistenciaComponent implements OnInit{
     this.confirmarAsistenciaService.listConfirmation(this.confirmarAsistenciaRequest).subscribe({
       next: (response) => {
         if(response != null) {
-          
           this.groupedData = Object.entries(response.listAsistencia).map(([key, horasMap]) => {
             const [actividad, fecha] = key.split('|');
-            // Si no especificoel tipo de horasMap me dará un error.
+            // Si no especifico el tipo de horasMap me dará un error.
             const mapHorasUsuario = Object.entries(horasMap as Record<string, ConfirmarAsistenciaResponse[]>).map( ([hora, usuarios]) => ({
               hora,
               usuarios,
@@ -82,7 +83,6 @@ export class ConfirmarAsistenciaComponent implements OnInit{
               mapHorasUsuario,
             } as ConfirmarAsistenciaGroup;
           });
-
           this.groupedData.forEach(group => {
             group.mapHorasUsuario.forEach(usu => {
               usu.usuarios.forEach(usu => {
@@ -91,7 +91,6 @@ export class ConfirmarAsistenciaComponent implements OnInit{
               })
             });
           });
-
           this.paginador = response.paginador;
         }
       }, error: (error) => {
@@ -101,6 +100,16 @@ export class ConfirmarAsistenciaComponent implements OnInit{
         );
       }
     });
+  }
+
+  /**
+   * Función encargada de cambiar el tab de las pestañas
+   * @param index 
+   */
+  setActiveTab(index: number) {
+    if (!this.tabs[index]) {
+      this.activeTab = index;
+    }
   }
 
   saveUserConfirmation(confirmarAsistenciaResponse: ConfirmarAsistenciaResponse) {
