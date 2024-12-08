@@ -74,14 +74,16 @@
     <!-- Links de los Navbar -->
     <div class="collapse navbar-collapse justify-content-between" id="navbarNavDropdown">
       <ul class="navbar-nav">
+        @if (isAuthenticate) {
         <li class="nav-item">
           <a class="nav-link text-white" [routerLink]="['/nueva-actividad']">Actividades</a>
         </li>
+      }
       </ul>
       <ul class="navbar-nav">
         @if (!isAuthenticate) {
         <li class="nav-item">
-          <a class="btn btn-outline-primary text-white" (click)="onLogin()">Sign</a>
+          <a class="btn btn-outline-primary text-white" (click)="onLogin()">Mi cuenta</a>
         </li>
         }@else {
         <li class="nav-item dropdown">
