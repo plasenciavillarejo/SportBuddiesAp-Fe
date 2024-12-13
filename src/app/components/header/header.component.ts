@@ -170,15 +170,4 @@ export class HeaderComponent implements OnInit {
     return this.servicioCompartido.obtainIdUserGenericObservable();
   }
 
-  /**
-   * Función encargada de cerrar el componente OF-CANVAS cuando se pulsa en alguna acción
-  */
-  closeOffCanvas() {
-    const myOffcanvas = document.getElementById('myOffcanvas');
-    const bsOffcanvas = bootstrap.Offcanvas.getInstance(myOffcanvas) || new bootstrap.Offcanvas(myOffcanvas);
-    bsOffcanvas.hide();
-  }
-  
- 
-
 }

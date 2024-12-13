@@ -9,7 +9,7 @@
       <i class="bi bi-list fs-1"></i>
     </button>
     }@else {
-      <a class="btn btn-outline-light" (click)="onLogin()">Mi cuenta</a>
+      <a class="btn btn-outline-light d-lg-none" (click)="onLogin()">Mi cuenta</a>
     }
 
     <!-- Menú principal para pantallas grandes -->
@@ -61,13 +61,13 @@
     @if (this.isAuthenticate) {
       <ul class="list-unstyled">
         @if (admin()) {
-          <a class="dropdown-item mb-2" [routerLink]="['/nuevo-cliente-oauth']" (click)="closeOffCanvas()" data-bs-dismiss="offcanvas">Nuevo Cliente Aplicación</a>
+          <a class="dropdown-item mb-2" [routerLink]="['/nuevo-cliente-oauth']"data-bs-dismiss="offcanvas">Nuevo Cliente Aplicación</a>
         }
-        <li><a class="dropdown-item mb-2" [routerLink]="['/nueva-actividad']" (click)="closeOffCanvas()" data-bs-dismiss="offcanvas">Actividades</a></li>
-        <li><a class="dropdown-item mb-2" [routerLink]="['/mi-cuenta/', idUser()]" (click)="closeOffCanvas()" data-bs-dismiss="offcanvas">Mi cuenta</a></li>
-        <li><a class="dropdown-item mb-2" [routerLink]="['/mis-reservas']" (click)="closeOffCanvas()" data-bs-dismiss="offcanvas">Mis reservas inscritas</a></li>
-        <li><a class="dropdown-item mb-2" [routerLink]="['/historial-reservas']" (click)="closeOffCanvas()" data-bs-dismiss="offcanvas">Historial reservas</a></li>
-        <li><a class="dropdown-item mb-2" [routerLink]="['/confirmar-asitencia/', idUser()]" (click)="closeOffCanvas()" data-bs-dismiss="offcanvas">Confirmar asistencia</a></li>
+        <li><a class="dropdown-item mb-2" [routerLink]="['/nueva-actividad']" data-bs-dismiss="offcanvas">Actividades</a></li>
+        <li><a class="dropdown-item mb-2" [routerLink]="['/mi-cuenta/', idUser()]" data-bs-dismiss="offcanvas">Mi cuenta</a></li>
+        <li><a class="dropdown-item mb-2" [routerLink]="['/mis-reservas']" data-bs-dismiss="offcanvas">Mis reservas inscritas</a></li>
+        <li><a class="dropdown-item mb-2" [routerLink]="['/historial-reservas']" data-bs-dismiss="offcanvas">Historial reservas</a></li>
+        <li><a class="dropdown-item mb-2" [routerLink]="['/confirmar-asitencia/', idUser()]" data-bs-dismiss="offcanvas">Confirmar asistencia</a></li>
         <li><a class="dropdown-item " (click)="onLogout()" style="cursor: pointer;" id="myOffcanvas" data-bs-dismiss="offcanvas">Cerrar sesión</a></li>
       </ul>
     }
