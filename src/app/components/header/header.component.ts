@@ -6,7 +6,7 @@ import { TokenService } from '../../services/token.service';
 import { ServicioCompartidoService } from '../../services/servicio-compartido.service';
 import { AuthService } from '../../services/auth.service';
 import { Observable } from 'rxjs';
-
+declare var bootstrap: any
 const CHARACTERS = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
 
 @Component({
@@ -169,5 +169,16 @@ export class HeaderComponent implements OnInit {
   idUser(): Observable<number> {
     return this.servicioCompartido.obtainIdUserGenericObservable();
   }
+
+  /**
+   * Función encargada de cerrar el componente OF-CANVAS cuando se pulsa en alguna acción
+  */
+  closeOffCanvas() {
+    const myOffcanvas = document.getElementById('myOffcanvas');
+    const bsOffcanvas = bootstrap.Offcanvas.getInstance(myOffcanvas) || new bootstrap.Offcanvas(myOffcanvas);
+    bsOffcanvas.hide();
+  }
+  
+ 
 
 }

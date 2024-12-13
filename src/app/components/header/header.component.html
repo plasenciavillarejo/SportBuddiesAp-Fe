@@ -1,121 +1,75 @@
-<!-- <nav class="navbar navbar-expand-lg bg-primary">
-  <div class="container-fluid">
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
-      aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div class="collapse navbar-collapse" id="navbarNavDropdown">
-      <a class="navbar-brand text-white" href="#">SportBuddies</a>
-      @if(isAuthenticate) {
-      <a class="navbar-brand text-white" aria-current="page" [routerLink]="['/nueva-actividad']">Actividades</a>
-      }
-    </div>
-
-     d-block d-lg-inline: Esta clase hará que el botón se muestre como un bloque completo en pantallas pequeñas (d-block), lo que lo hará visible aunque el 
-   menú esté colapsado. En pantallas grandes (d-lg-inline), el botón se mostrará en línea dentro de la barra de navegación
-    <nav class="navbar navbar-expand-lg bg-primary text-white">
-      <div class="container-fluid">
-        <div class="navbar-collapse justify-content-end" id="navbarNavDropdownLogin">
-          <span class="nav-item text-primary mx-3">
-             <a class="navbar-link btn btn-outline-primary btn-lg d-block d-lg-inline" aria-current="page" [routerLink]="['/login']">Sign</a> 
-            @if (!isAuthenticate) {
-            <a class="navbar-link btn btn-outline-primary btn-lg d-block d-lg-inline text-white" aria-current="page"
-              (click)="onLogin()">Sign</a>
-            } @else {
-            @if(isSesionInit) {
-            <div class="alert alert-success fade-out isFading" role="alert">
-              'Bienvenido: {{obtainNameUser()}}''
-            </div>
-            }
-            <ul class="navbar-nav ms-auto">
-              <li id="navbar-dropdown" class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown"
-                  aria-expanded="false">
-                  {{obtainNameUser()}}
-                </a>
-                  DropDown alineado a la derecha al abrir queda cortado, solución: dropdown-menu-end 
-                <ul class="dropdown-menu dropdown-menu-end">
-                  @if (admin()) {
-                  <li><a class="dropdown-item" [routerLink]="['/nuevo-cliente-oauth']">Nuevo Cliente Aplicación</a></li>
-                  }
-                  <li><a class="dropdown-item" [routerLink]="['/mi-cuenta/',idUser()]">Mi cuenta</a></li>
-                  <li><a class="dropdown-item" [routerLink]="['/mis-reservas']">Mis reservas inscritas</a></li>
-                  <li><a class="dropdown-item" [routerLink]="['/historial-reservas']">Historial reservas</a></li>
-                  <li><a class="dropdown-item" [routerLink]="['/confirmar-asitencia/', idUser()]">Confirmar
-                      asistencia</a></li>
-                  <li class="mt-3 mx-3 mb-3">
-                    <a class="navbar-link btn btn-outline-primary btn-lg d-block d-lg-inline" aria-current="page"
-                      (click)="onLogout()">Logout</a>
-                  </li>
-                </ul>
-              </li>
-            </ul>
-            }
-          </span>
-        </div>
-      </div>
-    </nav>
-  </div>
-</nav>
--->
-
+<!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-light bg-primary text-white shadow-sm sticky-top">
   <div class="container-fluid">
-    <!--<a class="navbar-brand text-white fw-bold" href="#">
-      <img src="images/sportbuddies-logo.png" alt="SportBuddies Logo" height="30" class="d-inline-block align-text-top">
-    </a> -->
-    <a class="navbar-brand text-white" [routerLink]="['/']">SportBuddies</a>
-    <!-- Nueva Implementación 
-    <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#staticBackdrop" aria-controls="staticBackdrop">
-      Más Acciones
-    </button>-->
+    <a class="navbar-brand text-white fw-bold" [routerLink]="['/']">SportBuddies</a>
 
-    <!-- Links de los Navbar -->
+    <!-- Botón para abrir Off-Canvas -->
+    @if (this.isAuthenticate) {
+    <button class="btn btn-primary d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#mainOffCanvas" aria-controls="mainOffCanvas" >
+      <i class="bi bi-list fs-1"></i>
+    </button>
+    }@else {
+      <a class="btn btn-outline-light" (click)="onLogin()">Mi cuenta</a>
+    }
+
+    <!-- Menú principal para pantallas grandes -->
     <div class="collapse navbar-collapse justify-content-between" id="navbarNavDropdown">
       <ul class="navbar-nav">
-        @if (isAuthenticate) {
+        @if (this.isAuthenticate) {
         <li class="nav-item">
           <a class="nav-link text-white" [routerLink]="['/nueva-actividad']">Actividades</a>
         </li>
-      }
+        }
       </ul>
       <ul class="navbar-nav">
-        @if (!isAuthenticate) {
-        <li class="nav-item">
-          <a class="btn btn-outline-primary text-white" (click)="onLogin()">Mi cuenta</a>
-        </li>
-        }@else {
+        @if (!this.isAuthenticate) {
+          <li class="nav-item">
+            <a class="btn btn-outline-light" (click)="onLogin()">Mi cuenta</a>
+          </li>
+        }
+        @if (this.isAuthenticate) {
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            {{obtainNameUser()}}
+            {{ obtainNameUser() }}
           </a>
           <ul class="dropdown-menu dropdown-menu-end">
             @if (admin()) {
-              <li><a class="dropdown-item" [routerLink]="['/nuevo-cliente-oauth']">Nuevo Cliente Aplicación</a></li>
-              }
-              <li><a class="dropdown-item" [routerLink]="['/mi-cuenta/',idUser()]">Mi cuenta</a></li>
-              <li><a class="dropdown-item" [routerLink]="['/mis-reservas']">Mis reservas inscritas</a></li>
-              <li><a class="dropdown-item" [routerLink]="['/historial-reservas']">Historial reservas</a></li>
-              <li><a class="dropdown-item" [routerLink]="['/confirmar-asitencia/', idUser()]">Confirmar
-                  asistencia</a></li>
-            <li><a class="dropdown-item" (click)="onLogout()">Cerrar sesión</a></li>
+              <li>
+                <a class="dropdown-item" [routerLink]="['/nuevo-cliente-oauth']">Nuevo Cliente Aplicación</a>
+              </li>
+            }
+            <li><a class="dropdown-item" [routerLink]="['/mi-cuenta/', idUser()]">Mi cuenta</a></li>
+            <li><a class="dropdown-item" [routerLink]="['/mis-reservas']">Mis reservas inscritas</a></li>
+            <li><a class="dropdown-item" [routerLink]="['/historial-reservas']">Historial reservas</a></li>
+            <li><a class="dropdown-item" [routerLink]="['/confirmar-asitencia/', idUser()]">Confirmar asistencia</a></li>
+            <li><a class="dropdown-item" (click)="onLogout()" style="cursor: pointer;">Cerrar sesión</a></li>
           </ul>
         </li>
-        }
+      }
       </ul>
     </div>
   </div>
 </nav>
 
-<div class="offcanvas offcanvas-start" data-bs-backdrop="static" tabindex="-1" id="staticBackdrop" aria-labelledby="staticBackdropLabel">
-  <div class="offcanvas-header">
-    <h5 class="offcanvas-title" id="staticBackdropLabel">Offcanvas</h5>
-    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+<!-- Off-Canvas para móviles -->
+<div class="offcanvas offcanvas-start" tabindex="-1" id="mainOffCanvas" aria-labelledby="mainOffCanvasLabel" style="width: 73%;">
+  <div class="offcanvas-header bg-primary text-white">
+    <h5 class="offcanvas-title" id="mainOffCanvasLabel">{{obtainNameUser()}}</h5>
+    <button type="button" class="btn-close btn-close-white text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
   </div>
   <div class="offcanvas-body">
-    <div>
-      <a class="nav-link text-primary" [routerLink]="['/nueva-actividad']">Actividades</a>
-    </div>
+    @if (this.isAuthenticate) {
+      <ul class="list-unstyled">
+        @if (admin()) {
+          <a class="dropdown-item mb-2" [routerLink]="['/nuevo-cliente-oauth']" (click)="closeOffCanvas()" data-bs-dismiss="offcanvas">Nuevo Cliente Aplicación</a>
+        }
+        <li><a class="dropdown-item mb-2" [routerLink]="['/nueva-actividad']" (click)="closeOffCanvas()" data-bs-dismiss="offcanvas">Actividades</a></li>
+        <li><a class="dropdown-item mb-2" [routerLink]="['/mi-cuenta/', idUser()]" (click)="closeOffCanvas()" data-bs-dismiss="offcanvas">Mi cuenta</a></li>
+        <li><a class="dropdown-item mb-2" [routerLink]="['/mis-reservas']" (click)="closeOffCanvas()" data-bs-dismiss="offcanvas">Mis reservas inscritas</a></li>
+        <li><a class="dropdown-item mb-2" [routerLink]="['/historial-reservas']" (click)="closeOffCanvas()" data-bs-dismiss="offcanvas">Historial reservas</a></li>
+        <li><a class="dropdown-item mb-2" [routerLink]="['/confirmar-asitencia/', idUser()]" (click)="closeOffCanvas()" data-bs-dismiss="offcanvas">Confirmar asistencia</a></li>
+        <li><a class="dropdown-item " (click)="onLogout()" style="cursor: pointer;" id="myOffcanvas" data-bs-dismiss="offcanvas">Cerrar sesión</a></li>
+      </ul>
+    }
   </div>
 </div>
