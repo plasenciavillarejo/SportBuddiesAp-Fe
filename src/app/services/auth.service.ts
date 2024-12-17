@@ -27,7 +27,7 @@ export class AuthService {
     body.set('scope', environment.scope);
     body.set('code_verifier',code_verifier);
     body.set('code', code);
-
+    // PLASENCIA - CORREGIR FUNCIONAMIENTO - EL CLIENTE ID Y SU PASSWORD TIENE QUE OBTENERSE MEDIANTE UNA LLAMADA AL BE POR SU ID
     const basic_auth = 'Basic '+ btoa('client-angular:12345')
 
     const headers_objects = new HttpHeaders({
