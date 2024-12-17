@@ -153,6 +153,8 @@ export class HeaderComponent implements OnInit {
    */
   initSesionEmit() {
     this.servicioCompartido.initSessionEventEmitter.subscribe((initSesion: boolean) => {
+      // Agrego el getLogged() ya que al incluir el off-canvas para las pantallas responsivas hay conflicto y al iniciar sesión tengo que dar f5 para que actualice el isAuthenticat()
+      this.getLogged();
       this.isSesionInit = initSesion;
       if(this.isSesionInit) {
         setTimeout( () => {
@@ -169,5 +171,14 @@ export class HeaderComponent implements OnInit {
   idUser(): Observable<number> {
     return this.servicioCompartido.obtainIdUserGenericObservable();
   }
+
+  closeOffCanvas() {
+  const offCanvasElement = document.querySelector('.offcanvas');
+  if (offCanvasElement) {
+    const offCanvasInstance = bootstrap.Offcanvas.getInstance(offCanvasElement);
+    offCanvasInstance?.hide();
+  }
+}
+
 
 }

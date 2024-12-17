@@ -13,7 +13,7 @@ import { HistorialReservasComponent } from './components/historial-reservas/hist
   selector: 'app-root',
   standalone: true,
   // Importamos los componentes "Login"
-  imports: [UsuariosComponent,LoginComponent,HeaderComponent, RouterOutlet, LayoutComponent,MisReservasComponent, HistorialReservasComponent],
+  imports: [HeaderComponent, RouterOutlet, LayoutComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

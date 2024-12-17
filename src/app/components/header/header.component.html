@@ -3,17 +3,19 @@
   <div class="container-fluid">
     <a class="navbar-brand text-white fw-bold" [routerLink]="['/']">SportBuddies</a>
 
+    <div class="d-block d-sm-none">
     <!-- Botón para abrir Off-Canvas -->
-    @if (this.isAuthenticate) {
-    <button class="btn btn-primary d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#mainOffCanvas" aria-controls="mainOffCanvas" >
-      <i class="bi bi-list fs-1"></i>
-    </button>
+    @if (!this.isAuthenticate) {
+      <a class="btn btn-outline-light" (click)="onLogin()">Mi cuenta</a>
     }@else {
-      <a class="btn btn-outline-light d-lg-none" (click)="onLogin()">Mi cuenta</a>
+      <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#mainOffCanvas" aria-controls="mainOffCanvas">
+      <i class="bi bi-list fs-1"></i>
+    </button>    
     }
-
+    </div> 
+    
     <!-- Menú principal para pantallas grandes -->
-    <div class="collapse navbar-collapse justify-content-between" id="navbarNavDropdown">
+    <div class="collapse navbar-collapse justify-content-between d-lg-none" id="navbarNavDropdown">
       <ul class="navbar-nav">
         @if (this.isAuthenticate) {
         <li class="nav-item">
@@ -54,20 +56,20 @@
 <div class="offcanvas offcanvas-start" tabindex="-1" id="mainOffCanvas" aria-labelledby="mainOffCanvasLabel" style="width: 73%;">
   <div class="offcanvas-header bg-primary text-white">
     <h5 class="offcanvas-title" id="mainOffCanvasLabel">{{obtainNameUser()}}</h5>
-    <button type="button" class="btn-close btn-close-white text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    <button type="button" class="btn-close btn-close-white text-reset" (click)="closeOffCanvas()" aria-label="Close"></button>
   </div>
   <div class="offcanvas-body">
     @if (this.isAuthenticate) {
       <ul class="list-unstyled">
         @if (admin()) {
-          <a class="dropdown-item mb-2" [routerLink]="['/nuevo-cliente-oauth']"data-bs-dismiss="offcanvas">Nuevo Cliente Aplicación</a>
+          <a class="dropdown-item mb-2" [routerLink]="['/nuevo-cliente-oauth']" (click)="closeOffCanvas()">Nuevo Cliente Aplicación</a>
         }
-        <li><a class="dropdown-item mb-2" [routerLink]="['/nueva-actividad']" data-bs-dismiss="offcanvas">Actividades</a></li>
-        <li><a class="dropdown-item mb-2" [routerLink]="['/mi-cuenta/', idUser()]" data-bs-dismiss="offcanvas">Mi cuenta</a></li>
-        <li><a class="dropdown-item mb-2" [routerLink]="['/mis-reservas']" data-bs-dismiss="offcanvas">Mis reservas inscritas</a></li>
-        <li><a class="dropdown-item mb-2" [routerLink]="['/historial-reservas']" data-bs-dismiss="offcanvas">Historial reservas</a></li>
-        <li><a class="dropdown-item mb-2" [routerLink]="['/confirmar-asitencia/', idUser()]" data-bs-dismiss="offcanvas">Confirmar asistencia</a></li>
-        <li><a class="dropdown-item " (click)="onLogout()" style="cursor: pointer;" id="myOffcanvas" data-bs-dismiss="offcanvas">Cerrar sesión</a></li>
+        <li><a class="dropdown-item mb-2" [routerLink]="['/nueva-actividad']" (click)="closeOffCanvas()">Actividades</a></li>
+        <li><a class="dropdown-item mb-2" [routerLink]="['/mi-cuenta/', idUser()]" (click)="closeOffCanvas()">Mi cuenta</a></li>
+        <li><a class="dropdown-item mb-2" [routerLink]="['/mis-reservas']" (click)="closeOffCanvas()">Mis reservas inscritas</a></li>
+        <li><a class="dropdown-item mb-2" [routerLink]="['/historial-reservas']" (click)="closeOffCanvas()">Historial reservas</a></li>
+        <li><a class="dropdown-item mb-2" [routerLink]="['/confirmar-asitencia/', idUser()]" (click)="closeOffCanvas()">Confirmar asistencia</a></li>
+        <li><a class="dropdown-item " (click)="onLogout()" style="cursor: pointer;" id="myOffcanvas" (click)="closeOffCanvas()">Cerrar sesión</a></li>
       </ul>
     }
   </div>
