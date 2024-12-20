@@ -13,6 +13,7 @@ export class AuthService {
   private token_url = environment.token_url;
   private url_logout = environment.hostname_port_local_gtw +'/cerrarSesion';
   private url_clear_cookie = environment.hostname_port_local_gtw + '/api/main/borrarCookie' ;
+  private url_login_passky = environment.hostname_port_local_oauth + '/passkeys/register';
 
   constructor(private http: HttpClient,
     private tokenService: TokenService,
@@ -73,6 +74,17 @@ export class AuthService {
       });
     });
   }
+ 
   
-
+  loginWithPasskey(username: string) : Observable<any>{
+    const body = {
+      username: username,
+      displayName: username,
+      rpId: 'localhost',
+      origin: environment.hostname_port_local_oauth
+    };
+    return this.http.post<any>(this.url_login_passky,body);
+  }
+  
+ 
 }

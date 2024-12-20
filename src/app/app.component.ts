@@ -1,13 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NavigationEnd, Router, RouterEvent, RouterOutlet } from '@angular/router';
-
 import { HeaderComponent } from './components/header/header.component';
-import { UsuariosComponent } from './components/usuarios/usuarios.component';
-import { LoginComponent } from './components/login/login.component';
 import { LayoutComponent } from './components/layout/layout.component';
 import { filter } from 'rxjs';
-import { MisReservasComponent } from './components/mis-reservas/mis-reservas.component';
-import { HistorialReservasComponent } from './components/historial-reservas/historial-reservas.component';
 
 @Component({
   selector: 'app-root',

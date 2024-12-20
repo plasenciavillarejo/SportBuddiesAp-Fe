@@ -14,6 +14,7 @@ import { NuevoUsuarioComponent } from './components/nuevo-usuario/nuevo-usuario.
 import { PagoTarjetaComponent } from './components/pago-tarjeta/pago-tarjeta.component';
 import { PaginadorComponent } from './components/paginador/paginador.component';
 import { ConfirmarAsistenciaComponent } from './components/confirmar-asistencia/confirmar-asistencia.component';
+import { LoginPasskeysComponent } from './components/login-passkeys/login-passkeys.component';
 
 export const routes: Routes = [
     /**Por defecto si el path es vació nos redigira a usuarios */
@@ -85,5 +86,9 @@ export const routes: Routes = [
         path: 'confirmar-asitencia/:idUsuario',
         component: ConfirmarAsistenciaComponent,
         canActivate: [authGuard]
+    },
+    {
+        path: 'login-passkey',
+        component: LoginPasskeysComponent,
     }
 ];

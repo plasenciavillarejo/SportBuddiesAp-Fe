@@ -1,11 +1,10 @@
 import { Component } from '@angular/core';
-import { Router, RouterOutlet } from '@angular/router';
-import { HeaderComponent} from '../header/header.component';
+import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { Usuario } from '../../models/usuario';
 import Swal from'sweetalert2';
 import { ServicioCompartidoService } from '../../services/servicio-compartido.service';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient,  HttpParams } from '@angular/common/http';
 import { TokenService } from '../../services/token.service';
 import { environment } from '../../../environments/environment';
 
@@ -14,7 +13,7 @@ const CHARACTERS = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [RouterOutlet,HeaderComponent,FormsModule],
+  imports: [FormsModule],
   templateUrl: './login.component.html'
 })
 
