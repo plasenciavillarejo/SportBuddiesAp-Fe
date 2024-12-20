@@ -5,6 +5,7 @@ import Corbado from '@corbado/web-js';
 import { environment } from '../../../environments/environment';
 import { AuthService } from '../../services/auth.service';
 import { FormsModule } from '@angular/forms';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-login-passkeys',
@@ -38,7 +39,15 @@ export class LoginPasskeysComponent implements OnInit {
       onLoggedIn: () => {
         // Get the user data from the Corbado SDK
         this.user = Corbado.user
-        this.router.navigate(['/'])
+        this.authService.loginCorbadoPassKey(this.user!.email).subscribe({
+          next: response => {
+            console.log(response);
+            this.router.navigate(['/'])
+          },error: error => {
+
+          }
+        });
+        
       },
     })
   }
@@ -47,9 +56,7 @@ export class LoginPasskeysComponent implements OnInit {
   createPasskey(): void {
     this.authService.loginWithPasskey(this.nombreUsuario).subscribe({
       next: response => {
-        if(response != null) {
-          console.log(response);
-          
+        if(response != null) {         
           const publicKey = {
             challenge: this.base64UrlToArrayBuffer(response.challenge.value), // Convertir el desafío a ArrayBuffer
             rp: response.rp, // Información de la Relying Party
@@ -79,8 +86,28 @@ export class LoginPasskeysComponent implements OnInit {
               console.log('Credencial creada:', newCredential);
               // Puedes enviar esta credencial al backend para su validación
               console.log('Llave pública: ', newCredential.response.publicKey);
+              
+              const transformedCredential = {
+                id: newCredential.id,
+                rawId: this.base64urlEncode(newCredential.rawId),
+                type: newCredential.type,
+                response: {
+                  authenticatorData: this.base64urlEncode(newCredential.response.authenticatorData),
+                  clientDataJSON: this.base64urlEncode(newCredential.response.clientDataJSON),
+                  signature: newCredential.response.signature ? this.base64urlEncode(newCredential.response.signature) : undefined,
+                  userHandle: newCredential.response.userHandle ? this. base64urlEncode(newCredential.response.userHandle) : undefined,
+                },
+                clientExtensionResults: newCredential.getClientExtensionResults(),
+                authenticatorAttachment: newCredential.authenticatorAttachment,
+              };
+              console.log(JSON.stringify(transformedCredential, null, 2));
+        
+              //const credentials  = this.obtenerCredenciales(publicKey.challenge,transformedCredential.id);
+              
 
 
+
+              
             })
             .catch((error: any) => {
               console.error('Error creando la credencial:', error);
@@ -92,7 +119,24 @@ export class LoginPasskeysComponent implements OnInit {
     });
   }
 
-
+/*
+  async obtenerCredenciales(challenge: ArrayBuffer, idCredential: string) {
+    return await navigator.credentials.get({
+      publicKey: {
+        challenge: Uint8Array.from([challenge]).buffer,
+        allowCredentials: [
+          {
+            id: Uint8Array.from([Uint8Array.from(atob(idCredential), c => c.charCodeAt(0)).buffer]).buffer,
+            type: "public-key"
+          }
+        ],
+        timeout: 60000, // Tiempo en milisegundos
+        rpId: "localhost" // ID del RP, debe coincidir con tu configuración en el servidor
+      },
+      mediation: 'optional'
+    });
+  }
+*/
   private base64UrlToArrayBuffer(base64Url: string): ArrayBuffer {
     const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
     const binary = atob(base64);
@@ -104,5 +148,14 @@ export class LoginPasskeysComponent implements OnInit {
     }
     return buffer;
   }
+
+  private base64urlEncode(buffer: ArrayBuffer): string {
+    const binary = String.fromCharCode(...new Uint8Array(buffer));
+    return btoa(binary)
+      .replace(/\+/g, "-")
+      .replace(/\//g, "_")
+      .replace(/=+$/, "");
+  }
+  
 
 }

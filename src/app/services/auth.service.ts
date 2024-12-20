@@ -14,6 +14,7 @@ export class AuthService {
   private url_logout = environment.hostname_port_local_gtw +'/cerrarSesion';
   private url_clear_cookie = environment.hostname_port_local_gtw + '/api/main/borrarCookie' ;
   private url_login_passky = environment.hostname_port_local_oauth + '/passkeys/register';
+  private url_login = environment.hostname_port_local_oauth + '/login';
 
   constructor(private http: HttpClient,
     private tokenService: TokenService,
@@ -75,7 +76,12 @@ export class AuthService {
     });
   }
  
-  
+  loginCorbadoPassKey(username: string):  Observable<any> {
+    let body = new URLSearchParams();
+    body.set('username', username);
+    return this.http.post<any>(this.url_login,body);
+  }
+
   loginWithPasskey(username: string) : Observable<any>{
     const body = {
       username: username,
