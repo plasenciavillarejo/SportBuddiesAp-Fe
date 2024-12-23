@@ -6,6 +6,8 @@ import { environment } from '../../../environments/environment';
 import { AuthService } from '../../services/auth.service';
 import { FormsModule } from '@angular/forms';
 import { Observable } from 'rxjs';
+import { TokenService } from '../../services/token.service';
+import { ServicioCompartidoService } from '../../services/servicio-compartido.service';
 
 @Component({
   selector: 'app-login-passkeys',
@@ -24,7 +26,9 @@ export class LoginPasskeysComponent implements OnInit {
   @ViewChild('corbadoAuth', {static: true}) authElement!: ElementRef;
 
   constructor(private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private tokenService: TokenService,
+    private servicioCompartido: ServicioCompartidoService
   ) {}
 
   async ngOnInit() {
@@ -39,6 +43,9 @@ export class LoginPasskeysComponent implements OnInit {
       onLoggedIn: () => {
         // Get the user data from the Corbado SDK
         this.user = Corbado.user
+        /* Este usuario se tiene que insertar en base de datos apuntado al servicio /usuario/crear
+        enviando el usuario y el email lo demás puede ir todo vacío
+        */ 
         this.authService.loginCorbadoPassKey(this.user!.email).subscribe({
           next: response => {
             console.log(response);
@@ -86,24 +93,28 @@ export class LoginPasskeysComponent implements OnInit {
               console.log('Credencial creada:', newCredential);
               // Puedes enviar esta credencial al backend para su validación
               console.log('Llave pública: ', newCredential.response.publicKey);
-              
-              const transformedCredential = {
+
+              const credential = {
                 id: newCredential.id,
                 rawId: this.base64urlEncode(newCredential.rawId),
                 type: newCredential.type,
                 response: {
-                  authenticatorData: this.base64urlEncode(newCredential.response.authenticatorData),
+                  attestationObject: this.base64urlEncode(newCredential.response.attestationObject),
                   clientDataJSON: this.base64urlEncode(newCredential.response.clientDataJSON),
-                  signature: newCredential.response.signature ? this.base64urlEncode(newCredential.response.signature) : undefined,
-                  userHandle: newCredential.response.userHandle ? this. base64urlEncode(newCredential.response.userHandle) : undefined,
                 },
                 clientExtensionResults: newCredential.getClientExtensionResults(),
-                authenticatorAttachment: newCredential.authenticatorAttachment,
               };
-              console.log(JSON.stringify(transformedCredential, null, 2));
+              console.log(JSON.stringify(credential, null, 2));
         
-              //const credentials  = this.obtenerCredenciales(publicKey.challenge,transformedCredential.id);
-              
+              this.authService.validateCredential(credential).subscribe({
+                next: response => {
+                  if(response != null) {
+                    console.log(response);
+                  }
+                }, error : error =>{
+                  console.log(error);
+                }
+              });
 
 
 

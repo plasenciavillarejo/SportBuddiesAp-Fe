@@ -97,7 +97,9 @@ export class TokenService {
 
   obtainNameUser(): string {
     const token = this.getAccesToken();
-
+    if (!token) {
+      return "";
+    }
     // El token se contiene en tres partes, la segunda parte es donde viene la información de los claims
     const payload = token!.split(".")[1];
 

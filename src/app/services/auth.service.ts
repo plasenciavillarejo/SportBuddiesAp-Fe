@@ -14,6 +14,7 @@ export class AuthService {
   private url_logout = environment.hostname_port_local_gtw +'/cerrarSesion';
   private url_clear_cookie = environment.hostname_port_local_gtw + '/api/main/borrarCookie' ;
   private url_login_passky = environment.hostname_port_local_oauth + '/passkeys/register';
+  private url_validate_passky = environment.hostname_port_local_oauth + '/passkeys/validar-registro';
   private url_login = environment.hostname_port_local_oauth + '/login';
 
   constructor(private http: HttpClient,
@@ -92,5 +93,8 @@ export class AuthService {
     return this.http.post<any>(this.url_login_passky,body);
   }
   
+  validateCredential(credential: any ) : Observable<any>{
+    return this.http.post<any>(this.url_validate_passky,credential);
+  }
  
 }

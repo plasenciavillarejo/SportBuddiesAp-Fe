@@ -276,8 +276,8 @@ export class NuevoUsuarioComponent implements OnInit {
     // Inicializamos la validacion de angular con los formularios reactivos
     this.validateForm = this.formBuilder.group({
       nombreUsuario: ['', [Validators.required]],
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required]]
+      email: ['', [Validators.required, Validators.email]]
+      //password: ['', [Validators.required]]
     });
   }
 
