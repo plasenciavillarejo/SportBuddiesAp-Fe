@@ -11,10 +11,12 @@ import { Router } from '@angular/router';
 export class AuthService {
 
   private token_url = environment.token_url;
-  private url_logout = environment.hostname_port_local_gtw +'/cerrarSesion';
-  private url_clear_cookie = environment.hostname_port_local_gtw + '/api/main/borrarCookie' ;
-  private url_login_passky = environment.hostname_port_local_oauth + '/passkeys/register';
-  private url_validate_passky = environment.hostname_port_local_oauth + '/passkeys/validar-registro';
+  private url_logout = environment.hostname_port_local_gtw + '/cerrarSesion';
+  private url_clear_cookie = environment.hostname_port_local_gtw + '/api/main/borrarCookie';
+  private url_passkey_register = environment.hostname_port_local_oauth + '/passkeys/register';
+  private url_passkey_validate = environment.hostname_port_local_oauth + '/passkeys/validar-registro';
+  private url_passkey_challenge_be = environment.hostname_port_local_oauth + '/passkeys/generate-challenge';
+  private url_passkey_login = environment.hostname_port_local_oauth + '/passkeys/login';
   private url_login = environment.hostname_port_local_oauth + '/login';
 
   constructor(private http: HttpClient,
@@ -28,10 +30,10 @@ export class AuthService {
     body.set('client_id', environment.client_id);
     body.set('redirect_uri', environment.redirect_uri);
     body.set('scope', environment.scope);
-    body.set('code_verifier',code_verifier);
+    body.set('code_verifier', code_verifier);
     body.set('code', code);
     // PLASENCIA - CORREGIR FUNCIONAMIENTO - EL CLIENTE ID Y SU PASSWORD TIENE QUE OBTENERSE MEDIANTE UNA LLAMADA AL BE POR SU ID
-    const basic_auth = 'Basic '+ btoa('client-angular:12345')
+    const basic_auth = 'Basic ' + btoa('client-angular:12345')
 
     const headers_objects = new HttpHeaders({
       'Content-Type': 'application/x-www-form-urlencoded',
@@ -41,11 +43,11 @@ export class AuthService {
 
     const httpOptions = { headers: headers_objects };
 
-    return this.http.post<any>(this.token_url, body, httpOptions );
+    return this.http.post<any>(this.token_url, body, httpOptions);
   }
 
   logout() {
-    this.http.get(this.url_logout,{ withCredentials: true }).subscribe({
+    this.http.get(this.url_logout, { withCredentials: true }).subscribe({
       next: response => {
         this.tokenService.clearToken();
         console.log('Sesión cerrada con éxito');
@@ -76,25 +78,34 @@ export class AuthService {
       });
     });
   }
- 
-  loginCorbadoPassKey(username: string):  Observable<any> {
+
+  loginCorbadoPassKey(username: string): Observable<any> {
     let body = new URLSearchParams();
     body.set('username', username);
-    return this.http.post<any>(this.url_login,body);
+    return this.http.post<any>(this.url_login, body);
   }
 
-  loginWithPasskey(username: string) : Observable<any>{
+  passkeyRegister(username: string): Observable<any> {
     const body = {
       username: username,
       displayName: username,
       rpId: 'localhost',
       origin: environment.hostname_port_local_oauth
     };
-    return this.http.post<any>(this.url_login_passky,body);
+    return this.http.post<any>(this.url_passkey_register, body);
   }
-  
-  validateCredential(credential: any ) : Observable<any>{
-    return this.http.post<any>(this.url_validate_passky,credential);
+
+  validateCredential(credential: any): Observable<String> {
+    return this.http.post<any>(this.url_passkey_validate, credential)
   }
- 
+
+  obtainGenerteChallengeBe(): Observable<any> {
+    return this.http.get<any>(this.url_passkey_challenge_be);
+  }
+
+  loginPassKeys(credentialPasskeyNavigation: any) : Observable<any> {
+    return this.http.post<any>(this.url_passkey_login, credentialPasskeyNavigation);
+  }
+
+
 }

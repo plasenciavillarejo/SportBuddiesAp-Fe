@@ -5,9 +5,10 @@ import Corbado from '@corbado/web-js';
 import { environment } from '../../../environments/environment';
 import { AuthService } from '../../services/auth.service';
 import { FormsModule } from '@angular/forms';
-import { Observable } from 'rxjs';
-import { TokenService } from '../../services/token.service';
-import { ServicioCompartidoService } from '../../services/servicio-compartido.service';
+import Swal from 'sweetalert2';
+import { CredentialPasskeys } from '../../models/credentialPasskeys';
+import { PublicKeyCreate } from '../../models/publicKeyCreate';
+import * as cbor from 'cbor';
 
 @Component({
   selector: 'app-login-passkeys',
@@ -23,52 +24,67 @@ export class LoginPasskeysComponent implements OnInit {
 
   nombreUsuario: string = '';
 
-  @ViewChild('corbadoAuth', {static: true}) authElement!: ElementRef;
+  isSubmitting = false;
+
+  publicKey: PublicKeyCreate = new PublicKeyCreate();
+  credentialPassKeys: CredentialPasskeys = new CredentialPasskeys();
+
+  @ViewChild('corbadoAuth', { static: true }) authElement!: ElementRef;
 
   constructor(private router: Router,
-    private authService: AuthService,
-    private tokenService: TokenService,
-    private servicioCompartido: ServicioCompartidoService
-  ) {}
+    private authService: AuthService
+  ) { }
 
   async ngOnInit() {
-   // Load and initialize Corbado SDK when the component mounts
+
+    //this.loginWithPasskeys();
+
+    /*
+    // Load and initialize Corbado SDK when the component mounts
     await Corbado.load({
       projectId: environment.username_cobardo,
       darkMode: 'off',
     });
-    
+
     // mount Corbado auth UI for the user to sign in or sign up
     Corbado.mountAuthUI(this.authElement.nativeElement, {
       onLoggedIn: () => {
         // Get the user data from the Corbado SDK
         this.user = Corbado.user
-        /* Este usuario se tiene que insertar en base de datos apuntado al servicio /usuario/crear
+         Este usuario se tiene que insertar en base de datos apuntado al servicio /usuario/crear
         enviando el usuario y el email lo demás puede ir todo vacío
-        */ 
+        
         this.authService.loginCorbadoPassKey(this.user!.email).subscribe({
           next: response => {
             console.log(response);
             this.router.navigate(['/'])
-          },error: error => {
-
+          }, error: error => {
           }
         });
-        
       },
     })
+    */
   }
-  
 
-  createPasskey(): void {
-    this.authService.loginWithPasskey(this.nombreUsuario).subscribe({
-      next: response => {
-        if(response != null) {         
+  /**
+   * Función encargada de generar el Passkeys.
+   * 1º Genera el objeto 
+   * 2º Lo valida y se almacena en BBDD. Posteriormente ya podrá entrar el usuasrio mediante su clave publica.
+   * */
+  public async createPasskey(): Promise<void> {
+    if (this.isSubmitting) {
+      // Si ya se está enviando, no hacer nada
+      return;
+    }
+    this.isSubmitting = true;
+    this.authService.passkeyRegister(this.nombreUsuario).subscribe({
+      next: async response => {
+        if (response != null) {
           const publicKey = {
-            challenge: this.base64UrlToArrayBuffer(response.challenge.value), // Convertir el desafío a ArrayBuffer
-            rp: response.rp, // Información de la Relying Party
+            challenge: this.base64UrlToArrayBuffer(response.challenge.value),
+            rp: response.rp,
             user: {
-              id: this.base64UrlToArrayBuffer(response.user.id), // Convertir el ID del usuario a ArrayBuffer
+              id: this.base64UrlToArrayBuffer(response.user.id),
               name: response.user.name,
               displayName: response.user.displayName,
             },
@@ -78,7 +94,7 @@ export class LoginPasskeysComponent implements OnInit {
             })),
             timeout: response.timeout,
             excludeCredentials: response.excludeCredentials.map((cred: any) => ({
-              id: this.base64UrlToArrayBuffer(cred.id), // Convertir cada id a ArrayBuffer
+              id: this.base64UrlToArrayBuffer(cred.id),
               type: cred.type,
             })),
             authenticatorSelection: response.authenticatorSelection,
@@ -87,67 +103,120 @@ export class LoginPasskeysComponent implements OnInit {
           };
 
           // Crear la credencial con WebAuthn
-          navigator.credentials.create({ publicKey })
-            .then((newCredential: any) => {
-              // Aquí puedes manejar la nueva credencial
-              console.log('Credencial creada:', newCredential);
-              // Puedes enviar esta credencial al backend para su validación
-              console.log('Llave pública: ', newCredential.response.publicKey);
+          await navigator.credentials.create({ publicKey }).then((newCredential: any) => {
+            console.log('Credencial creada:', newCredential);
+            // Credencial para validar en el BE.
+            console.log('Llave pública: ', newCredential.response.publicKey);
 
-              const credential = {
-                id: newCredential.id,
-                rawId: this.base64urlEncode(newCredential.rawId),
-                type: newCredential.type,
-                response: {
-                  attestationObject: this.base64urlEncode(newCredential.response.attestationObject),
-                  clientDataJSON: this.base64urlEncode(newCredential.response.clientDataJSON),
-                },
-                clientExtensionResults: newCredential.getClientExtensionResults(),
-              };
-              console.log(JSON.stringify(credential, null, 2));
-        
-              this.authService.validateCredential(credential).subscribe({
-                next: response => {
-                  if(response != null) {
-                    console.log(response);
-                  }
-                }, error : error =>{
-                  console.log(error);
+            const credential = {
+              id: newCredential.id,
+              rawId: this.base64urlEncode(newCredential.rawId),
+              type: newCredential.type,
+              response: {
+                attestationObject: this.base64urlEncode(newCredential.response.attestationObject),
+                clientDataJSON: this.base64urlEncode(newCredential.response.clientDataJSON),
+              },
+              clientExtensionResults: newCredential.getClientExtensionResults(),
+              nombreUsuario: response.user.name
+            };
+            
+            // Una vez creada dicha credencial, se envia al BE para validarla, si todo es correcto se genera.
+            this.authService.validateCredential(credential).subscribe({
+              next: response => {
+                if (response != null) {
+                  this.isSubmitting = false;
+                  console.log(response);
+                  Swal.fire({
+                    title: 'Registro exitoso',
+                    text: 'Tu clave de acceso se ha registrado correctamente. Ahora puedes usarla para iniciar sesión.',
+                    icon: 'success',
+                    confirmButtonText: 'Entendido',
+                  });
+                  this.router.navigate(['/']);
+                } else {
+                  this.isSubmitting = false;
+                  Swal.fire({
+                    title: 'Error al registrar tu clave',
+                    text: 'Hubo un problema al procesar tu clave. Por favor, intenta nuevamente o contacta al soporte.',
+                    icon: 'error',
+                    confirmButtonText: 'Reintentar',
+                  });
                 }
-              });
-
-
-
-              
-            })
-            .catch((error: any) => {
-              console.error('Error creando la credencial:', error);
+              }, error: error => {
+                this.isSubmitting = false;
+                Swal.fire({
+                  title: 'Error al validar tu clave',
+                  text: 'Hubo un problema validando tu clave. Por favor, intenta nuevamente o contacta al soporte.',
+                  icon: 'error',
+                  confirmButtonText: 'Reintentar',
+                });
+              }
             });
+          })
         }
       }, error: error => {
+        this.isSubmitting = false;
+        Swal.fire({
+          title: 'Error al registrar tu clave',
+          text: 'Hubo un problema al procesar tu clave. Por favor, intenta nuevamente o contacta al soporte.',
+          icon: 'error',
+          confirmButtonText: 'Reintentar',
+        });
+      }
+    });
 
+  }
+
+  /**
+   * Función para validar el login con Passkeys.
+   */
+  public async loginWithPasskeys(): Promise<void> {
+    this.authService.obtainGenerteChallengeBe().subscribe({
+      next: challengeResponseBe => {
+        challengeResponseBe = this.base64UrlToArrayBuffer(challengeResponseBe["code-challenge"]);
+        // Configurar las opciones correctamente
+        const publicKeyCredentialRequestOptions: PublicKeyCredentialRequestOptions = {
+          challenge: challengeResponseBe,
+          allowCredentials: [],
+          userVerification: 'preferred',
+        };
+        // Validamos los datos con el navegador
+        navigator.credentials.get({ publicKey: publicKeyCredentialRequestOptions })
+        .then((assertion: any) => {
+          const credentialPasskeyNavigation = {
+            credentialId: this.base64ToBase64Url(assertion.id),
+            rawId : this.base64urlEncode(assertion.rawId),
+            challangeGenerateBe: this.base64urlEncode(challengeResponseBe),
+            authenticatorData: this.base64urlEncode(assertion.response.authenticatorData),
+            clientDataJson: this.base64urlEncode(assertion.response.clientDataJSON),
+            signature: this.base64urlEncode(assertion.response.signature),
+          };
+  
+          console.log(credentialPasskeyNavigation);
+          this.authService.loginPassKeys(credentialPasskeyNavigation).subscribe({
+            next: response => {
+              if (response) {
+                console.log(response);
+              }
+            }, error: error => {
+              console.log(error)
+            }
+          })
+        })
+        .catch((err: any) => {
+          console.error("Error durante la autenticación", err);
+        });
+
+      }, error: error => {
+        console.log(error);
       }
     });
   }
 
-/*
-  async obtenerCredenciales(challenge: ArrayBuffer, idCredential: string) {
-    return await navigator.credentials.get({
-      publicKey: {
-        challenge: Uint8Array.from([challenge]).buffer,
-        allowCredentials: [
-          {
-            id: Uint8Array.from([Uint8Array.from(atob(idCredential), c => c.charCodeAt(0)).buffer]).buffer,
-            type: "public-key"
-          }
-        ],
-        timeout: 60000, // Tiempo en milisegundos
-        rpId: "localhost" // ID del RP, debe coincidir con tu configuración en el servidor
-      },
-      mediation: 'optional'
-    });
+  private base64ToBase64Url(base64: string) {
+    return base64.replace(/-/g, '+').replace(/_/g, '/');
   }
-*/
+
   private base64UrlToArrayBuffer(base64Url: string): ArrayBuffer {
     const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
     const binary = atob(base64);
@@ -167,6 +236,15 @@ export class LoginPasskeysComponent implements OnInit {
       .replace(/\//g, "_")
       .replace(/=+$/, "");
   }
-  
+
+  private arrayBufferToBase64(buffer: ArrayBuffer): string {
+    let binary = '';
+    const bytes = new Uint8Array(buffer);
+    const len = bytes.byteLength;
+    for (let i = 0; i < len; i++) {
+      binary += String.fromCharCode(bytes[i]);
+    }
+    return btoa(binary);
+  }
 
 }

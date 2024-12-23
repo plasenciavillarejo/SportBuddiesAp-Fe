@@ -1,4 +1,4 @@
-<div #corbadoAuth id="corbado-auth"></div>
+<!--<div #corbadoAuth id="corbado-auth"></div>-->
 
 <div class="container my-4 d-flex justify-content-center">
 
@@ -18,9 +18,32 @@
                                 [(ngModel)]="this.nombreUsuario"/>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-primary">Crear Passkey</button>
+                    <button type="submit"  [disabled]="isSubmitting" class="btn btn-primary">Crear Passkey</button>
                 </form>
             </div>
         </div>
     </div>
+<!--
+    <div class="card mt-4 shadow-lg">
+        <div class="card-header bg-primary text-white text-center">
+            <h5 class="mb-0">Iniciar Sesión con PassKey</h5>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <form (ngSubmit)="loginWithPasskeys()"  #form="ngForm">
+                    <div class="mb-3 ">
+                        <label for="cardholderName" class="form-label">Nombre del usuario registrado en la aplicación:
+                        </label>
+                        <div class="input-group">
+                            <input type="text" id="usernamePasskey" class="form-control"
+                                placeholder="Usuario registrado" required name="username" 
+                                [(ngModel)]="this.nombreUsuario"/>
+                        </div>
+                    </div>
+                    <button type="submit"  [disabled]="isSubmitting" class="btn btn-primary">Crear Passkey</button>
+                </form>
+            </div>
+        </div>
+    </div>
+-->
 </div>
