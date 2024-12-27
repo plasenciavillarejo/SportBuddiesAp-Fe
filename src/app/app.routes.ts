@@ -90,5 +90,9 @@ export const routes: Routes = [
     {
         path: 'login-passkey',
         component: LoginPasskeysComponent,
+    },
+    {
+        path: 'login-passkey/:isLogin',
+        component: LoginPasskeysComponent,
     }
 ];

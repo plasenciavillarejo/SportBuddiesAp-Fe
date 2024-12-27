@@ -1,14 +1,12 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SessionUser } from '@corbado/types';
 import Corbado from '@corbado/web-js';
-import { environment } from '../../../environments/environment';
 import { AuthService } from '../../services/auth.service';
 import { FormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { CredentialPasskeys } from '../../models/credentialPasskeys';
 import { PublicKeyCreate } from '../../models/publicKeyCreate';
-import * as cbor from 'cbor';
 
 @Component({
   selector: 'app-login-passkeys',
@@ -25,6 +23,7 @@ export class LoginPasskeysComponent implements OnInit {
   nombreUsuario: string = '';
 
   isSubmitting = false;
+  isLogin = false;
 
   publicKey: PublicKeyCreate = new PublicKeyCreate();
   credentialPassKeys: CredentialPasskeys = new CredentialPasskeys();
@@ -32,14 +31,27 @@ export class LoginPasskeysComponent implements OnInit {
   @ViewChild('corbadoAuth', { static: true }) authElement!: ElementRef;
 
   constructor(private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private activatedRoute: ActivatedRoute,
   ) { }
 
   async ngOnInit() {
-
-    //this.loginWithPasskeys();
-
-    /*
+    this.activatedRoute.params.subscribe(params => {
+      this.isLogin = params['isLogin'];
+      if (this.isLogin) {
+        this.loginWithPasskeys();
+        const spinnerModalPasskeys = document.getElementById('spinner-modal-passkeys');
+        if (spinnerModalPasskeys) {
+          // Agregamos los elementos a mano para evitar conflicto con bootstrap
+          spinnerModalPasskeys.classList.add('show');
+          spinnerModalPasskeys.style.display = 'block';
+          document.body.classList.add('modal-open');
+          const backdrop = document.createElement('div');
+          backdrop.className = 'modal-backdrop fade show';
+          document.body.appendChild(backdrop);
+        }
+    
+        /*
     // Load and initialize Corbado SDK when the component mounts
     await Corbado.load({
       projectId: environment.username_cobardo,
@@ -62,8 +74,9 @@ export class LoginPasskeysComponent implements OnInit {
           }
         });
       },
-    })
-    */
+    })*/
+      }
+    });
   }
 
   /**
@@ -199,7 +212,12 @@ export class LoginPasskeysComponent implements OnInit {
                 console.log(response);
               }
             }, error: error => {
-              console.log(error)
+              Swal.fire({
+                title: 'Error al intentar hacer el login',
+                text: 'Hubo un problema al procesar tu clave. Por favor, intenta nuevamente o contacta al soporte.',
+                icon: 'error',
+                confirmButtonText: 'Reintentar',
+              });
             }
           })
         })
@@ -235,16 +253,6 @@ export class LoginPasskeysComponent implements OnInit {
       .replace(/\+/g, "-")
       .replace(/\//g, "_")
       .replace(/=+$/, "");
-  }
-
-  private arrayBufferToBase64(buffer: ArrayBuffer): string {
-    let binary = '';
-    const bytes = new Uint8Array(buffer);
-    const len = bytes.byteLength;
-    for (let i = 0; i < len; i++) {
-      binary += String.fromCharCode(bytes[i]);
-    }
-    return btoa(binary);
   }
 
 }
