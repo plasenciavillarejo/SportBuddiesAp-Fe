@@ -8,7 +8,7 @@ import { FormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { CredentialPasskeys } from '../../models/credentialPasskeys';
 import { PublicKeyCreate } from '../../models/publicKeyCreate';
-import * as cbor from 'cbor';
+import * as base64url from 'base-64'; // Asegúrate de usar *as base64url*
 
 @Component({
   selector: 'app-login-passkeys',
@@ -37,7 +37,7 @@ export class LoginPasskeysComponent implements OnInit {
 
   async ngOnInit() {
 
-    //this.loginWithPasskeys();
+    this.loginWithPasskeys();
 
     /*
     // Load and initialize Corbado SDK when the component mounts
@@ -180,6 +180,7 @@ export class LoginPasskeysComponent implements OnInit {
           allowCredentials: [],
           userVerification: 'preferred',
         };
+
         // Validamos los datos con el navegador
         navigator.credentials.get({ publicKey: publicKeyCredentialRequestOptions })
         .then((assertion: any) => {
@@ -189,10 +190,11 @@ export class LoginPasskeysComponent implements OnInit {
             challangeGenerateBe: this.base64urlEncode(challengeResponseBe),
             authenticatorData: this.base64urlEncode(assertion.response.authenticatorData),
             clientDataJson: this.base64urlEncode(assertion.response.clientDataJSON),
-            signature: this.base64urlEncode(assertion.response.signature),
+            signature: this.base64urlEncode(assertion.response.signature)         
           };
-  
           console.log(credentialPasskeyNavigation);
+          console.log(JSON.stringify(credentialPasskeyNavigation));
+
           this.authService.loginPassKeys(credentialPasskeyNavigation).subscribe({
             next: response => {
               if (response) {
@@ -213,6 +215,13 @@ export class LoginPasskeysComponent implements OnInit {
     });
   }
 
+  private base64urlEncode(buffer: ArrayBuffer): string {
+    const bytes = new Uint8Array(buffer);
+    const binary = String.fromCharCode(...bytes);
+    const base64 = btoa(binary);
+    return base64.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+  }
+  
   private base64ToBase64Url(base64: string) {
     return base64.replace(/-/g, '+').replace(/_/g, '/');
   }
@@ -227,24 +236,6 @@ export class LoginPasskeysComponent implements OnInit {
       view[i] = binary.charCodeAt(i);
     }
     return buffer;
-  }
-
-  private base64urlEncode(buffer: ArrayBuffer): string {
-    const binary = String.fromCharCode(...new Uint8Array(buffer));
-    return btoa(binary)
-      .replace(/\+/g, "-")
-      .replace(/\//g, "_")
-      .replace(/=+$/, "");
-  }
-
-  private arrayBufferToBase64(buffer: ArrayBuffer): string {
-    let binary = '';
-    const bytes = new Uint8Array(buffer);
-    const len = bytes.byteLength;
-    for (let i = 0; i < len; i++) {
-      binary += String.fromCharCode(bytes[i]);
-    }
-    return btoa(binary);
   }
 
 }
