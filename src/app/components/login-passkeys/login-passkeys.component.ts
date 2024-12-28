@@ -209,6 +209,8 @@ export class LoginPasskeysComponent implements OnInit {
           this.authService.loginPassKeys(credentialPasskeyNavigation).subscribe({
             next: response => {
               if (response) {
+                // Si la respuesta es true, quiere decir que es correcto y redirigimos al authorize
+                this.router.navigate(['/authorize']);
                 console.log(response);
               }
             }, error: error => {

@@ -107,5 +107,4 @@ export class AuthService {
     return this.http.post<any>(this.url_passkey_login, credentialPasskeyNavigation);
   }
 
-
 }
