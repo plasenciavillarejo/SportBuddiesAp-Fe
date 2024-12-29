@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { environment } from '../../../environments/environment';
 import { HttpParams } from '@angular/common/http';
 import { TokenService } from '../../services/token.service';
@@ -7,6 +7,7 @@ import { ServicioCompartidoService } from '../../services/servicio-compartido.se
 import { AuthService } from '../../services/auth.service';
 import { Observable } from 'rxjs';
 declare var bootstrap: any
+
 const CHARACTERS = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
 
 @Component({
@@ -26,8 +27,9 @@ export class HeaderComponent implements OnInit {
   isAuthenticate!: boolean;
   isAdmin!: boolean;
   isUser!: boolean;
-
   isSesionInit!: boolean;
+
+  idUsuario!: number;
 
   params: any = {
     client_id: environment.client_id,
@@ -38,13 +40,9 @@ export class HeaderComponent implements OnInit {
     code_challenge_method: environment.code_challenge_method,
   }
 
-  idUsuario!: number;
-
   constructor(private tokenService: TokenService,
     private servicioCompartido: ServicioCompartidoService,
-    private authService : AuthService,
-    private activatedRoute: ActivatedRoute,
-    private router: Router
+    private authService : AuthService
     ) {}
 
   ngOnInit(): void {
@@ -65,13 +63,12 @@ export class HeaderComponent implements OnInit {
       const httpParams = new HttpParams({ fromObject: this.params });
       const codeUrl = this.authorize_uri + httpParams.toString();
       
-      // Redirigir
+      // Redirigir al usuario al servidor de autorización OAuth2
       location.href = codeUrl;
     }).catch(error => {
       console.error('Error generating code challenge', error);
     });
   }
-
   /**
    * Función para cerrar sesión
    */

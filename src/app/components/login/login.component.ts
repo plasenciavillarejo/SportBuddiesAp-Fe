@@ -1,10 +1,8 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { Usuario } from '../../models/usuario';
 import Swal from'sweetalert2';
-import { ServicioCompartidoService } from '../../services/servicio-compartido.service';
-import { HttpClient,  HttpParams } from '@angular/common/http';
+import { HttpParams } from '@angular/common/http';
 import { TokenService } from '../../services/token.service';
 import { environment } from '../../../environments/environment';
 
@@ -32,13 +30,11 @@ export class LoginComponent {
     code_challenge_method: environment.code_challenge_method,
   }
 
-  constructor(private servicioCompartido: ServicioCompartidoService,
-    private http: HttpClient,
-    private router: Router,
-  private tokenService: TokenService) {}
+  constructor(private tokenService: TokenService,) 
+  {}
 
   ngOnInit(): void {
-
+    //this.onLogin();
   }
 
   // Cuando enviemos el usuario que vamos hacer con el
@@ -49,9 +45,7 @@ export class LoginComponent {
         'Usuario y Password requeridos',
         'error'
       )
-    } else {
-      this.onLogin();
-    }
+    } 
   }
 
   /* Al utilizar la API Web Crypto al ser asíncrono tenemos que convertir el login de forma asíncrona, de lo contrario cuando se intente 
@@ -67,9 +61,7 @@ export class LoginComponent {
         this.params.code_challenge = code_challenge;
         const httpParams = new HttpParams({ fromObject: this.params });
         const codeUrl = this.authorize_uri + httpParams.toString();
-        
-        // Redirigir
-        location.href = codeUrl;
+
       }).catch(error => {
         console.error('Error generating code challenge', error);
       });

@@ -1,14 +1,14 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SessionUser } from '@corbado/types';
 import Corbado from '@corbado/web-js';
-import { environment } from '../../../environments/environment';
 import { AuthService } from '../../services/auth.service';
 import { FormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { CredentialPasskeys } from '../../models/credentialPasskeys';
 import { PublicKeyCreate } from '../../models/publicKeyCreate';
-import * as base64url from 'base-64'; // Asegúrate de usar *as base64url*
+import { TokenService } from '../../services/token.service';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-login-passkeys',
@@ -17,53 +17,72 @@ import * as base64url from 'base-64'; // Asegúrate de usar *as base64url*
   templateUrl: './login-passkeys.component.html',
   styleUrl: './login-passkeys.component.css'
 })
+
 export class LoginPasskeysComponent implements OnInit {
 
+  authorize_uri = environment.authorize_uri;
   // Establece el usuario que se ha logueado por el passkeys
   user: SessionUser | undefined = undefined
 
   nombreUsuario: string = '';
 
   isSubmitting = false;
+  isLogin = false;
+  codeVerifier!: string;
+  codeChallange!: string;
 
   publicKey: PublicKeyCreate = new PublicKeyCreate();
   credentialPassKeys: CredentialPasskeys = new CredentialPasskeys();
 
   @ViewChild('corbadoAuth', { static: true }) authElement!: ElementRef;
 
+
   constructor(private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private activatedRoute: ActivatedRoute,
+    private tokenService: TokenService,
   ) { }
 
   async ngOnInit() {
-
-    this.loginWithPasskeys();
-
-    /*
-    // Load and initialize Corbado SDK when the component mounts
-    await Corbado.load({
-      projectId: environment.username_cobardo,
-      darkMode: 'off',
-    });
-
-    // mount Corbado auth UI for the user to sign in or sign up
-    Corbado.mountAuthUI(this.authElement.nativeElement, {
-      onLoggedIn: () => {
-        // Get the user data from the Corbado SDK
-        this.user = Corbado.user
-         Este usuario se tiene que insertar en base de datos apuntado al servicio /usuario/crear
-        enviando el usuario y el email lo demás puede ir todo vacío
-        
-        this.authService.loginCorbadoPassKey(this.user!.email).subscribe({
-          next: response => {
-            console.log(response);
-            this.router.navigate(['/'])
-          }, error: error => {
-          }
+    this.activatedRoute.params.subscribe(params => {
+      this.isLogin = params['isLogin'];
+      if (this.isLogin) {
+        this.loginWithPasskeys();
+        const spinnerModalPasskeys = document.getElementById('spinner-modal-passkeys');
+        if (spinnerModalPasskeys) {
+          // Agregamos los elementos a mano para evitar conflicto con bootstrap
+          spinnerModalPasskeys.classList.add('show');
+          spinnerModalPasskeys.style.display = 'block';
+          document.body.classList.add('modal-open');
+          const backdrop = document.createElement('div');
+          backdrop.className = 'modal-backdrop fade show';
+          document.body.appendChild(backdrop);
+        }
+        /*
+        await Corbado.load({
+          projectId: environment.username_cobardo,
+          darkMode: 'off',
         });
-      },
-    })
-    */
+    
+        // mount Corbado auth UI for the user to sign in or sign up
+        Corbado.mountAuthUI(this.authElement.nativeElement, {
+          onLoggedIn: () => {
+            // Get the user data from the Corbado SDK
+            this.user = Corbado.user
+             Este usuario se tiene que insertar en base de datos apuntado al servicio /usuario/crear
+            enviando el usuario y el email lo demás puede ir todo vacío
+            
+            this.authService.loginCorbadoPassKey(this.user!.email).subscribe({
+              next: response => {
+                console.log(response);
+                this.router.navigate(['/'])
+              }, error: error => {
+              }
+            });
+          },
+        })*/
+      }
+    });
   }
 
   /**
@@ -119,7 +138,7 @@ export class LoginPasskeysComponent implements OnInit {
               clientExtensionResults: newCredential.getClientExtensionResults(),
               nombreUsuario: response.user.name
             };
-            
+
             // Una vez creada dicha credencial, se envia al BE para validarla, si todo es correcto se genera.
             this.authService.validateCredential(credential).subscribe({
               next: response => {
@@ -183,31 +202,36 @@ export class LoginPasskeysComponent implements OnInit {
 
         // Validamos los datos con el navegador
         navigator.credentials.get({ publicKey: publicKeyCredentialRequestOptions })
-        .then((assertion: any) => {
-          const credentialPasskeyNavigation = {
-            credentialId: this.base64ToBase64Url(assertion.id),
-            rawId : this.base64urlEncode(assertion.rawId),
-            challangeGenerateBe: this.base64urlEncode(challengeResponseBe),
-            authenticatorData: this.base64urlEncode(assertion.response.authenticatorData),
-            clientDataJson: this.base64urlEncode(assertion.response.clientDataJSON),
-            signature: this.base64urlEncode(assertion.response.signature)         
-          };
-          console.log(credentialPasskeyNavigation);
-          console.log(JSON.stringify(credentialPasskeyNavigation));
+          .then((assertion: any) => {
+            const credentialPasskeyNavigation = {
+              credentialId: this.base64ToBase64Url(assertion.id),
+              rawId: this.base64urlEncode(assertion.rawId),
+              challangeGenerateBe: this.base64urlEncode(challengeResponseBe),
+              authenticatorData: this.base64urlEncode(assertion.response.authenticatorData),
+              clientDataJson: this.base64urlEncode(assertion.response.clientDataJSON),
+              signature: this.base64urlEncode(assertion.response.signature)
+            };
+            console.log(credentialPasskeyNavigation);
+            console.log(JSON.stringify(credentialPasskeyNavigation));
 
-          this.authService.loginPassKeys(credentialPasskeyNavigation).subscribe({
-            next: response => {
-              if (response) {
-                console.log(response);
+            this.authService.loginPassKeys(credentialPasskeyNavigation).subscribe({
+              next: response => {
+                if (response) {
+                  // ACTUALMENTE NO SE COMO PODER GENERAR EL CODE POR EL SERVIDOR DE AUTORIACION PARA PODER OBTENER EL TOKEN.
+                }
+              }, error: error => {
+                Swal.fire({
+                  title: 'Error al intentar hacer el login',
+                  text: 'Hubo un problema al procesar tu clave. Por favor, intenta nuevamente o contacta al soporte.',
+                  icon: 'error',
+                  confirmButtonText: 'Reintentar',
+                });
               }
-            }, error: error => {
-              console.log(error)
-            }
+            })
           })
-        })
-        .catch((err: any) => {
-          console.error("Error durante la autenticación", err);
-        });
+          .catch((err: any) => {
+            console.error("Error durante la autenticación", err);
+          });
 
       }, error: error => {
         console.log(error);
@@ -215,13 +239,18 @@ export class LoginPasskeysComponent implements OnInit {
     });
   }
 
+  /**
+    * Función auxiliar para convertir ArrayBuffer en Base64-url
+    * @param buffer 
+    * @returns 
+    */
   private base64urlEncode(buffer: ArrayBuffer): string {
     const bytes = new Uint8Array(buffer);
     const binary = String.fromCharCode(...bytes);
     const base64 = btoa(binary);
     return base64.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
   }
-  
+
   private base64ToBase64Url(base64: string) {
     return base64.replace(/-/g, '+').replace(/_/g, '/');
   }

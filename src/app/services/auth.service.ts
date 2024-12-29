@@ -107,5 +107,19 @@ export class AuthService {
     return this.http.post<any>(this.url_passkey_login, credentialPasskeyNavigation);
   }
 
+  obtainCode()  : Observable<any> {
+   const body = new URLSearchParams();
+    body.set('username', 'jose');
+    body.set('password', '12345');
+
+    // Configurar las cabeceras
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/x-www-form-urlencoded',
+    });
+
+    // Enviar la solicitud POST
+    return this.http.post('http://localhost:9000/login', body.toString(), { headers });
+
+  }
 
 }

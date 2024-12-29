@@ -87,7 +87,7 @@ export class NuevoUsuarioComponent implements OnInit {
     this.formSubmit = true;
 
     // Validacion formulario reactivo
-    if (this.idUsuario == null && this.validateForm.invalid && this.validarPassword(this.validateForm)) {
+    if (this.idUsuario == null && this.validarPassword(this.validateForm)) {
       return;
     } else if (this.idUsuario != null && this.validateForm.invalid) {
       return;
@@ -191,10 +191,9 @@ export class NuevoUsuarioComponent implements OnInit {
    * @returns 
    */
   validateCriteriaPassword(password: any): boolean {
-    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&_]{8,}$/;
+
     const idPopoverPassword = document.getElementById('popover-password');
-    /*const passwordValue = password.target.value;
-    (passwordValue !== undefined && !passwordRegex.test(passwordValue) && passwordValue !== '' )*/
     if (!passwordRegex.test(password) && password !== '') {
       this.passwordRequired = false;
       // Activamos el Popover para que muestre la información del error con más detalle
@@ -207,9 +206,9 @@ export class NuevoUsuarioComponent implements OnInit {
             <li>Debe contener al menos una letra minúscula</li>
             <li>Debe contener al menos una letra mayúscula</li>
             <li>Debe incluir dígitos</li>
-            <li>Debe tener un carácter especial (por ejemplo, @$!%*?&)</li>
+            <li>Debe tener al menos dos caracteres especiales (por ejemplo, @$!%*?&_)</li>
             <li>Debe tener una longitud mínima de 8 caracteres</li>
-            <li>Ejemplo Password: MiContrase1$ </li>
+            <li>Ejemplo Password: MiContrasena_10$ </li>
           </ul>
         `,
           trigger: 'hover'
@@ -276,8 +275,8 @@ export class NuevoUsuarioComponent implements OnInit {
     // Inicializamos la validacion de angular con los formularios reactivos
     this.validateForm = this.formBuilder.group({
       nombreUsuario: ['', [Validators.required]],
-      email: ['', [Validators.required, Validators.email]]
-      //password: ['', [Validators.required]]
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required]]
     });
   }
 
