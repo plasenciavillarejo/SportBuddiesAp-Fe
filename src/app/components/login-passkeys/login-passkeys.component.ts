@@ -40,7 +40,7 @@ export class LoginPasskeysComponent implements OnInit {
   constructor(private router: Router,
     private authService: AuthService,
     private activatedRoute: ActivatedRoute,
-    private tokenService: TokenService,
+    private tokenService: TokenService
   ) { }
 
   async ngOnInit() {
@@ -217,7 +217,19 @@ export class LoginPasskeysComponent implements OnInit {
             this.authService.loginPassKeys(credentialPasskeyNavigation).subscribe({
               next: response => {
                 if (response) {
-                  // ACTUALMENTE NO SE COMO PODER GENERAR EL CODE POR EL SERVIDOR DE AUTORIACION PARA PODER OBTENER EL TOKEN.
+                  this.tokenService.setToken(response.access_token, response.refresh_token);
+                  const spinnerModalPasskeys = document.getElementById('spinner-modal-passkeys');
+                  if (spinnerModalPasskeys) {
+                    // Agregamos los elementos a mano para evitar conflicto con bootstrap
+                    spinnerModalPasskeys.classList.remove('show');
+                    spinnerModalPasskeys.style.display = 'none';
+                    document.body.classList.remove('modal-open');
+                    const backdrop = document.querySelector('.modal-backdrop');
+                    if (backdrop) {
+                      backdrop.remove();
+                    }
+                  }
+                  this.router.navigate(['']);
                 }
               }, error: error => {
                 Swal.fire({

@@ -62,7 +62,7 @@ export class HeaderComponent implements OnInit {
       this.params.code_challenge = code_challenge;
       const httpParams = new HttpParams({ fromObject: this.params });
       const codeUrl = this.authorize_uri + httpParams.toString();
-      
+
       // Redirigir al usuario al servidor de autorización OAuth2
       location.href = codeUrl;
     }).catch(error => {
