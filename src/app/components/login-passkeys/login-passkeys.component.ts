@@ -218,26 +218,18 @@ export class LoginPasskeysComponent implements OnInit {
               next: response => {
                 if (response) {
                   this.tokenService.setToken(response.access_token, response.refresh_token);
-                  const spinnerModalPasskeys = document.getElementById('spinner-modal-passkeys');
-                  if (spinnerModalPasskeys) {
-                    // Agregamos los elementos a mano para evitar conflicto con bootstrap
-                    spinnerModalPasskeys.classList.remove('show');
-                    spinnerModalPasskeys.style.display = 'none';
-                    document.body.classList.remove('modal-open');
-                    const backdrop = document.querySelector('.modal-backdrop');
-                    if (backdrop) {
-                      backdrop.remove();
-                    }
-                  }
+                  this.closeModalSpinner();
                   this.router.navigate(['']);
                 }
               }, error: error => {
+                this.closeModalSpinner();
                 Swal.fire({
                   title: 'Error al intentar hacer el login',
-                  text: 'Hubo un problema al procesar tu clave. Por favor, intenta nuevamente o contacta al soporte.',
+                  text: error.error.mensaje,
                   icon: 'error',
                   confirmButtonText: 'Reintentar',
                 });
+                this.router.navigate(['']);
               }
             })
           })
@@ -277,6 +269,20 @@ export class LoginPasskeysComponent implements OnInit {
       view[i] = binary.charCodeAt(i);
     }
     return buffer;
+  }
+
+  private closeModalSpinner() {
+    const spinnerModalPasskeys = document.getElementById('spinner-modal-passkeys');
+    if (spinnerModalPasskeys) {
+      // Agregamos los elementos a mano para evitar conflicto con bootstrap
+      spinnerModalPasskeys.classList.remove('show');
+      spinnerModalPasskeys.style.display = 'none';
+      document.body.classList.remove('modal-open');
+      const backdrop = document.querySelector('.modal-backdrop');
+      if (backdrop) {
+        backdrop.remove();
+      }
+    }
   }
 
 }
