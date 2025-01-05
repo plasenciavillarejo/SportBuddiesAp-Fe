@@ -58,6 +58,41 @@ export class PagoTarjetaComponent implements OnInit {
         this.stripe = stripeInstance;
         this.cardElement = this.stripe!.elements().create('card');
         this.cardElement.mount('#card-element');
+
+        /* Método que implementa los inputs de forma separada
+        const elements = this.stripe!.elements();
+        const cardNumber = elements.create('cardNumber');
+        const cardExpiry = elements.create('cardExpiry');
+        const cardCvc = elements.create('cardCvc');
+
+        cardNumber.mount('#card-number'); // Div con id "card-number"
+        cardExpiry.mount('#card-expiry'); // Div con id "card-expiry"
+        cardCvc.mount('#card-cvc');       // Div con id "card-cvc"
+
+        // implementa appley pay
+        const paymentRequest = this.stripe!.paymentRequest({
+          country: 'ES',
+          currency: 'eur',
+          total: {
+            label: 'Total a pagar',
+            amount: 499, // En céntimos (€4.99)
+          },
+          requestPayerName: true,
+          requestPayerEmail: true,
+        });
+
+        const prButton = elements.create('paymentRequestButton', {
+          paymentRequest,
+        });
+
+        paymentRequest.canMakePayment().then((result) => {
+          if (result) {
+            prButton.mount('#payment-request-button'); // Montar el botón si el método está disponible
+          } else {
+            console.log('Apple Pay/Google Pay no disponible');
+          }
+        });
+        */
       });
   }
 
