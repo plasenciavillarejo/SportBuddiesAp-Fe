@@ -20,7 +20,7 @@
     "@angular/router": "^18.2.0",
     "@corbado/web-js": "^2.18.0",
     "@popperjs/core": "^2.11.8",
-    "@stripe/stripe-js": "^4.9.0",
+    "@stripe/stripe-js": "^5.5.0",
     "@types/crypto-js": "^4.2.2",
     "angular-calendar": "^0.31.1",
     "angular-oauth2-oidc": "^17.0.2",

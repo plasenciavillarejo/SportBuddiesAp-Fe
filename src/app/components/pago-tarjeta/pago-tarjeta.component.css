@@ -1,3 +1,9 @@
-#card-element{
-    width: 23rem;    
+#card-element {
+    width: 23rem;
+}
+
+#express-checkout-element {
+    min-height: 100px;
+    /* Ajusta el mínimo según lo necesario */
+    position: relative;
 }

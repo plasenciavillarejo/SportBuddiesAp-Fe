@@ -123,10 +123,6 @@ export class LoginPasskeysComponent implements OnInit {
 
           // Crear la credencial con WebAuthn
           await navigator.credentials.create({ publicKey }).then((newCredential: any) => {
-            console.log('Credencial creada:', newCredential);
-            // Credencial para validar en el BE.
-            console.log('Llave pública: ', newCredential.response.publicKey);
-
             const credential = {
               id: newCredential.id,
               rawId: this.base64urlEncode(newCredential.rawId),
@@ -144,7 +140,6 @@ export class LoginPasskeysComponent implements OnInit {
               next: response => {
                 if (response != null) {
                   this.isSubmitting = false;
-                  console.log(response);
                   Swal.fire({
                     title: 'Registro exitoso',
                     text: 'Tu clave de acceso se ha registrado correctamente. Ahora puedes usarla para iniciar sesión.',
@@ -211,9 +206,6 @@ export class LoginPasskeysComponent implements OnInit {
               clientDataJson: this.base64urlEncode(assertion.response.clientDataJSON),
               signature: this.base64urlEncode(assertion.response.signature)
             };
-            console.log(credentialPasskeyNavigation);
-            console.log(JSON.stringify(credentialPasskeyNavigation));
-
             this.authService.loginPassKeys(credentialPasskeyNavigation).subscribe({
               next: response => {
                 if (response) {
@@ -234,11 +226,20 @@ export class LoginPasskeysComponent implements OnInit {
             })
           })
           .catch((err: any) => {
-            console.error("Error durante la autenticación", err);
+            Swal.fire({
+              title: 'Error al intentar hacer el login',
+              text: err.error.mensaje,
+              icon: 'error',
+              confirmButtonText: 'Reintentar',
+            });
           });
-
       }, error: error => {
-        console.log(error);
+        Swal.fire({
+          title: 'Error al intentar hacer el login',
+          text: error.error.mensaje,
+          icon: 'error',
+          confirmButtonText: 'Reintentar',
+        });
       }
     });
   }

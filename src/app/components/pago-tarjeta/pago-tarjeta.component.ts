@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { loadStripe, Stripe } from '@stripe/stripe-js';
+import { loadStripe, Stripe, StripeExpressCheckoutElementOptions } from '@stripe/stripe-js';
 import { PagoTarjetaService } from '../../services/pago-tarjeta.service';
 import { PagoTarjetaRequest } from '../../models/pagoTarjetaRequest';
 import { ServicioCompartidoService } from '../../services/servicio-compartido.service';
@@ -28,6 +28,7 @@ export class PagoTarjetaComponent implements OnInit {
   stripe: Stripe | null = null;
 
   cardElement: any;
+  cardElementAll: any;
   cardHolderName: string = '';
 
   idReservaUsuario!: number;
@@ -69,29 +70,39 @@ export class PagoTarjetaComponent implements OnInit {
         cardExpiry.mount('#card-expiry'); // Div con id "card-expiry"
         cardCvc.mount('#card-cvc');       // Div con id "card-cvc"
 
-        // implementa appley pay
-        const paymentRequest = this.stripe!.paymentRequest({
-          country: 'ES',
-          currency: 'eur',
-          total: {
-            label: 'Total a pagar',
-            amount: 499, // En céntimos (€4.99)
+        // Configuración del ExpressCheckoutElement
+        const expressCheckoutOptions: StripeExpressCheckoutElementOptions = {
+          buttonHeight: 40,    // Define la altura del botón
+          buttonTheme: {
+            applePay: 'black',  // Color del botón de Apple Pay
+            googlePay: 'black', // Color del botón de Google Pay
+            paypal: 'gold',     // Color del botón de PayPal
           },
-          requestPayerName: true,
-          requestPayerEmail: true,
-        });
+          layout: {
+            maxColumns: 2,     // Número máximo de columnas
+            maxRows: 1,        // Número máximo de filas
+            overflow: 'auto',  // Cómo manejar el desbordamiento
+          },
+          paymentMethods: {
+            applePay: 'always',  // Apple Pay siempre visible
+            googlePay: 'always', // Google Pay siempre visible
+            paypal: 'auto',      // PayPal visible cuando sea adecuado
+          },
+        };
 
-        const prButton = elements.create('paymentRequestButton', {
-          paymentRequest,
-        });
+        // Crear un objeto de elementos de Stripe
+        const elementsPayments = this.stripe!.elements();
 
-        paymentRequest.canMakePayment().then((result) => {
-          if (result) {
-            prButton.mount('#payment-request-button'); // Montar el botón si el método está disponible
-          } else {
-            console.log('Apple Pay/Google Pay no disponible');
-          }
-        });
+        // Crear el elemento de ExpressCheckout
+        const expressCheckoutElement = elementsPayments.create('expressCheckout', expressCheckoutOptions);
+
+        // Verificar que el contenedor existe antes de montar el elemento
+        const container = document.getElementById('express-checkout-element');
+        if (container) {
+          expressCheckoutElement.mount('#express-checkout-element');
+        } else {
+          console.error('El contenedor #express-checkout-element no existe en el DOM');
+        }
         */
       });
   }
