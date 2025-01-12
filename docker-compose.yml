@@ -1,0 +1,9 @@
+services:
+  sportbuddiesappfe:
+    image: sportbuddiesappfe:0.0.1
+    container_name: sport-buddies-fe
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+    ports:
+      - "8080:8080"
