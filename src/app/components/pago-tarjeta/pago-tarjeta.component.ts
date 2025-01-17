@@ -139,17 +139,20 @@ export class PagoTarjetaComponent implements OnInit {
             },
           }).then((result) => {
             if (result.error) {
-              console.error(result.error.message);
+              Swal.fire(
+                'Error en el pago',
+                'Se ha producido un error a la hora de realizar el pago',
+                'error'
+              );
             } else {
               this.servicioCompartido.showSpinnerModal();
-              console.log('PaymentMethod created:', result.paymentMethod);        
               pagoTarjetaRequest.metodoPago = result.paymentMethod.id;
               pagoTarjetaRequest.cantidad = this.precioActividad;
               pagoTarjetaRequest.divisa = 'EUR';
               pagoTarjetaRequest.descripcion = 'Pago Pista ' + this.nombreActividad;
               pagoTarjetaRequest.idUsuario = this.tokenService.obtainIdUser();
               pagoTarjetaRequest.idReservaUsuario = this.idReservaUsuario;
-              
+
               this.pagoTarjetaService.paymentCard(pagoTarjetaRequest).subscribe({
                 next: response => {
                   if (response.clientSecret != null) {
@@ -163,7 +166,11 @@ export class PagoTarjetaComponent implements OnInit {
                   }
                 }, error: error => {
                   this.servicioCompartido.hideSpinnerModal();
-                  throw new error;
+                  Swal.fire(
+                    'Error en el pago',
+                    'Se ha producido un error a la hora de realizar el pago',
+                    'error'
+                  );
                 }
               });
             }

@@ -92,8 +92,7 @@
 
         <!--<div id="express-checkout-element" class="form-control col-md-6 mb-3 position-relative"></div>-->
 
-        <!--<div id="payment-request-button" class="form-control"></div>
-        <div id="card-number" class="form-control"></div>
+        <!--<div id="card-number" class="form-control"></div>
         <div id="card-expiry" class="form-control"></div>
         <div id="card-cvc" class="form-control"></div>-->
         
@@ -103,6 +102,7 @@
             </button>
         </div>
     </form>
+    
     @if(pagoTarjeta) {
         <app-spinner-modal [pagoTarjeta]="true"></app-spinner-modal>
     }
