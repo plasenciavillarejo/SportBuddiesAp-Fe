@@ -1,5 +1,5 @@
 export const environment = {
-    production: false,
+    production: true,
     authorize_uri: 'http://localhost:9000/oauth2/authorize?',
     client_id: 'client-angular',
     redirect_uri: 'http://localhost:4200/authorize',
