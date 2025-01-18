@@ -89,7 +89,8 @@ export class AuthService {
     const body = {
       username: username,
       displayName: username,
-      rpId: 'localhost',
+      // Nombre con el que se generara el nombre del registro
+      rpId: 'SportBuddiesApp',
       origin: environment.hostname_port_local_oauth
     };
     return this.http.post<any>(this.url_passkey_register, body);
