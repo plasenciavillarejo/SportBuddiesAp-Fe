@@ -1,19 +1,30 @@
-# Etapa 1: Construcción de la aplicación
-#FROM node:18 AS build
-FROM node:18-alpine3.21 AS build
-
-# Establecer el directorio de trabajo
+# Etapa 1: Construcción (con Node.js)
+FROM node:18 AS build
+# Establecer directorio de trabajo
 WORKDIR /app
 
-# Copiar los archivos del proyecto
-COPY . .
+# Copiar los archivos de configuración (package.json, etc.)
+COPY package*.json ./
 
 # Instalar dependencias
 RUN npm install
-RUN npm run build
 
-# Etapa 2: Servir la aplicación usando Nginx
-FROM httpd:alpine3.21
+# Copiar el resto de los archivos del proyecto
+COPY . .
 
-WORKDIR /usr/local/apache2/htdocs
-COPY --from=build /app/dist/sport-buddies-app-fe .
+# Ejecutar el build de producción
+#RUN npm run build 
+RUN ng build --configuration production
+#--configuration production
+
+# Etapa 2: Servir la aplicación con Nginx
+FROM nginx:alpine
+
+# Copia los archivos generados de Angular al contenedor
+COPY dist/sport-buddies-app-fe /usr/share/nginx/html
+
+
+EXPOSE 4200
+
+# Ejecutar Nginx
+CMD ["nginx", "-g", "daemon off;"]
