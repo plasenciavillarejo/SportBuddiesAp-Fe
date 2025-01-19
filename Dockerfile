@@ -7,7 +7,7 @@ WORKDIR /app
 COPY . .
 
 # Instalar dependencias
-RUN npm i && npx run ng build
+RUN npm i && npx run ng build --configuration production
 
 # En el caso de no ejecutar el npx ng build podemos instalar angular para tenerlo dentro del contenedor y reconozca el comando ng build
 #RUN npm install -g @angular/cli
