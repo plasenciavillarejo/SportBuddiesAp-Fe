@@ -51,17 +51,15 @@
                 }
               ],
               "outputHashing": "all",
-              "optimization": true,
-              "extractLicenses": true,
-              "sourceMap": false,
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true,
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.prod.ts"
                 }
-              ],
-              "aot": true,
-              "namedChunks": false
+              ]
             },
             "development": {
               "optimization": false,
