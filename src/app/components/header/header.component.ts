@@ -108,10 +108,15 @@ export class HeaderComponent implements OnInit {
     const encoder = new TextEncoder();
     const data = encoder.encode(codeVerifier);
     // Usar Web Crypto API para generar el hash SHA-256
+    
+    /* Da probema al desplegar con VPS
     const hash = await crypto.subtle.digest('SHA-256', data);
-    // Convertir el hash a base64-url
-    const base64String = this.arrayBufferToBase64Url(hash);
+    const base64String = this.arrayBufferToBase64Url(hash); 
     return base64String;
+    */
+    // Solución para VPS:
+    const hash = CryptoJS.SHA256(codeVerifier).toString(CryptoJS.enc.Base64);
+    return hash.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '')
   }
 
   /**
