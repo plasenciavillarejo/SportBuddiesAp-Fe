@@ -7,6 +7,7 @@ import { ServicioCompartidoService } from '../../services/servicio-compartido.se
 import { AuthService } from '../../services/auth.service';
 import { Observable } from 'rxjs';
 declare var bootstrap: any
+import * as CryptoJS from 'crypto-js';
 
 const CHARACTERS = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
 
