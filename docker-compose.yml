@@ -2,9 +2,10 @@ services:
   angular:
     build:
       context: ./
-      dockerfile: ./Dockerfile
-      ports:
-        - "4200:80"
+      dockerfile: ./Dockerfile # Crea un Dockerfile específico para Angular
+    # No expongas el puerto 4200, Nginx se encargará de la comunicación
+    # ports:
+    #   - "4200:80"  <- Elimina esta línea
     networks:
       - sportbuddiesfe-network
 
@@ -12,7 +13,7 @@ services:
     image: nginx:alpine
     container_name: sport-buddies-nginx
     ports:
-      - "80:80"
+      - "4200:80"
     volumes:
       - ./nginx.conf:/etc/nginx/conf.d/default.conf
       - ./dist/sport-buddies-app-fe:/usr/share/nginx/html # Monta el directorio dist
