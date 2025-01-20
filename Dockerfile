@@ -3,7 +3,7 @@ FROM node:18 AS build
 WORKDIR /app
 COPY . .
 RUN apt-get update && apt-get install -y bash
-RUN node --version && npm --version  # Verifica las versiones aquí
+RUN node --version && npm --version
 RUN npm install && npm run ng build -- --configuration production --project SportBuddiesApp-Fe
 
 # Etapa 2: Producción
