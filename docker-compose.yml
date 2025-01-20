@@ -6,4 +6,5 @@ services:
       context: ./
       dockerfile: ./Dockerfile
     ports:
-      - "4200:443"
+      #- "4200:443"
+      - "443:443"
