@@ -7,7 +7,7 @@ services:
     # ports:
     #   - "4200:80"  <- Elimina esta línea
     networks:
-      - sportbuddies-fe-network
+      - sportbuddiesfe-network
 
   nginx:
     image: nginx:alpine
@@ -20,7 +20,7 @@ services:
     depends_on:
       - angular
     networks:
-      - sportbuddies-fe-network
+      - sportbuddiesfe-network
 
 networks:
-  mi-red:
+  sportbuddiesfe-network:
