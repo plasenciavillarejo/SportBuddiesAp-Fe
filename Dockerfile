@@ -12,3 +12,4 @@ WORKDIR /usr/share/nginx/html
 RUN rm -rf ./*
 COPY --from=build /app/dist/sport-buddies-app-fe .
 COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY ./
