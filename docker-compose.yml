@@ -19,21 +19,6 @@ services:
       - angular-build # Dependencia para que se construya antes de iniciar Nginx
     networks:
       - sportbuddiesfe-network
-
-
-  # Descomenta para usar volúmenes nombrados en lugar de bind mounts
-  # Esto es útil si estás en Windows o macOS, para evitar problemas de rendimiento
-  # volumes:
-  #   sportbuddiesappfe-dist:
-
+      
 networks:
   sportbuddiesfe-network:
-
-volumes:  # Descomenta si usas volúmenes nombrados
- sportbuddiesappfe-dist:
-    image: alpine:latest
-    volumes:
-      - sportbuddiesappfe-dist:/app/dist
-    command: /bin/sh -c "apk add --no-cache bash && cp -r /app/dist/* /usr/share/nginx/html && while true; do sleep 30; done"
-    depends_on:
-      - angular-build
