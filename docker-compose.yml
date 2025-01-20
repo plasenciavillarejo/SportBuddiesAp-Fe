@@ -1,26 +1,39 @@
+version: "3.9"
 services:
-  angular:
+  angular-build: # Nuevo servicio solo para construir
     build:
-      context: ./
-      dockerfile: ./Dockerfile # Crea un Dockerfile específico para Angular
-    # No expongas el puerto 4200, Nginx se encargará de la comunicación
-    # ports:
-    #   - "4200:80"  <- Elimina esta línea
+      context: .
+      dockerfile: Dockerfile
+    image: sportbuddiesappfe-builder:latest # Etiqueta la imagen del builder
+
+  angular: # Servicio para servir la aplicación (usa la imagen de Nginx)
+    image: nginx:alpine
+    container_name: sport-buddies-fe
+    ports:
+      - "81:80"
+      # - "443:443" # Descomenta si usas HTTPS
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+      - sportbuddiesappfe-dist:/usr/share/nginx/html # Volumen con los archivos estáticos
+    depends_on:
+      - angular-build # Dependencia para que se construya antes de iniciar Nginx
     networks:
       - sportbuddiesfe-network
 
-  nginx:
-    image: nginx:alpine
-    container_name: sport-buddies-nginx
-    ports:
-      - "4200:80"
-    volumes:
-      - ./nginx.conf:/etc/nginx/conf.d/default.conf
-      - ./dist/sport-buddies-app-fe:/usr/share/nginx/html # Monta el directorio dist
-    depends_on:
-      - angular
-    networks:
-      - sportbuddiesfe-network
+
+  # Descomenta para usar volúmenes nombrados en lugar de bind mounts
+  # Esto es útil si estás en Windows o macOS, para evitar problemas de rendimiento
+  # volumes:
+  #   sportbuddiesappfe-dist:
 
 networks:
   sportbuddiesfe-network:
+
+volumes:  # Descomenta si usas volúmenes nombrados
+ sportbuddiesappfe-dist:
+    image: alpine:latest
+    volumes:
+      - sportbuddiesappfe-dist:/app/dist
+    command: /bin/sh -c "apk add --no-cache bash && cp -r /app/dist/* /usr/share/nginx/html && while true; do sleep 30; done"
+    depends_on:
+      - angular-build
