@@ -1,18 +1,27 @@
-# Etapa 1: Build
+# Etapa 1: Construcción (con Node.js)
 FROM node:18 AS build
-WORKDIR /app
-COPY . .
-RUN apt-get update && apt-get install -y bash
-RUN node --version && npm --version
-RUN npm install && npm run ng build -- --configuration production --project SportBuddiesApp-Fe
 
-# Etapa 2: Producción
-FROM nginx:alpine AS production
+WORKDIR /app
+
+# Copiar los archivos de configuración (package.json, etc.)
+COPY . .
+
+# Instalar dependencias
+RUN npm i && npx run ng build --configuration production
+
+# Etapa 2: Servir la aplicación con Nginx
+FROM nginx:alpine
+
 WORKDIR /usr/share/nginx/html
+
 RUN rm -rf ./*
+
 COPY --from=build /app/dist/sport-buddies-app-fe .
+
+# Copiar configuración personalizada de Nginx
 COPY nginx.conf /etc/nginx/conf.d/default.conf
-COPY /ssl/cert.pem /etc/nginx/
-COPY /ssl/key.pem /etc/nginx/
 
 EXPOSE 4200
+
+# Ejecutar Nginx
+CMD ["nginx", "-g", "daemon off;"]
