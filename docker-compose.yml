@@ -1,6 +1,6 @@
 version: "3.9"
 services:
-  angular-build: # Nuevo servicio solo para construir
+  angular-build:
     build:
       context: .
       dockerfile: Dockerfile
@@ -19,6 +19,9 @@ services:
       - angular-build # Dependencia para que se construya antes de iniciar Nginx
     networks:
       - sportbuddiesfe-network
-      
+
 networks:
   sportbuddiesfe-network:
+
+volumes:
+  sportbuddiesappfe-dist:
