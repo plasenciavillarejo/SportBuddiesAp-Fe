@@ -2,10 +2,9 @@ services:
   angular:
     build:
       context: ./
-      dockerfile: ./Dockerfile # Crea un Dockerfile específico para Angular
-    # No expongas el puerto 4200, Nginx se encargará de la comunicación
-    # ports:
-    #   - "4200:80"  <- Elimina esta línea
+      dockerfile: ./Dockerfile
+      ports:
+        - "4200:80"
     networks:
       - sportbuddiesfe-network
 
