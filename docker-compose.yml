@@ -1,11 +1,14 @@
 version: "3.9"
 services:
   angular-build:
-    # ... (configuración del builder)
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: sportbuddiesappfe-builder:latest
 
   angular:
     image: nginx:alpine
-    container_name: sport-buddies-fe
+    container_name: SportBuddiesApp-fe-Angular
     ports:
       - "81:80" # Puerto 81 en el host, 80 en el contenedor
     volumes:
