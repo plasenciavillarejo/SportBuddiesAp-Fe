@@ -15,7 +15,7 @@ export const environment = {
     logout_url: 'http://200.234.230.76:8090/logout',
     secret_pkce: '12345',
     hostname_port_local_gtw: 'http://200.234.230.76:8090',
-    hostname_port_local_fe: 'http://200.234.230.76:4200',
+    hostname_port_local_fe: 'http://www.sportbuddies.es',
     hostname_port_local_oauth: 'http://200.234.230.76:9000',
     key_stripe: 'pk_test_51QHLE5KPTU50YCkCu2PCHKCHyjTj0tgu0oUvbvQQQCLiDJkiw0xoaGmJ1rDiV7glZvtbxzIbyn30LAOwn5IVhJ8f008GoACgYJ',
     username_cobardo: 'pro-1962508930052348487',
