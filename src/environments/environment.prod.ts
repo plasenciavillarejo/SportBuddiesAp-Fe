@@ -1,8 +1,8 @@
 export const environment = {
     production: true,
-    authorize_uri: 'http://www.sportbuddies.es/oauth2/authorize?',
+    authorize_uri: 'https://www.sportbuddies.es/oauth2/authorize?',
     client_id: 'client-angular',
-    redirect_uri: 'http://www.sportbuddies.es/authorize',
+    redirect_uri: 'https://www.sportbuddies.es/authorize',
     scope: 'openid profile',
     response_type: 'code',
     response_mode: 'form_post',
@@ -15,8 +15,8 @@ export const environment = {
     logout_url: 'http://200.234.230.76:8090/logout',
     secret_pkce: '12345',
     hostname_port_local_gtw: 'https://www.sportbuddies.es',
-    hostname_port_local_fe: 'http://www.sportbuddies.es',
-    hostname_port_local_oauth: 'http://www.sportbuddies.es',
+    hostname_port_local_fe: 'https://www.sportbuddies.es',
+    hostname_port_local_oauth: 'https://www.sportbuddies.es',
     key_stripe: 'pk_test_51QHLE5KPTU50YCkCu2PCHKCHyjTj0tgu0oUvbvQQQCLiDJkiw0xoaGmJ1rDiV7glZvtbxzIbyn30LAOwn5IVhJ8f008GoACgYJ',
     username_cobardo: 'pro-1962508930052348487',
     secret_id_cobardo: 'corbado1_gTYNCwuJSxGw3dmAnyDGjJAwLnYANK'

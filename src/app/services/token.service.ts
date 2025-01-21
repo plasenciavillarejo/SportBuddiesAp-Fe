@@ -34,6 +34,14 @@ export class TokenService {
   clearToken() {
     localStorage.removeItem(ACCES_TOKEN);
     localStorage.removeItem(REFRESH_TOKEN);
+    
+    // Eliminar las cookies correctamente (asegúrate de que el nombre de la cookie coincida)
+    document.cookie = 'access_token=; Max-Age=0; path=/; domain=www.sportbuddies.es; secure; HttpOnly';
+    document.cookie = 'refresh_token=; Max-Age=0; path=/; domain=www.sportbuddies.es; secure; HttpOnly';
+        
+    // También puedes eliminar cookies para otras rutas si es necesario
+    document.cookie = 'access_token=; Max-Age=0; path=/; secure; HttpOnly';
+    document.cookie = 'refresh_token=; Max-Age=0; path=/; secure; HttpOnly';
   }
 
   isAuthenticate(): boolean {

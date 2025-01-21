@@ -11,7 +11,8 @@ import { Router } from '@angular/router';
 export class AuthService {
 
   private token_url = environment.token_url;
-  private url_logout = environment.hostname_port_local_gtw + '/cerrarSesion';
+  // Con la VPS HTTPS al borrar la cookie funciona la siguiente.
+  private url_logout = environment.hostname_port_local_gtw + '/api/main/borrarCookie';
   private url_clear_cookie = environment.hostname_port_local_gtw + '/api/main/borrarCookie';
   private url_passkey_register = environment.hostname_port_local_oauth + '/passkeys/register';
   private url_passkey_validate = environment.hostname_port_local_oauth + '/passkeys/validar-registro';
