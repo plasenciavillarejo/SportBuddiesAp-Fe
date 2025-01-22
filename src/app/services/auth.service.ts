@@ -14,10 +14,13 @@ export class AuthService {
   // Con la VPS HTTPS al borrar la cookie funciona la siguiente.
   private url_logout = environment.hostname_port_local_gtw + '/api/main/borrarCookie';
   private url_clear_cookie = environment.hostname_port_local_gtw + '/api/main/borrarCookie';
-  private url_passkey_register = environment.hostname_port_local_oauth + '/api/oauth2/passkeys/register';
-  private url_passkey_validate = environment.hostname_port_local_oauth + '/api/oauth2/passkeys/validar-registro';
-  private url_passkey_challenge_be = environment.hostname_port_local_oauth + '/api/oauth2/passkeys/generate-challenge';
-  private url_passkey_login = environment.hostname_port_local_oauth + '/api/oauth2/passkeys/login';
+  /**
+   * Estos endpoints tiene que apuntar directamente al proyecto OAUTH2 ya que si pasar por el GATEWAY habrá problemas de CORS
+   */
+  private url_passkey_register = environment.hostname_port_local_oauth + '/passkeys/register';
+  private url_passkey_validate = environment.hostname_port_local_oauth + '/passkeys/validar-registro';
+  private url_passkey_challenge_be = environment.hostname_port_local_oauth + '/passkeys/generate-challenge';
+  private url_passkey_login = environment.hostname_port_local_oauth + '/passkeys/login';
   private url_login = environment.hostname_port_local_oauth + '/login';
 
   constructor(private http: HttpClient,
@@ -92,7 +95,7 @@ export class AuthService {
       displayName: username,
       // Nombre con el que se generara el nombre del registro
       rpId: 'SportBuddiesApp',
-      origin: environment.hostname_port_local_oauth
+      origin: 'localhost'
     };
     return this.http.post<any>(this.url_passkey_register, body);
   }
