@@ -89,11 +89,20 @@ export class AuthService {
     return this.http.post<any>(this.url_login, body);
   }
 
+  /**
+   * Función encargda de enviar los datos necesarios para generar la llave.
+   * rpId: Se le debe de indicar el dominio el cual se está ejecutando, en caso contrario, dara error
+   *  'Subsequently, an attempt to fetch the .well-known/webauthn resource of the claimed RP ID failed.'
+   * rpId: localhost
+   * rpId: www.sportbuddie.es
+   * @param username 
+   * @returns 
+   */
   passkeyRegister(username: string): Observable<any> {
     const body = {
       username: username,
       displayName: username,
-      // Nombre con el que se generara el nombre del registro
+      
       rpId: environment.rpid_passkey,
       origin: environment.hostname_port_local_oauth
     };

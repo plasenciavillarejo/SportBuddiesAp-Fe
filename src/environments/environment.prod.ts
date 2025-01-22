@@ -20,5 +20,5 @@ export const environment = {
     key_stripe: 'pk_test_51QHLE5KPTU50YCkCu2PCHKCHyjTj0tgu0oUvbvQQQCLiDJkiw0xoaGmJ1rDiV7glZvtbxzIbyn30LAOwn5IVhJ8f008GoACgYJ',
     username_cobardo: 'pro-1962508930052348487',
     secret_id_cobardo: 'corbado1_gTYNCwuJSxGw3dmAnyDGjJAwLnYANK',
-    rpid_passkey : 'SportBuddi'
+    rpid_passkey : 'www.sportbuddies.es'
 };
