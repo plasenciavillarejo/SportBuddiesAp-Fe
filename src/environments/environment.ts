@@ -19,5 +19,6 @@ export const environment = {
     hostname_port_local_oauth: 'http://localhost:9000',
     key_stripe: 'pk_test_51QHLE5KPTU50YCkCu2PCHKCHyjTj0tgu0oUvbvQQQCLiDJkiw0xoaGmJ1rDiV7glZvtbxzIbyn30LAOwn5IVhJ8f008GoACgYJ',
     username_cobardo: 'pro-1962508930052348487',
-    secret_id_cobardo: 'corbado1_gTYNCwuJSxGw3dmAnyDGjJAwLnYANK'
+    secret_id_cobardo: 'corbado1_gTYNCwuJSxGw3dmAnyDGjJAwLnYANK',
+    rpid_passkey : 'localhost'
 };

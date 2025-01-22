@@ -94,7 +94,7 @@ export class AuthService {
       username: username,
       displayName: username,
       // Nombre con el que se generara el nombre del registro
-      rpId: 'localhost',
+      rpId: environment.rpid_passkey,
       origin: environment.hostname_port_local_oauth
     };
     return this.http.post<any>(this.url_passkey_register, body);
