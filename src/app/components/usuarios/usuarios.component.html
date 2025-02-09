@@ -1,23 +1,46 @@
+
 <!-- Sección de información -->
-<header class="bg-primary text-white py-5 rounded-pill">
+<header class="header-custom bg-success bg-gradient text-white py-5 rounded-pill">
     <div class="container text-center">
       <h1 class="display-4">Conecta, Juega y Disfruta</h1>
       <p class="lead">Encuentra personas para compartir tu pasión por el deporte en cualquier ciudad.</p>
-      <!-- <a class="btn btn-light btn-lg text-primary" [routerLink]="['/nueva-actividad']">Explorar Actividades</a> -->
     </div>
 </header>
 
+<!--
+<div class="d-flex justify-content-center">
+    <div id="carouselExampleInterval" class="carousel slide " data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active" data-bs-interval="15000" style="width: 50%; height: 50%;">
+                <img src="/assets/images/futbol.webp">
+            </div>
+            <div class="carousel-item" data-bs-interval="15000">
+                <img src="/assets/images/tenis.webp">
+            </div>
+
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval"
+            data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleInterval"
+            data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+</div>
+-->
 <div class="container py-4 mb-3">
     <div class="row justify-content-center">
         <div class="col-lg-8">
-            <!-- Damos una sombra al card utilizando shadow-lg -->
-            <div class="card shadow-lg border-0">
-                <div class="card-header bg-primary text-white text-center">
+            <div class="card shadow-lg border-0 rounded-3">
+                <div class="card-header bg-success bg-gradient text-white text-center">
                     <h3>{{title}}</h3>
                 </div>
                 <div class="card-body">
-                    <form class="form-control border-0" #miFormulario="ngForm"
-                        (ngSubmit)="consultListReservations(true)">
+                    <form class="form-control border-0" #miFormulario="ngForm" (ngSubmit)="consultListReservations(true)">
                         <div class="row g-3">
                             <!-- Fecha Reserva -->
                             <div class="col-md-6">
@@ -100,7 +123,7 @@
 
                             <!-- Botón -->
                             <div class="col-12 text-center mt-4">
-                                <button type="submit" class="btn btn-primary btn-lg px-5 rounded-pill">
+                                <button type="submit" class="btn bg-success bg-gradient text-white btn-lg px-5 rounded-pill">
                                     <i class="bi bi-search"></i> Consultar
                                 </button>
                             </div>
@@ -111,6 +134,7 @@
         </div>
     </div>
 </div>
+
 
 <div class="container py-4">
     @if (formularioActividadResponse.length != 0 ){
@@ -152,137 +176,54 @@
         </div>
     </div>
 
-<div class="table-responsive d-none d-lg-block">
-    <table class="table table-hover mt-2 text-center border border-2 shadow">
-        <thead class="table-info">
-            <tr>
-                <th hidden></th>
-                <!--<th class="bg-primary text-white">Fecha Reserva</th>-->
-                <th class="bg-primary text-white">Hora Reserva</th>
-                <th class="bg-primary text-white">Requerimientos</th>
-                <th class="bg-primary text-white">Vacantes Disponibles</th>
-                <th class="bg-primary text-white">Vacantes Restantes</th>
-                <th class="bg-primary text-white">Urgencia Inscripción</th>
-                <th class="bg-primary text-white">Abono Pista</th>
-                <th class="bg-primary text-white"></th>
-            </tr>
-        </thead>
-        <tbody>
-            @for (formActi of formularioActividadResponse; track $index) {
-            <tr class="align-middle">
-                <td hidden>{{formActi.idReservaActividad}}</td>
-                <!--<td>{{formActi.fechaReserva | date:'dd-MM-yyyy'}}</td>-->
-                <td>{{formActi.horaInicio}} - {{formActi.horaFin}}</td>
-                <td>
-                    <ul class="list-unstyled mb-0">
-                        @for (requi of formActi.requerimientos; track $index) {
-                        <li>
-                            <span class="text-muted small" [attr.data-bs-toggle]="$index === 0 ? 'tooltip' : null"
-                                title="{{requi}}">
-                                {{requi}}
-                            </span>
-                        </li>
-                        }
-                    </ul>
-                </td>
-                <td class="text-center">{{formActi.usuariosMaxRequeridos}}</td>
-                <td class="text-center">
-                    <span
-                        class="badge rounded-pill text-bg-{{ formActi.plazasRestantes > 0  && formActi.plazasRestantes != 1 ? 'success' : formActi.plazasRestantes === 1 ? 'warning' : 'danger'}}">
-                        {{formActi.plazasRestantes}}
-                    </span>
-                </td>
-                <td>
-                    <span
-                        class="badge rounded-pill text-bg-{{ formActi.urgencia == 'Alta' ? 'danger' : formActi.urgencia == 'Media' ? 'warning' : 'success' }}">
-                        {{formActi.urgencia}}
-                    </span>
-                </td>
-                <td>{{formActi.abonoPista}} €</td>
-                <td>
-                    @if(!isAuthenticate()) {
-                    <span class="badge bg-danger rounded-pill">Debe loguearse para realizar la reserva</span>
-                    }
-                    @if(!listaIdInscripcion.includes(formActi.idReservaActividad) && isAuthenticate() &&
-                    formActi.plazasRestantes >= 1){
-                    <button type="submit" class="btn btn-outline-primary btn-sm rounded-pill"
-                        (click)="makeReservationActivity(formActi)">
-                        Reservar
-                    </button>
-                    } @else if(listaIdInscripcion.includes(formActi.idReservaActividad)) {
-                    <span class="badge bg-success rounded-pill">Reservado</span>
-                    } @else if(isAuthenticate()) {
-                    <span class="badge rounded-pill text-bg-danger">
-                        Sin plazas
-                    </span>
-                    }
-                </td>
-            </tr>
-            }
-        </tbody>
-    </table>
-</div>
-
-<!-- Vista apilada para pantallas pequeñas -->
-<div class="d-lg-none">
-    <div class="row">
-        @for (formActi of formularioActividadResponse; track $index) {
-        <div class="col-12 mb-3">
-            <div class="card shadow-lg">
-                <div class="card-body">
-                    <p class="card-text">
-                        <span class="fw-bold">Hora Reserva: </span>
-                        <span>{{formActi.horaInicio}} - {{formActi.horaFin}} </span>
-                    </p>
-                    <p class="card-text fw-bold">Requerimientos: 
-                    <!-- Modal para visualizar los requerimientos -->
-                    <button type="button" class="btn btn-outline-primary mx-1 btn-sm rounded-pill"
-                    data-bs-toggle="modal" data-bs-target="#exampleModal">
-                    Más información
-                    </button>
-                    </p>
-                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered">
-                            <div class="modal-content shadow-lg border-0">
-                                <div class="modal-header">
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body text-center">
-                                    <ul class="list-unstyled mb-0">
-                                        @for (requi of formActi.requerimientos; track $index) {
-                                        <li><span class="text-muted small" [attr.data-bs-toggle]="$index === 0 ? 'tooltip' : null"
-                                                title="{{requi}}">
-                                                {{requi}}
-                                            </span>
-                                        </li>
-                                        }
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <p class="card-text">
-                        <span class="fw-bold">Vacantes Disponibles: </span>
-                        <span>{{formActi.usuariosMaxRequeridos}} </span>
-                    </p>
-                    <p class="card-text">
-                        <span class="fw-bold">Vacantes Restantes: </span>
-                        <span class="badge rounded-pill text-bg-{{ formActi.plazasRestantes > 0 ? 'success' : 'danger' }}">
+    <div class="table-responsive d-none d-lg-block">
+        <table class="table table-hover mt-2 text-center border border-2 shadow">
+            <thead class="table-info">
+                <tr>
+                    <th hidden></th>
+                    <!--<th class="bg-primary text-white">Fecha Reserva</th>-->
+                    <th class="bg-primary text-white">Hora Reserva</th>
+                    <th class="bg-primary text-white">Requerimientos</th>
+                    <th class="bg-primary text-white">Vacantes Disponibles</th>
+                    <th class="bg-primary text-white">Vacantes Restantes</th>
+                    <th class="bg-primary text-white">Urgencia Inscripción</th>
+                    <th class="bg-primary text-white">Abono Pista</th>
+                    <th class="bg-primary text-white"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (formActi of formularioActividadResponse; track $index) {
+                <tr class="align-middle">
+                    <td hidden>{{formActi.idReservaActividad}}</td>
+                    <!--<td>{{formActi.fechaReserva | date:'dd-MM-yyyy'}}</td>-->
+                    <td>{{formActi.horaInicio}} - {{formActi.horaFin}}</td>
+                    <td>
+                        <ul class="list-unstyled mb-0">
+                            @for (requi of formActi.requerimientos; track $index) {
+                            <li>
+                                <span class="text-muted small" [attr.data-bs-toggle]="$index === 0 ? 'tooltip' : null"
+                                    title="{{requi}}">
+                                    {{requi}}
+                                </span>
+                            </li>
+                            }
+                        </ul>
+                    </td>
+                    <td class="text-center">{{formActi.usuariosMaxRequeridos}}</td>
+                    <td class="text-center">
+                        <span
+                            class="badge rounded-pill text-bg-{{ formActi.plazasRestantes > 0  && formActi.plazasRestantes != 1 ? 'success' : formActi.plazasRestantes === 1 ? 'warning' : 'danger'}}">
                             {{formActi.plazasRestantes}}
                         </span>
-                    </p>
-                    <p class="card-text">
-                        <span class="fw-bold">Urgencia Inscripción: </span>
+                    </td>
+                    <td>
                         <span
                             class="badge rounded-pill text-bg-{{ formActi.urgencia == 'Alta' ? 'danger' : formActi.urgencia == 'Media' ? 'warning' : 'success' }}">
                             {{formActi.urgencia}}
                         </span>
-                    </p>
-                    <p class="card-text">
-                        <span class="fw-bold">Abono Pista: </span>
-                        <span class="fw-bold">{{formActi.abonoPista}} €</span>
-                    </p>
-                    <div>
+                    </td>
+                    <td>{{formActi.abonoPista}} €</td>
+                    <td>
                         @if(!isAuthenticate()) {
                         <span class="badge bg-danger rounded-pill">Debe loguearse para realizar la reserva</span>
                         }
@@ -299,13 +240,100 @@
                             Sin plazas
                         </span>
                         }
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Vista apilada para pantallas pequeñas -->
+    <div class="d-lg-none">
+        <div class="row">
+            @for (formActi of formularioActividadResponse; track $index) {
+            <div class="col-12 mb-3">
+                <div class="card shadow-lg">
+                    <div class="card-body">
+                        <p class="card-text">
+                            <span class="fw-bold">Hora Reserva: </span>
+                            <span>{{formActi.horaInicio}} - {{formActi.horaFin}} </span>
+                        </p>
+                        <p class="card-text fw-bold">Requerimientos:
+                            <!-- Modal para visualizar los requerimientos -->
+                            <button type="button" class="btn btn-outline-primary mx-1 btn-sm rounded-pill"
+                                data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                Más información
+                            </button>
+                        </p>
+                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content shadow-lg border-0">
+                                    <div class="modal-header">
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body text-center">
+                                        <ul class="list-unstyled mb-0">
+                                            @for (requi of formActi.requerimientos; track $index) {
+                                            <li><span class="text-muted small"
+                                                    [attr.data-bs-toggle]="$index === 0 ? 'tooltip' : null"
+                                                    title="{{requi}}">
+                                                    {{requi}}
+                                                </span>
+                                            </li>
+                                            }
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="card-text">
+                            <span class="fw-bold">Vacantes Disponibles: </span>
+                            <span>{{formActi.usuariosMaxRequeridos}} </span>
+                        </p>
+                        <p class="card-text">
+                            <span class="fw-bold">Vacantes Restantes: </span>
+                            <span
+                                class="badge rounded-pill text-bg-{{ formActi.plazasRestantes > 0 ? 'success' : 'danger' }}">
+                                {{formActi.plazasRestantes}}
+                            </span>
+                        </p>
+                        <p class="card-text">
+                            <span class="fw-bold">Urgencia Inscripción: </span>
+                            <span
+                                class="badge rounded-pill text-bg-{{ formActi.urgencia == 'Alta' ? 'danger' : formActi.urgencia == 'Media' ? 'warning' : 'success' }}">
+                                {{formActi.urgencia}}
+                            </span>
+                        </p>
+                        <p class="card-text">
+                            <span class="fw-bold">Abono Pista: </span>
+                            <span class="fw-bold">{{formActi.abonoPista}} €</span>
+                        </p>
+                        <div>
+                            @if(!isAuthenticate()) {
+                            <span class="badge bg-danger rounded-pill">Debe loguearse para realizar la reserva</span>
+                            }
+                            @if(!listaIdInscripcion.includes(formActi.idReservaActividad) && isAuthenticate() &&
+                            formActi.plazasRestantes >= 1){
+                            <button type="submit" class="btn btn-outline-primary btn-sm rounded-pill"
+                                (click)="makeReservationActivity(formActi)">
+                                Reservar
+                            </button>
+                            } @else if(listaIdInscripcion.includes(formActi.idReservaActividad)) {
+                            <span class="badge bg-success rounded-pill">Reservado</span>
+                            } @else if(isAuthenticate()) {
+                            <span class="badge rounded-pill text-bg-danger">
+                                Sin plazas
+                            </span>
+                            }
+                        </div>
                     </div>
                 </div>
             </div>
+            }
         </div>
-        }
     </div>
-</div>
 
     <!-- Paginador -->
     <app-paginador [inicio]="this.paginador.inicio" [fin]="this.paginador.fin"
@@ -315,9 +343,3 @@
 </div>
 
 <app-spinner-modal [procesandoPago]="true"></app-spinner-modal>
-
-
-
-<!-- Modal para visalizar los requerimientos -->
-<!-- ####################################### -->
-<!-- Modal para elegir la opción de pago -->

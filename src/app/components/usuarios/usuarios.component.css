@@ -14,3 +14,41 @@
     background-color: hsl(210, 77%, 87%) !important; /* Cambia a tu color deseado */
   }
 
+  .header-custom {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  /* Agregar líneas horizontales semitransparentes */
+  .header-custom::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(
+      -45deg, /* Define la inclinación de las líneas en la dirección "/" */
+      rgba(0, 0, 0, 0.1) 2px, /* Color de la línea */
+      transparent 20px
+    );
+    background-size: 30px 30px; /* Espaciado entre líneas */
+    opacity: 0.5; /* Ajusta la intensidad */
+  }
+  
+  h1 {
+    font-size: 4rem; /* Tamaño grande para el título */
+    font-weight: 700; /* Peso más grueso para mayor impacto */
+    letter-spacing: 1px; /* Espaciado entre letras para un toque más sofisticado */
+    text-transform: capitalize; /* Convierte las palabras a la primera letra en mayúscula */
+  }
+  
+  p {
+    font-size: 1.1rem; /* Tamaño de fuente más pequeño para el subtítulo */
+    font-weight: 200; /* Peso normal para el párrafo */
+    letter-spacing: 0.5px;
+    line-height: 1.5; /* Espaciado entre líneas para mayor legibilidad */
+    font-style: italic;
+  }
+  
+ 
