@@ -11,8 +11,6 @@
                     <i class="bi bi-paypal mx-1"></i>
                     } @else if(this.cancelarPago) {
                     <i class="bi bi-x-circle mx-1"></i>
-                    } @else if(this.procesandoPago) {
-                        ICONO NO SE CUAL
                     }
                     {{ this.pagoPaypal ? 'Conectando a los servidores de PayPal' :
                     this.pagoTarjeta ? 'Realizando el pago' :
@@ -25,7 +23,7 @@
                         <span class="visually-hidden">Loading...</span>
                     </div>
                     <p class="text-muted fs-6">
-                        {{ this.pagoPaypal || this.pagoTarjeta || this.cancelarPago ? 'Por favor, no recargue la
+                        {{ this.pagoPaypal || this.pagoTarjeta || this.cancelarPago || this.procesandoPago ? 'Por favor, no recargue la
                         página.' : '' }}
                     </p>
                 </div>
