@@ -1,8 +1,8 @@
-/* You can add global styles to this file, and also import other style files */
 body {
-    font-family: 'Playfair Display', serif; /* Cambia a la fuente que desees */
-  }
+    font-family: 'Playfair Display', serif;
+}
   
+  /*
   body {
     background-image: url('assets/images/backgour_sportbuddi.png');
     background-size: cover;
@@ -11,4 +11,11 @@ body {
     height: 100vh;
     margin: 0;
   }
-  
+  */
+
+  body {
+    background: radial-gradient(circle at left, #000000 10%, #004d00 50%, #00b300 100%);
+    background-attachment: fixed;
+    min-height: 100vh;
+    color: white;
+}
