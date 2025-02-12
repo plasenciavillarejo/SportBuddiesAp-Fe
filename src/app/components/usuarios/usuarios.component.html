@@ -1,12 +1,12 @@
 
-<!-- Sección de información -->
+<!-- Sección de información 
 <header class="header-custom bg-success bg-gradient text-white py-5 rounded-pill">
     <div class="container text-center">
       <h1 class="display-4">Conecta, Juega y Disfruta</h1>
       <p class="lead">Encuentra personas para compartir tu pasión por el deporte en cualquier ciudad.</p>
     </div>
 </header>
-
+-->
 <!--
 <div class="d-flex justify-content-center">
     <div id="carouselExampleInterval" class="carousel slide " data-bs-ride="carousel">
@@ -135,14 +135,13 @@
     </div>
 </div>
 
-
 <div class="container py-4">
     @if (formularioActividadResponse.length != 0 ){
     <!-- flex-wrap: Permite que los elementos se ajusten automáticamente en pantallas pequeñas, mejorando de está forma en dispositivos móviles. -->
     <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
         <!-- Tamaño de página -->
         <div class="col-md-1 mb-2">
-            <label for="tamanioPagina" class="form-label text-primary fw-bold">Tamaño Página:</label>
+            <label for="tamanioPagina" class="form-label text-white mb-0 col-md-5">Tamaño Página:</label>
             <select id="tamanioPagina" class="form-select form-select-sm"
                 [(ngModel)]="busquedadActividadRequest.caracteristicasPaginacion.tamanioPagina"
                 (change)="updatePagination()">
@@ -152,10 +151,10 @@
                 <option [value]="50">50</option>
             </select>
         </div>
-
+    
         <!-- Ordenamiento -->
         <div class="col-md-2 mb-2">
-            <label for="campoOrden" class="form-label text-primary fw-bold">Ordenar por:</label>
+            <label for="campoOrden" class="form-label text-white mb-0">Ordenar por:</label>
             <select id="campoOrden" class="form-select form-select-sm"
                 [(ngModel)]="busquedadActividadRequest.caracteristicasPaginacion.campoOrden"
                 (change)="updatePagination()">
@@ -164,10 +163,10 @@
                 <option value="plazasRestantes">Plazas Restantes</option>
             </select>
         </div>
-
+    
         <!-- Ascendente/Descendente -->
         <div class="col-md-2 mb-2">
-            <label for="orden" class="form-label text-primary fw-bold">Orden:</label>
+            <label for="orden" class="form-label text-white mb-0">Orden:</label>
             <select id="orden" class="form-select form-select-sm"
                 [(ngModel)]="busquedadActividadRequest.caracteristicasPaginacion.orden" (change)="updatePagination()">
                 <option [value]="1">Ascendente</option>
@@ -175,6 +174,7 @@
             </select>
         </div>
     </div>
+    
 
     <div class="table-responsive d-none d-lg-block">
         <table class="table table-hover mt-2 text-center border border-2 shadow">
@@ -182,13 +182,13 @@
                 <tr>
                     <th hidden></th>
                     <!--<th class="bg-primary text-white">Fecha Reserva</th>-->
-                    <th class="bg-primary text-white">Hora Reserva</th>
-                    <th class="bg-primary text-white">Requerimientos</th>
-                    <th class="bg-primary text-white">Vacantes Disponibles</th>
-                    <th class="bg-primary text-white">Vacantes Restantes</th>
-                    <th class="bg-primary text-white">Urgencia Inscripción</th>
-                    <th class="bg-primary text-white">Abono Pista</th>
-                    <th class="bg-primary text-white"></th>
+                    <th class="bg-success bg-gradient text-white">Hora Reserva</th>
+                    <th class="bg-success bg-gradient text-white">Requerimientos</th>
+                    <th class="bg-success bg-gradient text-white">Vacantes Disponibles</th>
+                    <th class="bg-success bg-gradient text-white">Vacantes Restantes</th>
+                    <th class="bg-success bg-gradient text-white">Urgencia Inscripción</th>
+                    <th class="bg-success bg-gradient text-white">Abono Pista</th>
+                    <th class="bg-success bg-gradient text-white"></th>
                 </tr>
             </thead>
             <tbody>
@@ -246,6 +246,8 @@
             </tbody>
         </table>
     </div>
+
+
 
     <!-- Vista apilada para pantallas pequeñas -->
     <div class="d-lg-none">

@@ -5,3 +5,46 @@
     margin-left: 99.5rem !important;
 }*/
   
+.custom-navbar {
+    background: rgba(45, 119, 72, 0.85); /* Verde con transparencia */
+    backdrop-filter: blur(10px); /* Efecto de desenfoque */
+    padding: 10px 20px;
+  }
+  
+  .custom-navbar .navbar-brand {
+    font-size: 1.8rem;
+    color: #fff !important;
+  }
+  
+  .custom-navbar .nav-link {
+    color: white !important;
+    font-weight: 500;
+  }
+  
+  .custom-navbar .nav-link:hover {
+    color: #c0f0d0 !important; /* Un verde más claro */
+  }
+  
+  .custom-navbar .btn-outline-light {
+    border-color: white;
+    color: white;
+  }
+  
+  .custom-navbar .btn-outline-light:hover {
+    background-color: white;
+    color: #2D7748;
+  }
+  
+  .custom-navbar .dropdown-menu {
+    background-color: #2D7748;
+    border: none;
+  }
+  
+  .custom-navbar .dropdown-item {
+    color: white !important;
+  }
+  
+  .custom-navbar .dropdown-item:hover {
+    background-color: #24613c;
+  }
+  

@@ -28,7 +28,7 @@ declare var bootstrap: any
 
 export class UsuariosComponent implements OnInit {
 
-  title: string = 'Realizar Busqueda';
+  title: string = 'Conecta, juega y disfruta';
 
   usuario: Usuario[] = [];
   reserva: Reserva[] = [];
