@@ -5,55 +5,7 @@
     margin-left: 99.5rem !important;
 }*/
   
-
-/*
-.custom-navbar {
-  background: rgba(0, 0, 0, 0.8); 
-  backdrop-filter: blur(10px); 
-  border-bottom: 2px solid #00b300; 
-  transition: background 0.3s ease-in-out;
-}
-
-.custom-navbar .navbar-brand {
-  color: #00ff99 !important; 
-}
-
-.custom-navbar .nav-link {
-  color: white !important;
-  transition: color 0.3s ease-in-out;
-}
-
-.custom-navbar .nav-link:hover {
-  color: #00ff99 !important; 
-}
-
-
-.btn-outline-light {
-  border-color: #00ff99;
-  color: #00ff99;
-}
-
-.btn-outline-light:hover {
-  background-color: #00ff99;
-  color: black;
-}
-
-
-.offcanvas {
-  background: rgba(0, 0, 0, 0.9);
-  backdrop-filter: blur(10px);
-}
-
-.offcanvas .dropdown-item {
-  color: white;
-  transition: background 0.3s;
-}
-
-.offcanvas .dropdown-item:hover {
-  background-color: #00b300;
-  color: black;
-}
-*/
+/* ### INI: COnfiguración color Navbar ### */
 .custom-navbar {
   background: linear-gradient(to right, #000000 30%, #00b300 100%);
   /* Efecto difuminado */
@@ -67,14 +19,22 @@
   color: #00ff99 !important;
 }
 
+/* Color a los elementos a class="nav-link"*/
 .custom-navbar .nav-link {
   color: white !important;
   transition: color 0.3s ease-in-out;
 }
 
 .custom-navbar .nav-link:hover {
-  color: #00ff99 !important;
+  border-color: yellow; /* Color del borde al pasar el ratón */
+  color: #00ff99 !important; /* Color del texto al pasar el ratón */
 }
+
+.custom-navbar .nav-link:active {
+  background-color: #343a40; 
+  color: #00ff99;
+}
+
 
 /* Botón de cuenta */
 .btn-outline-light {
@@ -84,9 +44,9 @@
 }
 
 .btn-outline-light:hover {
-  background-color: olivedrab;
-  border-color: olivedrab;
-  color: white;
+  background-color: #000000;
+  border-color: #00ff99;
+  color: #00ff99;
 }
 
 /* Off-Canvas */
@@ -102,5 +62,55 @@
 
 .offcanvas .dropdown-item:hover {
   background-color: #00b300;
+  color: white;
+}
+/* ### FIN: COOnfiguración color Navbar ### */
+
+/* ### INI: Configuración color dropdown ###*/
+.dropdown-menu {
+  /* Fondo oscuro */
+  background-color: #343a40;
+  /* Borde verde */
+  border: 1px solid #00ff99;
+}
+
+.dropdown-item {
+  color: white;
+}
+
+.dropdown-item:hover {
+  /* Verde al pasar el cursor */
+  background-color: #00ff99; 
   color: black;
 }
+/* ### FIN: Configuración color dropdown ###*/
+
+/* ### INI: Configuración color canvas moviles ### */
+.canvas-mobile {
+  border-bottom: 2px solid #00ff99;
+}
+
+
+.custom-button {
+  background-color: #343a40 !important;
+  border: 2px solid #00ff99 !important;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.custom-button:hover,
+.custom-button:focus {
+  background-color: #00b300 !important;
+  border-color: #ffffff !important;
+}
+
+.custom-button .custom-i {
+  color: #00ff99 !important;
+  transition: color 0.3s ease;
+}
+
+.custom-button:hover .custom-i {
+  color: white !important;
+}
+
+
+/* ### FIN: Configuración color canvas moviles ### */

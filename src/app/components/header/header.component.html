@@ -1,15 +1,15 @@
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark custom-navbar text-white shadow-sm sticky-top">
   <div class="container-fluid">
-    <a class="navbar-brand text-white fw-bold" [routerLink]="['/']">SportBuddies</a>
+    <a class="navbar-brand fw-bold" [routerLink]="['/']">SportBuddies</a>
 
     <div class="d-block d-sm-none">
     <!-- Botón para abrir Off-Canvas -->
     @if (!this.isAuthenticate) {
       <a class="btn btn-outline-light" (click)="onLogin()">Mi cuenta</a>
     }@else {
-      <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#mainOffCanvas" aria-controls="mainOffCanvas">
-      <i class="bi bi-list fs-1"></i>
+      <button class="custom-button" type="button" data-bs-toggle="offcanvas" data-bs-target="#mainOffCanvas" aria-controls="mainOffCanvas">
+      <i class="bi bi-list fs-1 custom-i"></i>
     </button>    
     }
     </div> 
@@ -19,7 +19,7 @@
       <ul class="navbar-nav">
         @if (this.isAuthenticate) {
         <li class="nav-item">
-          <a class="nav-link text-white" [routerLink]="['/nueva-actividad']">Actividades</a>
+          <a class="nav-link" [routerLink]="['/nueva-actividad']">Actividades</a>
         </li>
         }
       </ul>
@@ -30,7 +30,7 @@
           </li>
         }@else {
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             {{ obtainNameUser() }}
           </a>
           <ul class="dropdown-menu dropdown-menu-end">
@@ -54,7 +54,7 @@
 
 <!-- Off-Canvas para móviles -->
 <div class="offcanvas offcanvas-start" tabindex="-1" id="mainOffCanvas" aria-labelledby="mainOffCanvasLabel" style="width: 73%;">
-  <div class="offcanvas-header bg-primary text-white">
+  <div class="offcanvas-header text-white fw-bold canvas-mobile" >
     <h5 class="offcanvas-title" id="mainOffCanvasLabel">{{obtainNameUser()}}</h5>
     <button type="button" class="btn-close btn-close-white text-reset" (click)="closeOffCanvas()" aria-label="Close"></button>
   </div>

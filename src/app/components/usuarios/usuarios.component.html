@@ -35,22 +35,23 @@
 <div class="container py-4 mb-3">
     <div class="row justify-content-center">
         <div class="col-lg-8">
-            <div class="card shadow-lg border-0 rounded-3">
-                <div class="card-header bg-success bg-gradient text-white text-center">
+            <div class="card shadow-lg custom-card">
+                <div class="card-header custom-card-header text-center">
                     <h3>{{title}}</h3>
                 </div>
                 <div class="card-body">
                     <form class="form-control border-0" #miFormulario="ngForm" (ngSubmit)="consultListReservations(true)">
+                        
                         <div class="row g-3">
                             <!-- Fecha Reserva -->
                             <div class="col-md-6">
                                 <label for="startDate" class="form-label fw-bold">Buscar Día Reserva</label>
                                 <div class="input-group">
-                                    <span class="input-group-text bg-light border-secondary">
+                                    <span class="input-group-text">
                                         <i class="bi bi-calendar"></i>
                                     </span>
                                     <input id="startDate" name="fechaReserva" type="date"
-                                        class="form-control border-secondary"
+                                        class="form-control"
                                         [(ngModel)]="busquedadActividadRequest.fechaReserva" required
                                         #fechaReserva="ngModel"
                                         [ngClass]="{'border-danger': this.formSubmitted && busquedadActividadRequest.fechaReserva === undefined}" />
@@ -65,7 +66,7 @@
                             <!-- Actividad -->
                             <div class="col-md-6">
                                 <label for="actividad" class="form-label fw-bold">Actividad</label>
-                                <select id="actividad" class="form-select border-secondary"
+                                <select id="actividad" class="form-select"
                                     [(ngModel)]="busquedadActividadRequest.actividad" name="actividad"
                                     (change)="checkActivity($event)" required #actividad="ngModel"
                                     [ngClass]="{'border-danger': this.formSubmitted && busquedadActividadRequest.actividad === undefined}">
@@ -86,7 +87,7 @@
                             <!-- Provincia -->
                             <div class="col-md-6">
                                 <label for="provincia" class="form-label fw-bold">Provincia</label>
-                                <select id="provincia" class="form-select border-secondary"
+                                <select id="provincia" class="form-select"
                                     [(ngModel)]="busquedadActividadRequest.provincia" name="provincia"
                                     (change)="loadMunicipaliti($event)" required #provincia="ngModel"
                                     [ngClass]="{'border-danger': this.formSubmitted && busquedadActividadRequest.provincia === undefined}">
@@ -105,7 +106,7 @@
                             <!-- Municipio -->
                             <div class="col-md-6">
                                 <label for="municipio" class="form-label fw-bold">Municipio</label>
-                                <select id="municipio" class="form-select border-secondary"
+                                <select id="municipio" class="form-select"
                                     [(ngModel)]="busquedadActividadRequest.municipio" name="municipio" required
                                     #municipio="ngModel"
                                     [ngClass]="{'border-danger': this.formSubmitted && busquedadActividadRequest.municipio === undefined}">
@@ -123,7 +124,7 @@
 
                             <!-- Botón -->
                             <div class="col-12 text-center mt-4">
-                                <button type="submit" class="btn bg-success bg-gradient text-white btn-lg px-5 rounded-pill">
+                                <button type="submit" class="btn btn-search rounded-pill">
                                     <i class="bi bi-search"></i> Consultar
                                 </button>
                             </div>
@@ -177,7 +178,7 @@
     
 
     <div class="table-responsive d-none d-lg-block">
-        <table class="table table-hover mt-2 text-center border border-2 shadow">
+        <table class="table mt-2 text-center border border-2 shadow">
             <thead class="table-info">
                 <tr>
                     <th hidden></th>
@@ -250,7 +251,7 @@
 
 
     <!-- Vista apilada para pantallas pequeñas -->
-    <div class="d-lg-none">
+    <div class="d-lg-none mb-5">
         <div class="row">
             @for (formActi of formularioActividadResponse; track $index) {
             <div class="col-12 mb-3">

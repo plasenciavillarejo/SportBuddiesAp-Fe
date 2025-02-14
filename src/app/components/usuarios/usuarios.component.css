@@ -53,4 +53,86 @@
   
  
 
-  
+  /** ### INI: Cambio card de busqueda ###  */
+.custom-card {
+  background: rgba(0, 0, 0, 0.85); /* Fondo oscuro semitransparente */
+  color: white;
+  border: 2px solid #00ff99; /* Borde en verde neón */
+  box-shadow: 0px 0px 15px rgba(0, 255, 153, 0.5); /* Efecto de resplandor */
+  border-radius: 12px;
+}
+
+/* Estilo del encabezado */
+.custom-card-header {
+  background: linear-gradient(to right, #004d00, #00b300);
+  color: white;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Inputs y selects */
+.form-control, .form-select {
+  /* Fondo semi-transparente */
+  background-color: rgba(255, 255, 255, 0.1); 
+  color: white;
+  border: 1px solid #00ff99;
+}
+
+.form-control::placeholder, .form-select {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* Color cuano se pulsa los select */
+select.form-select option {
+  background-color: #f8f9fa;
+  color: #212529;
+}
+
+/*Adaptación de la flecha de los select al color verde */
+select.form-select {
+  background: #343a40 url('data:image/svg+xml;utf8,<svg fill="%2300ff99" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>') no-repeat right 1rem center;
+  background-size: 1rem;
+  appearance: none;
+  color: white; /* Color del texto */
+  border: 1px solid #00ff99; /* Borde verde */
+  padding-right: 2rem; /* Espacio para la flecha */
+}
+
+.form-control:focus, .form-select:focus {
+  border-color: #00ff99;
+  box-shadow: 0 0 10px #00ff99;
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Iconos dentro de los inputs */
+.input-group-text {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-color: #00ff99;
+  color: #00ff99;
+}
+
+/* Botón de búsqueda */
+.btn-search {
+  background: linear-gradient(to right, #004d00, #00b300);
+  border: 2px solid #00ff99;
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  text-transform: uppercase;
+  padding: 12px 30px;
+  transition: all 0.3s ease-in-out;
+}
+
+.btn-search:hover {
+  background: linear-gradient(to right, #00b300, #00ff99);
+  color: white;
+  box-shadow: 0px 0px 20px rgba(0, 255, 153, 0.8);
+}
+
+/* Mensajes de error */
+.text-danger {
+  font-size: 14px;
+  font-weight: bold;
+}
+/** ### FIN: Cambio card de busqueda ###  */
